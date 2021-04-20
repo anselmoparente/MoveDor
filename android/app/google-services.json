@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "131400423311",
+    "project_id": "movedor-e5b42",
+    "storage_bucket": "movedor-e5b42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131400423311:android:7f2ebfc168f786ee2fddfa",
+        "android_client_info": {
+          "package_name": "com.example.movedor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131400423311-694u357g5k1qv3gqo925pk8b260uplbp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movedor",
+            "certificate_hash": "0274669039a7ec61619a74d81349d09205d33850"
+          }
+        },
+        {
+          "client_id": "131400423311-nqdf2fppdnl3hsfnc4tanoe3ce3phkq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU0HWc3Na6Ji6FSeclu23zO-e0rxbp46g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131400423311-nqdf2fppdnl3hsfnc4tanoe3ce3phkq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
