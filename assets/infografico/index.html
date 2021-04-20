@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html  lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<title>MoveDor UFC</title>
+
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+    }
+
+    #fundo{
+      z-index: 1;
+      position: absolute;
+    }
+
+    #warning-message { 
+      display: none; 
+    }
+
+    @media only screen and (orientation:portrait){
+        #wrapper { display:none; }
+        #warning-message { 
+          display: block; 
+        }
+        body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 100vh;
+        }
+    }
+    @media only screen and (orientation:landscape){
+      #warning-message { display:none; }
+    }
+
+    .modalDialog {
+      position: fixed;
+      font-family: 'Montserrat Alternates', sans-serif;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding-bottom: 25%;
+      justify-content: center;
+      z-index: 99999;
+      opacity: 0;
+      -webkit-transition: opacity 400ms ease-in;
+      -moz-transition: opacity 400ms ease-in;
+      transition: opacity 400ms ease-in;
+      pointer-events: none;
+    }
+
+    .modalDialog:target {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modalDialog > div {
+      width: 90%;
+      position: sticky;
+      margin: 3% auto;
+      padding: 5px 20px 13px 20px;
+      justify-content: center;
+      border-radius: 10px;
+      background: #fff;
+      background: -moz-linear-gradient(#fff, #abd7c5);
+      background: -webkit-linear-gradient(#fff, #abd7c5);
+      background: -o-linear-gradient(#fff, #abd7c5);
+    }
+
+    .close {
+      background: #606061;
+      color: #FFFFFF;
+      line-height: 25px;
+      position: absolute;
+      right: -12px;
+      text-align: center;
+      top: -10px;
+      width: 24px;
+      text-decoration: none;
+      font-weight: bold;
+      -webkit-border-radius: 12px;
+      -moz-border-radius: 12px;
+      border-radius: 12px;
+      -moz-box-shadow: 1px 1px 3px #000;
+      -webkit-box-shadow: 1px 1px 3px #000;
+      box-shadow: 1px 1px 3px #000;
+    }
+    .close:hover {
+      background: #00d9ff;
+    }
+    
+    .coluna-1{ 
+      width: 25%;
+      height: 50%;
+      text-align: center;
+      vertical-align: center;
+      display: table-cell;
+      border:0px solid #000;
+      vertical-align:middle;
+    }
+
+    .coluna-2{ 
+      width: 75%;
+      height: 50%;
+      display: table-cell;  
+      border:0px solid #000;
+      vertical-align:middle;
+      padding-left: 1%;
+    }
+  </style>
+
+</head>
+
+<body ondragstart='return false'>
+
+  <script type="text/javascript">
+    window.onload = function(){
+      document.getElementById('start').click();
+    }
+  </script>
+
+  <div id="wrapper">
+    <img src="assets/imgs/bg.jpg" id="fundo" style="width:100%; height:100%;">
+
+
+    <!-- MAPA PARA POPUPS -->
+    <a href="#openModalInicio" id="start" />
+
+    <a href="#openModalTriste" title="Com dor" style="position: absolute; left: 20.94%; top: 39.18%; width: 9.82%; height: 18.56%; z-index: 2;"></a>
+    <a href="#openModalIdosa" title="Idosa" style="position: absolute; left: 33.21%; top: 36.8%; width: 6.42%; height: 14.12%; z-index: 2;"></a>
+    <a href="#openModalPosto" title="Posto de Saúde" style="position: absolute; left: 68.36%; top: 31.55%; width: 9.4%; height: 18.56%; z-index: 2;"></a>
+    <a href="#openModalCorre" title="Corredor" style="position: absolute; left: 57.44%; top: 42.16%; width: 7.15%; height: 18.66%; z-index: 2;"></a>
+    <a href="#openModalAlong" title="" style="position: absolute; left: 51.59%; top: 18.25%; width: 8.93%; height: 15.26%; z-index: 2;"></a>
+    <a href="#openModalInfo" title="Informações" style="position: absolute; left: 90%; top: 3.5%; width: 50px; height: 50px; z-index: 2;"><img src="assets/imgs/info.png" style="width: 100%; height: 100%"></a>
+    <a href="" title="Movimento" style="position: absolute; left: 64.96%; top: 65.77%; width: 7.15%; height: 12.58%; z-index: 2; vertical-align:center;"></a>
+    <a href="" title="UFC" style="position: absolute; left: 57.39%; top: 74.43%; width: 7%; height: 14.95%; z-index: 2;"></a>
+    <a href="" title="SMD" style="position: absolute; left: 49.09%; top: 78.76%; width: 7.21%; height: 14.95%; z-index: 2;"></a>
+    <a href="#openModalBasquete" title="" style="position: absolute; left: 41.04%; top: 42.47%; width: 9.4%; height: 18.56%; z-index: 2;"></a>
+    <a href="" style="position: absolute; left: 72.74%; top: 52.16%; width: 6.42%; height: 11.86%; z-index: 2;"></a>
+    <!-- PopUps -->
+
+    <div id="openModalInicio" class="modalDialog">
+      <div>
+        <a href="#openModalInicio2" title="Close" class="close">X</a>
+        <h2>Seja bem-vindo ao MoveDor!</h2>
+        <div class="coluna-1"><img src="assets/imgs/rosto.png" style=" position:sticky;max-width: 100%; "></div>
+        
+        <div class="coluna-2">
+          <p>
+            Através deste infográfico interativo você poderá ter acesso a informações confiáveis
+            baseadas em estudos científicos, profissionais da saúde e pacientes com dor lombar que
+            lhe ajudarão a gerenciar essa condição de forma prática e divertida! Então, se você tem
+            dor na região mais baixa das costas a mais de três meses este infográfico poderá lhe
+            ajudar!
+          </p>
+        </div>
+      </div>	
+    </div>
+
+    <div id="openModalInicio2" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+
+        <h2>Interaja com os elementos!</h2>
+        <div class="coluna-1"><img src="assets/imgs/movedor.gif" style=" position:sticky;max-width: 100%; "></div>
+        <div class="coluna-2"><p>Para utilizar o Infográfico, <b>clique nos personagens e elementos presentes na tela! ;D</b></p>
+      <p>Essa é uma iniciativa do <b>Projeto Movimento</b> do <b>Departamento de Fisioterapia</b> em parceria com o curso de <b>Sistemas e Mídias Digitais</b> da <b>Universidade Federal do Ceará</b>, juntamento com o Instituto Federal de Educação, Ciência e Tecnologia do Ceará com apoio do <b>PIBITI</b>.</p></div>
+      </div>	
+    </div>
+
+    <div id="openModalTriste" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <h2></h2>
+
+        <div class="coluna-1">
+          <img src="assets/imgs/triste.png" style=" position:sticky;max-width: 100%; ">
+        </div>
+
+        <div class="coluna-2">
+          <p>
+            A dor lombar persistente pode afetar negativamente suas atividades do dia a dia. 
+            Mas não fique desanimado: o movimento pode lhe ajudar!
+          </p>  
+        </div>
+      </div>	
+    </div>
+
+    <div id="openModalIdosa" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <h2>O movimento é o melhor aliado para melhorar a Dor Lombar!</h2>
+
+        <div class="coluna-1">
+          <img src="assets/imgs/idosa.png" style=" position:sticky;max-width: 100%; ">
+        </div>
+
+        <div class="coluna-2">
+          Sim, é seguro se movimentar!
+          <p>
+            O repouso ou apenas tratamentos passivos não são recomendados para melhorar da dor lombar. 
+            Continue desempenhando suas atividades do dia a dia. Continue envolvido no trabalho. 
+            Realize atividades de lazer. Faça tratamento com exercícios físicos!
+          </p>
+        </div>
+      </div>	
+    </div>
+
+    <div id="openModalPosto" class="modalDialog">
+      <div>
+        <a href="#openModalPosto2" title="Close" class="close">X</a>
+
+        <h2>Conte com o apoio da equipe de saúde!</h2>
+
+        <div class="coluna-1"><img src="assets/imgs/posto.png" style=" position:sticky;max-width: 100%; "></div>
+
+        <div class="coluna-2">
+          <p>
+              Os profissionais de saúde da <b>Unidade Básica de Saúde(UBS)</b> mais próxima da sua casa poderão
+              ajudá-lo no planejamento e progressão da intensidade dos exercícios físicos. 
+              Existem vários grupos de exercícios nos postos de saúde. Veja quais são as opções mais próximas e as que você prefere.
+            </p>
+          </div>
+      </div>	
+    </div>
+
+    <div id="openModalPosto2" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+
+        <h2>Conte com o apoio da equipe de saúde!</h2>
+
+        <div class="coluna-1">
+          <img src="assets/imgs/mapa.png" style=" position:sticky;max-width: 100%; ">
+        </div>
+
+        <div class="coluna-2">
+          <p>
+            Na presença de sinais como febre, perda de peso não intencional, diminuição de força muscular nas pernas,
+            perda de sensibilidade progressiva, dores constantes ou experiência com eventos traumáticos graves, procure da equipe de saúde.
+            Não se esqueça, há sempre alguém pronto para te ajudar!
+          </p>
+          <p>
+            <a href="https://www.google.com/maps/search/postos+de+sa%C3%BAde/">
+              Clique aqui para localizar a UBS mais próxima!
+            </a>
+          </p>
+        </div>
+      </div>	
+    </div>
+
+    <div id="openModalCorre" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <h2>A caminhada é indicada para pessoas com Dor Lombar Persistente!</h2>
+
+        <div class="coluna-1">
+          <img src="assets/imgs/corre.png" style=" position:sticky;max-width: 100%; ">
+        </div>
+
+        <div class="coluna-2">
+          <p>
+            A caminhada é um exercício simples, gratuito, de baixo impacto físico e com ganhos importantes para pessoas com dor crônica.
+            Você nunca caminhou ou não faz nenhum exercício físico? Comece caminhando 10 minutos. 
+            Aumente esse tempo aos poucos com o passar das semanas, de acordo com seus limites.
+          </p>
+
+          <p> Antes de começar: alimente-se bem, use roupas leves e tênis ou algum outro calçado confortável.</p>
+        </div>
+      </div>	
+    </div>
+
+    <div id="openModalAlong" class="modalDialog">
+      <div>
+        <a href="#openModalAlong2" title="Close" class="close">X</a>
+
+        <h2>Retorne aos movimentos aos poucos!</h2>
+
+        <div class="coluna-1">
+          <img src="assets/imgs/ginasta.png" style=" position:sticky;max-width: 100%; ">
+        </div>
+
+        <div class="coluna-2">
+          <p>
+            Se você já sentiu dor ao fazer um determinado movimento, 
+            o seu corpo pode guardar esta informação como uma memória ruim associada ao movimento. 
+            Isso pode levar a comportamentos como evitar uma atividade, colaborando para a persistência da dor e da incapacidade. 
+            O movimento pode romper esse ciclo! Inicie por um movimento mais fácil e avance para um mais difícil. 
+            Respeite os limites de seu corpo.
+          </p>
+        </div>
+      </div>	
+    </div>
+
+    <div id="openModalAlong2" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+
+        <h2>Retorne aos movimentos aos poucos!</h2>
+        <div class="coluna-1"><img src="assets/imgs/ginasta.png" style=" position:sticky;max-width: 100%; "></div>
+        <div class="coluna-2"><p> A dor pode acontecer durante a atividade, mas não deve se manter nem aumentar após sua conclusão. Ao se sentir seguro, progrida aos poucos, até ganhar confiança para fazer o movimento livremente.<p></div>
+      </div>	
+    </div>
+
+    <div id="openModalBasquete" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+        
+        <h2>Estilo de vida ativo combina com lazer!</h2>
+
+        <div class="coluna-1">
+          <img src="assets/imgs/basquete.png" style=" position:sticky;max-width: 100%;">
+        </div>
+
+        <div class="coluna-2">
+          <p>O melhor exercício é aquele que você gosta!</p>
+
+          <p>
+            A ciência não mostra que um tipo de exercício é melhor que outro em pessoas com dor lombar.
+            Escolha o tipo de exercício pensando em suas necessidades, preferências e capacidades.
+            Você pode sentir dor ou incômodo ao iniciar os exercícios.
+          </p>
+
+          <p>
+            Não se preocupe. Em geral, isso passa com a prática!
+          </p>
+        </div>
+      </div>	
+    </div>
+
+    <div id="openModalInfo" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+
+        <h2>Informações</h2>
+
+        <div class="coluna-1">
+          <img src="assets/imgs/team.png" style=" position:sticky;max-width: 100%; ">
+        </div>
+
+        <div class="coluna-2">
+          <p>
+            Esse infográfico é resultado de uma parceria entre os cursos de Fisioterapia e Sistemas e Mídias Digitais, 
+            da Universidade Federal do Ceará.</p><p><b>Orientadoras:</b> Ana Carla Lima Nunes e Fabianna Resende de Jesus Moraleida.
+          </p>
+
+          <p>
+            <b>Alunos:</b> Ana Eloise Ferreira Neves, Andreza Deyse Leal de Sousa, Alice Fortes Pereira, Arthur Anthunes Rangel da Silva, 
+            Isaac Santos Félix, Mardeson Herculano Acácio e Narciso Ferreira de Menezes Filho.
+          </p>
+
+          <p>
+            <b>Imagens adicionais:</b> Designed by pikisuperstar & rawpixel.com / Freepik. (www.freepik.com)
+          </p>
+          
+          <p>
+            <b>Universidade Federal do Ceará - Todos os direitos reservados</b>
+          </p>
+        </div>
+      </div>	
+    </div>
+
+  </div>
+
+  <div id="warning-message">
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;"> 
+      <img src="assets/imgs/celular.png" style=" position:sticky;max-width: 100%; ">
+      <h2 style="font-family: 'Montserrat Alternates', sans-serif; padding: 0 20px; text-align: center;">
+        Esse infográfico não funciona nessa orientação de tela. 
+        Para uma melhor visualização e uso, vire o seu celular para o modo paisagem! :D
+      </h2>
+    </div>
+  </div>
+
+</body>
+
+</html>
