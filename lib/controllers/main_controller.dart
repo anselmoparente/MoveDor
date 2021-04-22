@@ -9,9 +9,17 @@ class MainController = _MainController with _$MainController;
 // The store-class
 abstract class _MainController with Store {
   @observable
-  bool medication = true;
+  bool medication;
   @action
   void changedMedication(bool value) => medication = value;
+
+  @observable
+  String timeMedication;
+  @action
+  void changedTimeMedication(String value) => timeMedication = value;
+
+  @observable
+  String nameMedications;
 
   @observable
   bool feelPain;
@@ -34,9 +42,6 @@ abstract class _MainController with Store {
   void changeTimeDor(String value) => timeDor = value;
 
   @observable
-  String nameMedications;
-
-  @observable
   double question1 = 2;
   @action
   changeQuestion1(double value) => question1 = value;
@@ -44,7 +49,7 @@ abstract class _MainController with Store {
   String textQuestion1;
   @action
   void changeTextQ1(String value) => textQuestion1 = value;
-  
+
   @observable
   double question2 = 2;
   @action

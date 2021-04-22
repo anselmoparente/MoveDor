@@ -26,7 +26,6 @@ class _BodyState extends State<Body> {
   double fontSize = 18;
   Size mediaSize;
   String aux;
-  String dropdownValue;
   // Form 1 //
   final _form1 = GlobalKey<FormState>();
 
