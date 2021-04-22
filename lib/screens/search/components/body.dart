@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:rich_alert/rich_alert.dart';
@@ -65,7 +66,7 @@ class _BodyState extends State<Body> {
     'Perda de sensibilidade progressiva​': false,
     'Eventos traumáticos graves': false,
     'Incontinência úrinaria ou fecal': false,
-    'Não possuo nenhum dos sintomas citados' : false,
+    'Não possuo nenhum dos sintomas citados': false,
   };
 
   List selectedSports = [];
@@ -142,6 +143,7 @@ class _BodyState extends State<Body> {
   String startBackSliderLabel = 'Nada';
   double startBackSliderValue = 0.0;
   int startBackPoints = 0;
+  double value = 2;
   //--------//
 
   Future<void> _setAnsweredSearchTrue() async {
@@ -418,6 +420,7 @@ class _BodyState extends State<Body> {
                 ]),
           )),
       Container(
+        margin: EdgeInsets.only(top: mediaSize.height * 0.1),
         height: MediaQuery.of(context).size.height * 0.8,
         child: Form(
             key: _form1,
@@ -449,7 +452,9 @@ class _BodyState extends State<Body> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Text(
-                      nascimento.length > 1 ? '       ' + nascimento : '       Data de nascimento',
+                      nascimento.length > 1
+                          ? '       ' + nascimento
+                          : '       Data de nascimento',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: isDarkMode ? Colors.white70 : Colors.black54,
@@ -1150,7 +1155,7 @@ class _BodyState extends State<Body> {
               ),
               Center(
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 80),
+                  margin: EdgeInsets.only(bottom: 20),
                   child: RaisedButton(
                     onPressed: () {
                       _scrollController.animateTo(
@@ -1305,7 +1310,7 @@ class _BodyState extends State<Body> {
               ),
               Center(
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 80),
+                  margin: EdgeInsets.only(bottom: 20),
                   child: RaisedButton(
                     onPressed: () {
                       _scrollController.animateTo(
@@ -1357,7 +1362,210 @@ class _BodyState extends State<Body> {
             ],
           )),
       Container(
-        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'Estamos quase lá! \n Selecione o que você julga \n das afirmativas abaixo:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n AS SUAS PRÓPRIAS COSTAS',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "1. É fácil de machucar as suas costas",
+                controller.question1,
+                controller.textQuestion1,
+                controller.changeTextQ1,
+                controller.changeQuestion1),
+            componentFormSliderText(
+                "2. Se você não for cuidadoso, você pode machucar suas costas",
+                controller.question2,
+                controller.textQuestion2,
+                controller.changeTextQ2,
+                controller.changeQuestion2),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n DOR NAS COSTAS EM GERAL:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "3. Dor nas costas significa que você lesionou suas costas",
+                controller.question3,
+                controller.textQuestion3,
+                controller.changeTextQ3,
+                controller.changeQuestion3),
+            componentFormSliderText(
+                "4. Uma “fisgadinha” nas costas pode ser o primeiro sinal de uma lesão séria",
+                controller.question4,
+                controller.textQuestion4,
+                controller.changeTextQ4,
+                controller.changeQuestion4),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n A RECUPERAÇÃO DA DOR NAS COSTAS:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "5. Se você tem dor nas costas, você deve evitar exercícios físicos",
+                controller.question5,
+                controller.textQuestion5,
+                controller.changeTextQ5,
+                controller.changeQuestion5),
+            componentFormSliderText(
+                "6. Se você tem dor nas costas, você deveria tentar se manter ativo",
+                controller.question6,
+                controller.textQuestion6,
+                controller.changeTextQ6,
+                controller.changeQuestion6),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n A RECUPERAÇÃO DA DOR NAS COSTAS:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "7. Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se da dor nas costas",
+                controller.question7,
+                controller.textQuestion7,
+                controller.changeTextQ7,
+                controller.changeQuestion7),
+            componentFormSliderText(
+                "8. Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas",
+                controller.question8,
+                controller.textQuestion8,
+                controller.changeTextQ8,
+                controller.changeQuestion8),
+            componentFormSliderText(
+                "9. Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza",
+                controller.question9,
+                controller.textQuestion9,
+                controller.changeTextQ9,
+                controller.changeQuestion9),
+            componentFormSliderText(
+                "10. Existe uma grande chance de que um episódio de dor nas costas não se resolverá",
+                controller.question10,
+                controller.textQuestion10,
+                controller.changeTextQ10,
+                controller.changeQuestion10),
+            SizedBox(
+              height: 50,
+            ),
+            Center(
+              child: RaisedButton(
+                onPressed: () {
+                  _scrollController.animateTo(
+                    0.0,
+                    curve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 300),
+                  );
+                  setState(() {
+                    currentFormIndex = 9;
+                  });
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Container(
+                    constraints:
+                        BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Vamos lá",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+        ),
+      ),
+      Container(
+        height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1447,7 +1655,9 @@ class _BodyState extends State<Body> {
                                   ? formsPesquisas[6]
                                   : currentFormIndex == 7
                                       ? formsPesquisas[7]
-                                      : formsPesquisas[8]
+                                      : currentFormIndex == 8
+                                          ? formsPesquisas[8]
+                                          : formsPesquisas[9]
     ]);
   }
 
@@ -1546,6 +1756,92 @@ class _BodyState extends State<Body> {
           )
         ],
       ),
+    );
+  }
+
+  componentFormSliderText(String label, double value, String text,
+      functionSwitchText, functionSwitchValue) {
+    void switchText(double value) {
+      if (value == 0) {
+        functionSwitchText('Falsa');
+      }
+      if (value == 1) {
+        functionSwitchText('Possivelmente Falsa');
+      }
+      if (value == 2) {
+        functionSwitchText('Incerto');
+      }
+      if (value == 3) {
+        functionSwitchText('Possivelmente Verdadeira');
+      }
+      if (value == 4) {
+        functionSwitchText('Verdadeira');
+      }
+    }
+
+    return Wrap(
+      children: [
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 30),
+            width: mediaSize.width * 0.9,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: 18),
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+            width: mediaSize.width * 0.9,
+            margin: EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Falsa",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'MontserratRegular',
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                      fontSize: 18),
+                ),
+                Text(
+                  "Verdadeira",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'MontserratRegular',
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                      fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          child: Observer(
+            builder: (_) {
+              return Slider(
+                min: 0,
+                max: 4,
+                divisions: 4,
+                value: value,
+                label: text,
+                onChanged: (double value) {
+                  setState(() {
+                    functionSwitchValue(value);
+                    switchText(value);
+                  });
+                },
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 
