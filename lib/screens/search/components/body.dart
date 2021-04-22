@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:rich_alert/rich_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +16,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   ScrollController _scrollController = new ScrollController();
+  MainController controller = MainController();
 
   int currentFormIndex = 0;
 
@@ -23,7 +26,6 @@ class _BodyState extends State<Body> {
   double fontSize = 18;
   Size mediaSize;
   String aux;
-  bool feelPain;
   String dropdownValue;
   // Form 1 //
   final _form1 = GlobalKey<FormState>();
@@ -64,6 +66,7 @@ class _BodyState extends State<Body> {
     'Perda de sensibilidade progressiva​': false,
     'Eventos traumáticos graves': false,
     'Incontinência úrinaria ou fecal': false,
+    'Não possuo nenhum dos sintomas citados': false,
   };
 
   List selectedSports = [];
@@ -140,6 +143,7 @@ class _BodyState extends State<Body> {
   String startBackSliderLabel = 'Nada';
   double startBackSliderValue = 0.0;
   int startBackPoints = 0;
+  double value = 2;
   //--------//
 
   Future<void> _setAnsweredSearchTrue() async {
@@ -152,7 +156,7 @@ class _BodyState extends State<Body> {
 
     List<Widget> formsPesquisas = [
       Container(
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -285,7 +289,7 @@ class _BodyState extends State<Body> {
             ]),
       ),
       Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 0.8,
           child: Form(
             key: _name,
             autovalidate: _autovalidadeName,
@@ -416,7 +420,8 @@ class _BodyState extends State<Body> {
                 ]),
           )),
       Container(
-        height: MediaQuery.of(context).size.height,
+        margin: EdgeInsets.only(top: mediaSize.height * 0.1),
+        height: MediaQuery.of(context).size.height * 0.8,
         child: Form(
             key: _form1,
             autovalidate: _autovalidadeForm1,
@@ -447,7 +452,9 @@ class _BodyState extends State<Body> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Text(
-                      nascimento.length > 1 ? nascimento : 'Data de nascimento',
+                      nascimento.length > 1
+                          ? '       ' + nascimento
+                          : '       Data de nascimento',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: isDarkMode ? Colors.white70 : Colors.black54,
@@ -675,11 +682,11 @@ class _BodyState extends State<Body> {
             )),
       ),
       Container(
-        child: SingleChildScrollView(
+        child: Center(
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: mediaSize.height * 0.05, left: 20),
+                margin: EdgeInsets.only(top: mediaSize.height * 0.25),
                 child: Text(
                   'Você está aqui por que sente dor nas costas?',
                   textAlign: TextAlign.center,
@@ -698,113 +705,6 @@ class _BodyState extends State<Body> {
                 margin: EdgeInsets.only(left: 20),
                 child: componentForms(context, "Não", false),
               ),
-              feelPain == true
-                  ? Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.05),
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: Text(
-                            'Escala de dor: Numa escala de 0 a 10, qual o grau de dor que você apresenta hoje?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'MontserratRegular',
-                              color:
-                                  isDarkMode ? Colors.white70 : Colors.black54,
-                              fontSize: fontSize.toDouble() + 6,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          margin: EdgeInsets.only(top: 25),
-                        ),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Sem dor',
-                                  style: TextStyle(
-                                      fontFamily: 'MontserratBold',
-                                      color: Colors.green),
-                                ),
-                                Text(
-                                  'Muita dor',
-                                  style: TextStyle(
-                                      fontFamily: 'MontserratBold',
-                                      color: Colors.red),
-                                ),
-                              ],
-                            )),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            child: Slider(
-                                value: sliderValue,
-                                max: 10.0,
-                                min: 0.0,
-                                divisions: 10,
-                                label: "${sliderValue.toInt()}",
-                                inactiveColor: Colors.green[50],
-                                activeColor: sliderValue.toInt() > 8
-                                    ? Colors.red
-                                    : sliderValue.toInt() > 5
-                                        ? Colors.red[300]
-                                        : sliderValue.toInt() > 3
-                                            ? Colors.green[300]
-                                            : Colors.green,
-                                onChanged: (double value) {
-                                  setState(() {
-                                    sliderValue = value;
-                                  });
-                                })),
-                        Container(
-                          margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                          child: Text(
-                            'A quanto tempo você sente essa dor?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'MontserratRegular',
-                              color: isDarkMode ? Colors.white70 : Colors.black54,
-                              fontSize: fontSize.toDouble() + 6,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: mediaSize.height * 0.02),
-                          child: DropdownButton(
-                            value: dropdownValue,
-                            icon: const Icon(Icons.arrow_downward),
-                            iconSize: 24,
-                            elevation: 16,
-                            style: const TextStyle(color: Colors.blue),
-                            underline: Container(
-                              height: 2,
-                              color: Colors.blueAccent,
-                            ),
-                            onChanged: (String newValue) {
-                              setState(() {
-                                dropdownValue = newValue;
-                              });
-                            },
-                            items: <String>[
-                              'até 6 semanas',
-                              'de 7 semanas a 3 meses',
-                              'mais de 3 meses',
-                              'mais de 1 ano'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        )
-                      ],
-                    )
-                  : Container(),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: RaisedButton(
@@ -815,13 +715,13 @@ class _BodyState extends State<Body> {
                       duration: const Duration(milliseconds: 300),
                     );
                     setState(() {
-                      if (feelPain == true) {
+                      if (controller.feelPain == true) {
                         currentFormIndex = 4;
                       }
                     });
-                    if (feelPain == false) {
+                    if (controller.feelPain == false) {
                       print("entrou");
-                      _showMyDialog(context);
+                      _showDialog(context);
                     }
                   },
                   shape: RoundedRectangleBorder(
@@ -853,6 +753,252 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+      Container(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Em qual região \n das costas você sente dor?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: 28,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Selecione Abaixo',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: 20,
+                ),
+              ),
+              Wrap(
+                direction: Axis.horizontal,
+                spacing: mediaSize.width * 0.1,
+                children: [
+                  GestureDetector(
+                    child: Image.asset(
+                      controller.painSup
+                          ? "assets/caps_illustrations/dorSup_selecionado.png"
+                          : "assets/caps_illustrations/dorSup_não_selecionado.png",
+                      height: mediaSize.height * 0.6,
+                      width: mediaSize.width * 0.35,
+                    ),
+                    onTap: () {
+                      if (controller.painSup == false) {
+                        setState(() {
+                          controller.changePainInf(false);
+                          controller.changePainSup(true);
+                        });
+                      }
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset(
+                      controller.painInf
+                          ? "assets/caps_illustrations/dorInf_selecionado.png"
+                          : "assets/caps_illustrations/dorInf_não_selecionado.png",
+                      height: mediaSize.height * 0.6,
+                      width: mediaSize.width * 0.35,
+                    ),
+                    onTap: () {
+                      if (controller.painInf == false) {
+                        setState(() {
+                          controller.changePainInf(true);
+                          controller.changePainSup(false);
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+              Container(
+                child: RaisedButton(
+                  onPressed: () {
+                    _scrollController.animateTo(
+                      0.0,
+                      curve: Curves.easeOut,
+                      duration: const Duration(milliseconds: 300),
+                    );
+                    setState(() {
+                      if (controller.painInf == true) {
+                        currentFormIndex = 5;
+                      }
+                    });
+                    if (controller.painInf == false) {
+                      _showDialog(context);
+                    }
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  padding: EdgeInsets.all(0.0),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    child: Container(
+                      constraints:
+                          BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Continuar",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'MontserratRegular',
+                            fontSize: mediaSize.width * 0.09,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      Container(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.05),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Text(
+                    'Escala de dor: Numa escala de 0 a 10, qual o grau de dor que você apresenta hoje?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'MontserratRegular',
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                      fontSize: fontSize.toDouble() + 6,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  margin: EdgeInsets.only(top: 25),
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Sem dor',
+                          style: TextStyle(
+                              fontFamily: 'MontserratBold',
+                              color: Colors.green),
+                        ),
+                        Text(
+                          'Muita dor',
+                          style: TextStyle(
+                              fontFamily: 'MontserratBold', color: Colors.red),
+                        ),
+                      ],
+                    )),
+                Container(
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    child: Slider(
+                        value: sliderValue,
+                        max: 10.0,
+                        min: 0.0,
+                        divisions: 10,
+                        label: "${sliderValue.toInt()}",
+                        inactiveColor: Colors.green[50],
+                        activeColor: sliderValue.toInt() > 8
+                            ? Colors.red
+                            : sliderValue.toInt() > 5
+                                ? Colors.red[300]
+                                : sliderValue.toInt() > 3
+                                    ? Colors.green[300]
+                                    : Colors.green,
+                        onChanged: (double value) {
+                          setState(() {
+                            sliderValue = value;
+                          });
+                        })),
+                Container(
+                  margin: EdgeInsets.only(top: mediaSize.height * 0.05),
+                  child: Text(
+                    'Há quanto tempo \n você sente essa dor?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'MontserratRegular',
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                      fontSize: fontSize.toDouble() + 6,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                componentFormPain(context, 'até 6 semanas'),
+                componentFormPain(context, 'de 7 semanas a 3 meses'),
+                componentFormPain(context, 'mais de 3 meses'),
+                componentFormPain(context, 'mais de 1 ano'),
+                Container(
+                  margin: EdgeInsets.only(top: mediaSize.height * 0.05),
+                  child: RaisedButton(
+                    onPressed: () {
+                      _scrollController.animateTo(
+                        0.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 300),
+                      );
+                      setState(() {
+                        currentFormIndex = 6;
+                      });
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Continuar",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'MontserratRegular',
+                              fontSize: mediaSize.width * 0.09,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1009,7 +1155,7 @@ class _BodyState extends State<Body> {
               ),
               Center(
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 80),
+                  margin: EdgeInsets.only(bottom: 20),
                   child: RaisedButton(
                     onPressed: () {
                       _scrollController.animateTo(
@@ -1018,7 +1164,7 @@ class _BodyState extends State<Body> {
                         duration: const Duration(milliseconds: 300),
                       );
                       setState(() {
-                        currentFormIndex = 5;
+                        currentFormIndex = 7;
                       });
                     },
                     shape: RoundedRectangleBorder(
@@ -1164,7 +1310,7 @@ class _BodyState extends State<Body> {
               ),
               Center(
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 80),
+                  margin: EdgeInsets.only(bottom: 20),
                   child: RaisedButton(
                     onPressed: () {
                       _scrollController.animateTo(
@@ -1177,7 +1323,7 @@ class _BodyState extends State<Body> {
                             ? startBackPoints += 1
                             : print('');
 
-                        currentFormIndex = 6;
+                        currentFormIndex = 8;
                       });
 
                       // print(startBackSelectedFrases);
@@ -1216,7 +1362,210 @@ class _BodyState extends State<Body> {
             ],
           )),
       Container(
-        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'Estamos quase lá! \n Selecione o que você julga \n das afirmativas abaixo:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n AS SUAS PRÓPRIAS COSTAS',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "1. É fácil de machucar as suas costas",
+                controller.question1,
+                controller.textQuestion1,
+                controller.changeTextQ1,
+                controller.changeQuestion1),
+            componentFormSliderText(
+                "2. Se você não for cuidadoso, você pode machucar suas costas",
+                controller.question2,
+                controller.textQuestion2,
+                controller.changeTextQ2,
+                controller.changeQuestion2),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n DOR NAS COSTAS EM GERAL:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "3. Dor nas costas significa que você lesionou suas costas",
+                controller.question3,
+                controller.textQuestion3,
+                controller.changeTextQ3,
+                controller.changeQuestion3),
+            componentFormSliderText(
+                "4. Uma “fisgadinha” nas costas pode ser o primeiro sinal de uma lesão séria",
+                controller.question4,
+                controller.textQuestion4,
+                controller.changeTextQ4,
+                controller.changeQuestion4),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n A RECUPERAÇÃO DA DOR NAS COSTAS:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "5. Se você tem dor nas costas, você deve evitar exercícios físicos",
+                controller.question5,
+                controller.textQuestion5,
+                controller.changeTextQ5,
+                controller.changeQuestion5),
+            componentFormSliderText(
+                "6. Se você tem dor nas costas, você deveria tentar se manter ativo",
+                controller.question6,
+                controller.textQuestion6,
+                controller.changeTextQ6,
+                controller.changeQuestion6),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                'ESTAS QUESTÕES SÃO SOBRE \n A RECUPERAÇÃO DA DOR NAS COSTAS:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: fontSize.toDouble() + 6,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            componentFormSliderText(
+                "7. Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se da dor nas costas",
+                controller.question7,
+                controller.textQuestion7,
+                controller.changeTextQ7,
+                controller.changeQuestion7),
+            componentFormSliderText(
+                "8. Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas",
+                controller.question8,
+                controller.textQuestion8,
+                controller.changeTextQ8,
+                controller.changeQuestion8),
+            componentFormSliderText(
+                "9. Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza",
+                controller.question9,
+                controller.textQuestion9,
+                controller.changeTextQ9,
+                controller.changeQuestion9),
+            componentFormSliderText(
+                "10. Existe uma grande chance de que um episódio de dor nas costas não se resolverá",
+                controller.question10,
+                controller.textQuestion10,
+                controller.changeTextQ10,
+                controller.changeQuestion10),
+            SizedBox(
+              height: 50,
+            ),
+            Center(
+              child: RaisedButton(
+                onPressed: () {
+                  _scrollController.animateTo(
+                    0.0,
+                    curve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 300),
+                  );
+                  setState(() {
+                    currentFormIndex = 9;
+                  });
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Container(
+                    constraints:
+                        BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Vamos lá",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+        ),
+      ),
+      Container(
+        height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1302,8 +1651,13 @@ class _BodyState extends State<Body> {
                           ? formsPesquisas[4]
                           : currentFormIndex == 5
                               ? formsPesquisas[5]
-                              : formsPesquisas[6]
-
+                              : currentFormIndex == 6
+                                  ? formsPesquisas[6]
+                                  : currentFormIndex == 7
+                                      ? formsPesquisas[7]
+                                      : currentFormIndex == 8
+                                          ? formsPesquisas[8]
+                                          : formsPesquisas[9]
     ]);
   }
 
@@ -1339,7 +1693,7 @@ class _BodyState extends State<Body> {
             onTap: () {
               setState(() {
                 aux = label;
-                feelPain = value;
+                controller.feelPain = value;
               });
             },
           ),
@@ -1357,7 +1711,141 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Future<void> _showMyDialog(BuildContext context) async {
+  componentFormPain(BuildContext context, String label) {
+    return Container(
+      child: Row(
+        children: [
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(left: 50, top: 10),
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.0, color: Colors.blue[200]),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: controller.timeDor == label
+                  ? Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ))
+                  : Container(
+                      height: 30,
+                      width: 30,
+                    ),
+            ),
+            onTap: () {
+              setState(() {
+                controller.changeTimeDor(label);
+              });
+            },
+          ),
+          Container(
+            margin: EdgeInsets.only(left: mediaSize.width * 0.03),
+            child: Text(label,
+                style: TextStyle(
+                  fontSize: mediaSize.width * 0.05,
+                  color: Colors.black54,
+                )),
+          )
+        ],
+      ),
+    );
+  }
+
+  componentFormSliderText(String label, double value, String text,
+      functionSwitchText, functionSwitchValue) {
+    void switchText(double value) {
+      if (value == 0) {
+        functionSwitchText('Falsa');
+      }
+      if (value == 1) {
+        functionSwitchText('Possivelmente Falsa');
+      }
+      if (value == 2) {
+        functionSwitchText('Incerto');
+      }
+      if (value == 3) {
+        functionSwitchText('Possivelmente Verdadeira');
+      }
+      if (value == 4) {
+        functionSwitchText('Verdadeira');
+      }
+    }
+
+    return Wrap(
+      children: [
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 30),
+            width: mediaSize.width * 0.9,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: 18),
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+            width: mediaSize.width * 0.9,
+            margin: EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Falsa",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'MontserratRegular',
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                      fontSize: 18),
+                ),
+                Text(
+                  "Verdadeira",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'MontserratRegular',
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                      fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          child: Observer(
+            builder: (_) {
+              return Slider(
+                min: 0,
+                max: 4,
+                divisions: 4,
+                value: value,
+                label: text,
+                onChanged: (double value) {
+                  setState(() {
+                    functionSwitchValue(value);
+                    switchText(value);
+                  });
+                },
+              );
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Future<void> _showDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
