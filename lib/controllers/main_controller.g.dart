@@ -24,6 +24,36 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$timeMedicationAtom = Atom(name: '_MainController.timeMedication');
+
+  @override
+  String get timeMedication {
+    _$timeMedicationAtom.reportRead();
+    return super.timeMedication;
+  }
+
+  @override
+  set timeMedication(String value) {
+    _$timeMedicationAtom.reportWrite(value, super.timeMedication, () {
+      super.timeMedication = value;
+    });
+  }
+
+  final _$nameMedicationsAtom = Atom(name: '_MainController.nameMedications');
+
+  @override
+  String get nameMedications {
+    _$nameMedicationsAtom.reportRead();
+    return super.nameMedications;
+  }
+
+  @override
+  set nameMedications(String value) {
+    _$nameMedicationsAtom.reportWrite(value, super.nameMedications, () {
+      super.nameMedications = value;
+    });
+  }
+
   final _$feelPainAtom = Atom(name: '_MainController.feelPain');
 
   @override
@@ -81,21 +111,6 @@ mixin _$MainController on _MainController, Store {
   set timeDor(String value) {
     _$timeDorAtom.reportWrite(value, super.timeDor, () {
       super.timeDor = value;
-    });
-  }
-
-  final _$nameMedicationsAtom = Atom(name: '_MainController.nameMedications');
-
-  @override
-  String get nameMedications {
-    _$nameMedicationsAtom.reportRead();
-    return super.nameMedications;
-  }
-
-  @override
-  set nameMedications(String value) {
-    _$nameMedicationsAtom.reportWrite(value, super.nameMedications, () {
-      super.nameMedications = value;
     });
   }
 
@@ -414,6 +429,17 @@ mixin _$MainController on _MainController, Store {
   }
 
   @override
+  void changedTimeMedication(String value) {
+    final _$actionInfo = _$_MainControllerActionController.startAction(
+        name: '_MainController.changedTimeMedication');
+    try {
+      return super.changedTimeMedication(value);
+    } finally {
+      _$_MainControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeFeelPain(bool value) {
     final _$actionInfo = _$_MainControllerActionController.startAction(
         name: '_MainController.changeFeelPain');
@@ -681,11 +707,12 @@ mixin _$MainController on _MainController, Store {
   String toString() {
     return '''
 medication: ${medication},
+timeMedication: ${timeMedication},
+nameMedications: ${nameMedications},
 feelPain: ${feelPain},
 painSup: ${painSup},
 painInf: ${painInf},
 timeDor: ${timeDor},
-nameMedications: ${nameMedications},
 question1: ${question1},
 textQuestion1: ${textQuestion1},
 question2: ${question2},

@@ -3,13 +3,13 @@ import 'package:movedor/models/Chapter.dart';
 
 import 'components/custom_app_bar.dart';
 
-class Chapter06Quiz extends StatefulWidget {
-  static String routeName = "/chapter-06";
+class Chapter05Quiz extends StatefulWidget {
+  static String routeName = "/chapter-05";
   @override
-  _Chapter06QuizState createState() => _Chapter06QuizState();
+  _Chapter05QuizState createState() => _Chapter05QuizState();
 }
 
-class _Chapter06QuizState extends State<Chapter06Quiz> {
+class _Chapter05QuizState extends State<Chapter05Quiz> {
   Size mediaSize;
   bool aux = false;
   List<dynamic> exercises = [
@@ -27,7 +27,7 @@ class _Chapter06QuizState extends State<Chapter06Quiz> {
     mediaSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
-        appBar: CustomAppBar(chapters[5]),
+        appBar: CustomAppBar(chapters[4]),
         body: SingleChildScrollView(
           child: Column(
             children: [

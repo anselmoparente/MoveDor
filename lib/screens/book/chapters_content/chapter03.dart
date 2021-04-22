@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:movedor/components/default_button.dart';
-import 'package:movedor/models/Chapter.dart';
+import 'dart:async';
 
-import '../../../constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:movedor/constants.dart';
+import 'package:movedor/models/Chapter.dart';
+import 'package:movedor/screens/book/chapters_content/components/play_pause.dart';
+import 'package:video_player/video_player.dart';
+
 import '../../../size_config.dart';
 import 'components/custom_app_bar.dart';
 import 'components/top_rounded_container.dart';
@@ -14,110 +18,99 @@ class Chapter03 extends StatefulWidget {
 }
 
 class _Chapter03State extends State<Chapter03> {
+  bool finalizouChapter03 = false;
+
+  VideoPlayerController _controller;
+
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+    ]);
+
+    _controller = VideoPlayerController.asset('assets/videos/cap3.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {
+          _controller.play();
+        });
+      });
+      _controller.addListener(checkVideoStatus);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F6F9),
-      appBar: CustomAppBar(chapters[1]),
-      body:
-        SingleChildScrollView(
-          child: 
-            Column(
-              children: [
-                SizedBox(
-                  width: getProportionateScreenWidth(238),
-                  height: getProportionateScreenWidth(238),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Image.asset(chapters[1].image, scale: 0.6,),
-                  )
-                ),
-                Row(children: []),
-                
-                TopRoundedContainer(
-                  color: Colors.white, 
-                  child: 
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 25 ),
-                    child: Column(
-                      children: [
-                        Text(
-                          chapters[1].title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 25,
-                          ),
-                        ),
-                        Text(
-                          "Posso me movimentar mesmo com dor? Sim, é seguro se movimentar! \n\nSe você já sentiu dor ao fazer determinado movimento, seu corpo pode guardar essa informação como uma memória ruim associada ao movimento.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: kTextColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                        AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.asset('assets/caps_illustrations/cap2-01.png', scale: 0.6,),
-                        ),
-                        Text(
-                          "Em algumas pessoas, essa memória pode levar a comportamentos como evitar um movimento ou uma atividade, colaborando para a persistência da dor e da incapacidade.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: kTextColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                         AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.asset('assets/caps_illustrations/cap2-02.png', scale: 0.6,),
-                        ),
-                        Text(
-                          "O movimento pode romper esse ciclo!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 25,
-                          ),
-                        ),
-                        Text(
-                          "\nVocê não precisa começar pelo movimento mais desafiador! \n \nInicie por um movimento mais fácil e simples e avance para um mais difícil.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: kTextColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          "\nVá aos poucos e respeite os limites do seu corpo!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 25,
-                          ),
-                        ),
-                        Text(
-                          "\nA dor pode aconder durante a atividade, mas não deve se manter nem aumentar após sua conclusão. \n\nAo se sentir seguro progrida aos poucos, até ganhar confiança para fazer o movimento livremente em toda a sua amplitude.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: kTextColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        DefaultButton(
-                          text: "Concluir capítulo",
-                          press: () => Navigator.of(context).pop()
-                        ),
-                        SizedBox(height: 20),
-                      ],
+      appBar: CustomAppBar(chapters[2]),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+                width: 230,
+                height: 230,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.asset(
+                    chapters[2].image,
+                    scale: 0.6,
+                  ),
+                )),
+            TopRoundedContainer(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Text(
+                      chapters[3].title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontSize: 25,
+                      ),
                     ),
-                  )
-                )
-              ],
-            ),
-        )
+                    Container(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: <Widget>[
+                            VideoPlayer(_controller),
+                            PlayPauseOverlay(controller: _controller),
+                            VideoProgressIndicator(_controller,
+                                allowScrubbing: true),
+                          ],
+                        ),
+                      ),
+                    )
+                    // ProductDescription(
+                    //   product,
+                    // ),
+                    // ProductPricing(product),
+                  ],
+                ))
+          ],
+        ),
+      ),
     );
+  }
+  checkVideoStatus() async {
+    int duration = (_controller.value.duration.inSeconds * 0.9).toInt();
+    ///Se a posição de progresso do vídeo for igual a 90% da duração do mesmo, então vou dar como finalizado o capítulo.
+    if (_controller.value.position.inSeconds == duration) {
+      finalizouChapter03 = true;
+    }
   }
 }
