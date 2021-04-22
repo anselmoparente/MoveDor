@@ -22,6 +22,11 @@ abstract class _MainController with Store {
   String nameMedications;
 
   @observable
+  String activityTime;
+  @action
+  void changedActivityTime(String value) => activityTime = value;
+
+  @observable
   bool feelPain;
   @action
   void changeFeelPain(bool value) => feelPain = value;

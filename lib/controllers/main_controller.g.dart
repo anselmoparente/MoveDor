@@ -54,6 +54,21 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$activityTimeAtom = Atom(name: '_MainController.activityTime');
+
+  @override
+  String get activityTime {
+    _$activityTimeAtom.reportRead();
+    return super.activityTime;
+  }
+
+  @override
+  set activityTime(String value) {
+    _$activityTimeAtom.reportWrite(value, super.activityTime, () {
+      super.activityTime = value;
+    });
+  }
+
   final _$feelPainAtom = Atom(name: '_MainController.feelPain');
 
   @override
@@ -440,6 +455,17 @@ mixin _$MainController on _MainController, Store {
   }
 
   @override
+  void changedActivityTime(String value) {
+    final _$actionInfo = _$_MainControllerActionController.startAction(
+        name: '_MainController.changedActivityTime');
+    try {
+      return super.changedActivityTime(value);
+    } finally {
+      _$_MainControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeFeelPain(bool value) {
     final _$actionInfo = _$_MainControllerActionController.startAction(
         name: '_MainController.changeFeelPain');
@@ -709,6 +735,7 @@ mixin _$MainController on _MainController, Store {
 medication: ${medication},
 timeMedication: ${timeMedication},
 nameMedications: ${nameMedications},
+activityTime: ${activityTime},
 feelPain: ${feelPain},
 painSup: ${painSup},
 painInf: ${painInf},
