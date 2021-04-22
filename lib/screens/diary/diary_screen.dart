@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movedor/screens/diary/activity_time_page.dart';
 
 class Diary extends StatefulWidget {
   Diary({Key key}) : super(key: key);
@@ -68,10 +69,14 @@ class _DiaryState extends State<Diary> {
                   Container(
                     child: Column(
                       children: [
-                        componentForms(context, 0, 'Exercícios aeróbios(caminhada, corrida,\n bicicleta)'),
-                        componentForms(context, 1, 'Exercícios de fortalecimento(musculação,\n ginástica, funcional)'),
-                        componentForms(context, 2, 'Exercícios ou técnicas de relaxamento \n(exercícios respiratórios, meditação,\n alongamento)'),
-                        componentForms(context, 3, 'Exercícios na água(hidroginástica, natação,\n caminhada na água, fisioterapia aquática)'),
+                        componentForms(context, 0,
+                            'Exercícios aeróbios(caminhada, corrida,\n bicicleta)'),
+                        componentForms(context, 1,
+                            'Exercícios de fortalecimento(musculação,\n ginástica, funcional)'),
+                        componentForms(context, 2,
+                            'Exercícios ou técnicas de relaxamento \n(exercícios respiratórios, meditação,\n alongamento)'),
+                        componentForms(context, 3,
+                            'Exercícios na água(hidroginástica, natação,\n caminhada na água, fisioterapia aquática)'),
                         componentForms(context, 4, 'Ioga e Thai chi chuan'),
                         componentForms(context, 5, 'Dança'),
                       ],
@@ -80,7 +85,13 @@ class _DiaryState extends State<Diary> {
                   Container(
                     margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                     child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new ActivityTimePage()));
+                      },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0)),
                       padding: EdgeInsets.all(0.0),
@@ -160,8 +171,7 @@ class _DiaryState extends State<Diary> {
           ),
           Container(
             margin: EdgeInsets.only(
-                left: mediaSize.width * 0.03,
-                top: mediaSize.height * 0.007),
+                left: mediaSize.width * 0.03, top: mediaSize.height * 0.007),
             child: Text(
               label,
               style: TextStyle(
