@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/Chapter.dart';
+import '../../../constants.dart';
 import 'components/custom_app_bar.dart';
 
 class Chapter02 extends StatefulWidget {
@@ -93,7 +94,7 @@ class _Chapter02State extends State<Chapter02> {
               child: Text("Você faz uso de algum \n       medicamento?",
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: Color(0xff36a9b0),
+                    color: kPrimaryColor,
                     fontSize: mediaSize.width * 0.07,
                   )),
             ),
@@ -117,7 +118,7 @@ class _Chapter02State extends State<Chapter02> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'MontserratRegular',
-                        color: Color(0xff36a9b0),
+                        color: kPrimaryColor,
                         fontSize: mediaSize.width * 0.07,
                       ),
                     ),
@@ -131,7 +132,7 @@ class _Chapter02State extends State<Chapter02> {
                       icon: const Icon(Icons.arrow_downward),
                       iconSize: 24,
                       elevation: 16,
-                      style: const TextStyle(color: Colors.blue),
+                      style: const TextStyle(color: kTextColor),
                       underline: Container(
                         height: 2,
                         color: Colors.blueAccent,
@@ -161,7 +162,7 @@ class _Chapter02State extends State<Chapter02> {
                     margin: EdgeInsets.only(top: mediaSize.height * 0.04),
                     child: Text("Qual/Quais?",
                         style: TextStyle(
-                          color: Color(0xff36a9b0),
+                          color: kPrimaryColor,
                           fontSize: mediaSize.width * 0.05,
                         )),
                   )
@@ -211,7 +212,7 @@ class _Chapter02State extends State<Chapter02> {
                           key,
                           style: TextStyle(
                             fontFamily: 'MontserratRegular',
-                            color: Color(0xff36a9b0),
+                            color: kTextColor,
                             fontSize: fontSize.toDouble(),
                           ),
                         ),
@@ -321,7 +322,7 @@ class _Chapter02State extends State<Chapter02> {
             child: Text(label,
                 style: TextStyle(
                   fontSize: mediaSize.width * 0.05,
-                  color: Color(0xff36a9b0),
+                  color: kTextColor,
                 )),
           )
         ],

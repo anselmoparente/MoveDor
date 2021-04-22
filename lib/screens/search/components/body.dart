@@ -5,6 +5,8 @@ import 'package:movedor/screens/book/book_screen.dart';
 import 'package:rich_alert/rich_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../constants.dart';
+
 class Body extends StatefulWidget {
   Body({Key key}) : super(key: key);
 
@@ -679,13 +681,13 @@ class _BodyState extends State<Body> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: mediaSize.height * 0.05, left: 20),
+                margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: Text(
                   'Você está aqui por que sente dor nas costas?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -711,7 +713,7 @@ class _BodyState extends State<Body> {
                             style: TextStyle(
                               fontFamily: 'MontserratRegular',
                               color:
-                                  isDarkMode ? Colors.white70 : Colors.black54,
+                                  isDarkMode ? Colors.white70 : kPrimaryColor,
                               fontSize: fontSize.toDouble() + 6,
                             ),
                           ),
@@ -869,7 +871,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -930,7 +932,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -1066,7 +1068,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -1349,7 +1351,7 @@ class _BodyState extends State<Body> {
             child: Text(label,
                 style: TextStyle(
                   fontSize: mediaSize.width * 0.05,
-                  color: Color(0xff36a9b0),
+                  color: kTextColor,
                 )),
           )
         ],

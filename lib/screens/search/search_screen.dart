@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
 import 'components/body.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -9,7 +10,11 @@ class SearchScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: Text("Pesquisa"),
+        title: Text("Pesquisa",
+          style: TextStyle(color: kPrimaryColor, 
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,)
+            ),
         centerTitle: true,
       ),
       body: Body(),
