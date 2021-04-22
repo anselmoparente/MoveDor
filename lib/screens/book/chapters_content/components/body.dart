@@ -70,7 +70,7 @@ class _BodyState extends State<Body> {
                   margin: EdgeInsets.only(
                     top: mediaSize.height * 0.05,
                   ),
-                  child: Text("Você faz uso de algum \n       medicamento?",
+                  child: Text("Você faz uso de algum \n       medicamento para dor?",
                       style: TextStyle(
                         fontFamily: 'MontserratRegular',
                         color: Color(0xff36a9b0),
