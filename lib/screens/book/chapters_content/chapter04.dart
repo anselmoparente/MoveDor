@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:movedor/constants.dart';
+import 'package:movedor/components/default_button.dart';
 import 'package:movedor/models/Chapter.dart';
-import 'package:movedor/screens/book/chapters_content/components/play_pause.dart';
-import 'package:video_player/video_player.dart';
 
+import '../../../constants.dart';
 import '../../../size_config.dart';
 import 'components/custom_app_bar.dart';
 import 'components/top_rounded_container.dart';
@@ -18,99 +14,90 @@ class Chapter04 extends StatefulWidget {
 }
 
 class _Chapter04State extends State<Chapter04> {
-  bool finalizouChapter03 = false;
-
-  VideoPlayerController _controller;
-
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-    ]);
-
-    _controller = VideoPlayerController.asset('assets/videos/cap3.mp4')
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {
-          _controller.play();
-        });
-      });
-      _controller.addListener(checkVideoStatus);
-  }
-
-  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-    super.dispose();
-    _controller.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F6F9),
       appBar: CustomAppBar(chapters[3]),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-                width: 230,
-                height: 230,
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.asset(
-                    chapters[3].image,
-                    scale: 0.6,
-                  ),
-                )),
-            TopRoundedContainer(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Text(
-                      chapters[3].title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: 25,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: AspectRatio(
-                        aspectRatio: _controller.value.aspectRatio,
-                        child: Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: <Widget>[
-                            VideoPlayer(_controller),
-                            PlayPauseOverlay(controller: _controller),
-                            VideoProgressIndicator(_controller,
-                                allowScrubbing: true),
-                          ],
+      body:
+        SingleChildScrollView(
+          child: 
+            Column(
+              children: [
+                SizedBox(
+                  width: getProportionateScreenWidth(238),
+                  height: getProportionateScreenWidth(238),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.asset(chapters[4].image, scale: 0.6,),
+                  )
+                ),
+                Row(children: []),
+                
+                TopRoundedContainer(
+                  color: Colors.white, 
+                  child: 
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 25 ),
+                    child: Column(
+                      children: [
+                        Text(
+                          chapters[3].title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 25,
+                          ),
                         ),
-                      ),
-                    )
-                    // ProductDescription(
-                    //   product,
-                    // ),
-                    // ProductPricing(product),
-                  ],
-                ))
-          ],
-        ),
-      ),
+                        Text(
+                          "Caso você experimente algum tipo de exercício que nao o ajudou, isso não significa que o exercício físico não funciona ou não serve para você!\n",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: kTextColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          "Você sabia?!\n",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 25,
+                          ),
+                        ),
+                        Text(
+                          "Existem vários grupos de exercícios nos postos de saúde. \n\nVeja quais são as opções mais próximas e as que você prefere.\n",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: kTextColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                         AspectRatio(
+                          aspectRatio: 1,
+                          child: Image.asset('assets/caps_illustrations/cap5-01.png', scale: 0.6,),
+                        ),
+                        Text(
+                          "\nExercícios e atividades que promovam o relaxamento e consciência corporal são importantes para o alívio da dor. \n\nExercícios de respiração, técnicas de relaxamento e meditação são opções que podem fazer parte do seu dia-a-dia",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: kTextColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        DefaultButton(
+                          text: "Concluir capítulo",
+                          press: () => Navigator.of(context).pop()
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  )
+                )
+              ],
+            ),
+        )
     );
-  }
-  checkVideoStatus() async {
-    int duration = (_controller.value.duration.inSeconds * 0.9).toInt();
-    ///Se a posição de progresso do vídeo for igual a 90% da duração do mesmo, então vou dar como finalizado o capítulo.
-    if (_controller.value.position.inSeconds == duration) {
-      finalizouChapter03 = true;
-    }
   }
 }

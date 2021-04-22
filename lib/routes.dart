@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:movedor/screens/book/chapters_content/chapter03.dart';
+import 'package:movedor/screens/book/chapters_content/chapter02.dart';
 import 'package:movedor/screens/search/search_screen.dart';
 
 import 'package:movedor/screens/splash/initial_splash.dart';
@@ -13,10 +13,10 @@ import 'package:movedor/screens/profile/profile_screen.dart';
 
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/book/chapters_content/chapter01.dart';
-import 'package:movedor/screens/book/chapters_content/chapter02.dart';
+import 'package:movedor/screens/book/chapters_content/questions_cap2.dart';
+import 'package:movedor/screens/book/chapters_content/chapter03.dart';
 import 'package:movedor/screens/book/chapters_content/chapter04.dart';
-import 'package:movedor/screens/book/chapters_content/chapter05.dart';
-import 'package:movedor/screens/book/chapters_content/chapter06-quiz.dart';
+import 'package:movedor/screens/book/chapters_content/chapter05-quiz.dart';
 import 'package:movedor/screens/infographic/infographic_screen.dart';
 
 // We use name route
@@ -34,11 +34,11 @@ final Map<String, WidgetBuilder> routes = {
   // Livro e Capitulos
   BookScreen.routeName: (context) => BookScreen(),
   Chapter01.routeName: (context) => Chapter01(),
+  QuestionsChapter2.routeName: (context) => QuestionsChapter2(),
   Chapter02.routeName: (context) => Chapter02(),
   Chapter03.routeName: (context) => Chapter03(),
   Chapter04.routeName: (context) => Chapter04(),
-  Chapter05.routeName: (context) => Chapter05(),
-  Chapter06Quiz.routeName: (context) => Chapter06Quiz(),
+  Chapter05Quiz.routeName: (context) => Chapter05Quiz(),
   Infographic.routeName: (context) => Infographic(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
 };
