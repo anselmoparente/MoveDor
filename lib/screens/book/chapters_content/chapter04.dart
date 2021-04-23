@@ -50,7 +50,7 @@ class _Chapter04State extends State<Chapter04> {
                           ),
                         ),
                         Text(
-                          "Caso você experimente algum tipo de exercício que nao o ajudou, isso não significa que o exercício físico não funciona ou não serve para você!\n",
+                          "Caso você experimente algum tipo de exercício que não o ajudou, isso não significa que o exercício físico não funciona ou não serve para você!\n",
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             color: kTextColor,
