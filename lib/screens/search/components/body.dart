@@ -779,7 +779,7 @@ class _BodyState extends State<Body> {
                 height: 10,
               ),
               Text(
-                'Selecione Abaixo',
+                'Selecione abaixo:',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'MontserratRegular',

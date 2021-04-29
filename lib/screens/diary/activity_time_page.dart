@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
+import '../../constants.dart';
 
 class ActivityTimePage extends StatefulWidget {
   ActivityTimePage({Key key}) : super(key: key);
@@ -13,6 +14,9 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
   MainController controller = MainController();
   Size mediaSize;
   bool aux = false;
+  double sliderValue = 0.0;
+  String sliderText = '10 a 25 minutos';
+  
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +40,64 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
                   ),
                 ),
               ),
+              Center(
+                child: Container(
+                  width: mediaSize.width * 0.9,
+                  margin: EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "10 a 25 minutos",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'MontserratRegular',
+                            color: kTextColor,
+                            fontSize: 14),
+                      ),
+                      Text(
+                        "60 minutos",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'MontserratRegular',
+                            color: kTextColor,
+                          fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 margin: EdgeInsets.only(top: 25),
               ),
-              Container(
-                child: Wrap(
+              Center(
+                child: Container(
+                  child: Slider(
+                    value: sliderValue,
+                    max: 3.0,
+                    min: 0.0,
+                    divisions: 3,
+                    label: sliderText,
+                    onChanged: (double value) {
+                      setState(() {
+                        value == 0
+                            ? sliderText = '10 a 25 minutos'
+                            : value == 1
+                                ? sliderText = '30 minutos'
+                                : value == 2
+                                    ? sliderText = '45 minutos'
+                                    : sliderText = '60 minutos';
+                        sliderValue = value;
+                        controller.changedActivityTime(sliderText);
+                      });
+                    })/*Wrap(
                   children: [
                     componentActivityTime(context, " 10 a 25 minutos"),
                     componentActivityTime(context, " 30 minutos"),
                     componentActivityTime(context, " 45 minutos"),
                     componentActivityTime(context, " 60 minutos"),
-                  ],
+                  ],*/
                 ),
               ),
               Container(
@@ -93,6 +143,8 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
           ),
         ));
   }
+
+  //Widget sliderActivitTime(BuildContext context, String value)
 
   Widget componentActivityTime(BuildContext context, String label) {
     return Container(
