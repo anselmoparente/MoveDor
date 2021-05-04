@@ -466,6 +466,17 @@ mixin _$MainController on _MainController, Store {
   }
 
   @override
+  void changedActivityPeriod(String value) {
+    final _$actionInfo = _$_MainControllerActionController.startAction(
+        name: '_MainController.changedActivityPeriod');
+    try {
+      return super.changedActivityPeriod(value);
+    } finally {
+      _$_MainControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeFeelPain(bool value) {
     final _$actionInfo = _$_MainControllerActionController.startAction(
         name: '_MainController.changeFeelPain');

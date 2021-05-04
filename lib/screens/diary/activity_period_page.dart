@@ -3,19 +3,19 @@ import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import '../../constants.dart';
 
-class ActivityTimePage extends StatefulWidget {
-  ActivityTimePage({Key key}) : super(key: key);
+class ActivityPeriodPage extends StatefulWidget {
+  ActivityPeriodPage({Key key}) : super(key: key);
 
   @override
-  _ActivityTimePageState createState() => _ActivityTimePageState();
+  _ActivityPeriodPageState createState() => _ActivityPeriodPageState();
 }
 
-class _ActivityTimePageState extends State<ActivityTimePage> {
+class _ActivityPeriodPageState extends State<ActivityPeriodPage> {
   MainController controller = MainController();
   Size mediaSize;
   bool aux = false;
   double sliderValue = 0.0;
-  String sliderText = '10 a 25 minutos';
+  String sliderText = 'Manhã';
   
 
   @override
@@ -31,7 +31,7 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
                     top: MediaQuery.of(context).size.height * 0.1),
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Text(
-                  'Por quanto tempo em geral você pretende realizar a(s) atividade(s)?',
+                  'Em qual período do dia você pretende realizar a(s) atividade(s)?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
@@ -43,25 +43,25 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
               Center(
                 child: Container(
                   width: mediaSize.width * 0.9,
-                  margin: EdgeInsets.only(top: 20),
+                  margin: EdgeInsets.only(top: 35),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "10 a 25 minutos",
+                        "Começo do dia",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'MontserratRegular',
                             color: kTextColor,
-                            fontSize: 14),
+                            fontSize: 14.0),
                       ),
                       Text(
-                        "60 minutos",
+                        "Final do dia",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'MontserratRegular',
                             color: kTextColor,
-                          fontSize: 14),
+                          fontSize: 14.0),
                       ),
                     ],
                   ),
@@ -69,35 +69,33 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                margin: EdgeInsets.only(top: 25),
+                margin: EdgeInsets.only(top: 10.0),
               ),
               Center(
                 child: Container(
                   child: Slider(
                     value: sliderValue,
-                    max: 3.0,
+                    max: 2.0,
                     min: 0.0,
-                    divisions: 3,
+                    divisions: 2,
                     label: sliderText,
+                    activeColor: sliderValue.toInt() == 2
+                            ? Colors.blue[900]
+                            : sliderValue.toInt() == 1
+                                ? Colors.orange
+                                : Colors.lightBlue,
                     onChanged: (double value) {
                       setState(() {
                         value == 0
-                            ? sliderText = '10 a 25 minutos'
+                            ? sliderText = 'Manhã'
                             : value == 1
-                                ? sliderText = '30 minutos'
-                                : value == 2
-                                    ? sliderText = '45 minutos'
-                                    : sliderText = '60 minutos';
+                                ? sliderText = 'Tarde'
+                                : sliderText = 'Noite';
                         sliderValue = value;
                         controller.changedActivityTime(sliderText);
                       });
-                    })/*Wrap(
-                  children: [
-                    componentActivityTime(context, " 10 a 25 minutos"),
-                    componentActivityTime(context, " 30 minutos"),
-                    componentActivityTime(context, " 45 minutos"),
-                    componentActivityTime(context, " 60 minutos"),
-                  ],*/
+                    }
+                  )
                 ),
               ),
               Container(
@@ -142,55 +140,5 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
             ],
           ),
         ));
-  }
-
-  //Widget sliderActivitTime(BuildContext context, String value)
-
-  Widget componentActivityTime(BuildContext context, String label) {
-    return Container(
-      child: Row(
-        children: [
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 50, top: 10),
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.0, color: Colors.blue[200]),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: controller.activityTime == label
-                  ? Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                      ))
-                  : Container(
-                      height: 30,
-                      width: 30,
-                    ),
-            ),
-            onTap: () {
-              setState(() {
-                controller.changedActivityTime(label);
-              });
-            },
-          ),
-          Container(
-            margin: EdgeInsets.only(left: mediaSize.width * 0.03),
-            child: Text(label,
-                style: TextStyle(
-                  fontSize: mediaSize.width * 0.05,
-                  color: Colors.black54,
-                )),
-          )
-        ],
-      ),
-    );
   }
 }

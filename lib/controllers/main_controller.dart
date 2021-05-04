@@ -27,6 +27,11 @@ abstract class _MainController with Store {
   void changedActivityTime(String value) => activityTime = value;
 
   @observable
+  String activityPeriod;
+  @action
+  void changedActivityPeriod(String value) => activityPeriod = value;
+
+  @observable
   bool feelPain;
   @action
   void changeFeelPain(bool value) => feelPain = value;
