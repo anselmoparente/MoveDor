@@ -14,7 +14,7 @@ class NoAccountText extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
       child:
-      Row(
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
