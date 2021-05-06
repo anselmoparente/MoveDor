@@ -140,4 +140,12 @@ abstract class _MainController with Store {
   String textQuestion10 = "Incerto";
   @action
   void changeTextQ10(String value) => textQuestion10 = value;
+
+  ObservableList<String> activitysDays = ObservableList<String>();
+
+  @action 
+  void addactivitysDays(String value){
+    activitysDays.add(value);
+  }
+
 }
