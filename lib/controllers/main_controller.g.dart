@@ -69,6 +69,21 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$activityPeriodAtom = Atom(name: '_MainController.activityPeriod');
+
+  @override
+  String get activityPeriod {
+    _$activityPeriodAtom.reportRead();
+    return super.activityPeriod;
+  }
+
+  @override
+  set activityPeriod(String value) {
+    _$activityPeriodAtom.reportWrite(value, super.activityPeriod, () {
+      super.activityPeriod = value;
+    });
+  }
+
   final _$feelPainAtom = Atom(name: '_MainController.feelPain');
 
   @override
@@ -429,6 +444,36 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$actualDayAtom = Atom(name: '_MainController.actualDay');
+
+  @override
+  DateTime get actualDay {
+    _$actualDayAtom.reportRead();
+    return super.actualDay;
+  }
+
+  @override
+  set actualDay(DateTime value) {
+    _$actualDayAtom.reportWrite(value, super.actualDay, () {
+      super.actualDay = value;
+    });
+  }
+
+  final _$doneActivityAtom = Atom(name: '_MainController.doneActivity');
+
+  @override
+  bool get doneActivity {
+    _$doneActivityAtom.reportRead();
+    return super.doneActivity;
+  }
+
+  @override
+  set doneActivity(bool value) {
+    _$doneActivityAtom.reportWrite(value, super.doneActivity, () {
+      super.doneActivity = value;
+    });
+  }
+
   final _$_MainControllerActionController =
       ActionController(name: '_MainController');
 
@@ -741,12 +786,35 @@ mixin _$MainController on _MainController, Store {
   }
 
   @override
+  void addactivitysDays(String value) {
+    final _$actionInfo = _$_MainControllerActionController.startAction(
+        name: '_MainController.addactivitysDays');
+    try {
+      return super.addactivitysDays(value);
+    } finally {
+      _$_MainControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeActualDay(DateTime value) {
+    final _$actionInfo = _$_MainControllerActionController.startAction(
+        name: '_MainController.changeActualDay');
+    try {
+      return super.changeActualDay(value);
+    } finally {
+      _$_MainControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 medication: ${medication},
 timeMedication: ${timeMedication},
 nameMedications: ${nameMedications},
 activityTime: ${activityTime},
+activityPeriod: ${activityPeriod},
 feelPain: ${feelPain},
 painSup: ${painSup},
 painInf: ${painInf},
@@ -770,7 +838,9 @@ textQuestion8: ${textQuestion8},
 question9: ${question9},
 textQuestion9: ${textQuestion9},
 question10: ${question10},
-textQuestion10: ${textQuestion10}
+textQuestion10: ${textQuestion10},
+actualDay: ${actualDay},
+doneActivity: ${doneActivity}
     ''';
   }
 }

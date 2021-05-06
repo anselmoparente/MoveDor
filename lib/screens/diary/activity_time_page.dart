@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
+import 'package:movedor/screens/diary/activity_day_page.dart';
 import '../../constants.dart';
 
 class ActivityTimePage extends StatefulWidget {
@@ -16,7 +17,6 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
   bool aux = false;
   double sliderValue = 0.0;
   String sliderText = '10 a 25 minutos';
-  
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
                         style: TextStyle(
                             fontFamily: 'MontserratRegular',
                             color: kTextColor,
-                          fontSize: 14),
+                            fontSize: 14),
                       ),
                     ],
                   ),
@@ -73,40 +73,35 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
               ),
               Center(
                 child: Container(
-                  child: Slider(
-                    value: sliderValue,
-                    max: 3.0,
-                    min: 0.0,
-                    divisions: 3,
-                    label: sliderText,
-                    onChanged: (double value) {
-                      setState(() {
-                        value == 0
-                            ? sliderText = '10 a 25 minutos'
-                            : value == 1
-                                ? sliderText = '30 minutos'
-                                : value == 2
-                                    ? sliderText = '45 minutos'
-                                    : sliderText = '60 minutos';
-                        sliderValue = value;
-                        controller.changedActivityTime(sliderText);
-                      });
-                    })/*Wrap(
-                  children: [
-                    componentActivityTime(context, " 10 a 25 minutos"),
-                    componentActivityTime(context, " 30 minutos"),
-                    componentActivityTime(context, " 45 minutos"),
-                    componentActivityTime(context, " 60 minutos"),
-                  ],*/
-                ),
+                    child: Slider(
+                        value: sliderValue,
+                        max: 3.0,
+                        min: 0.0,
+                        divisions: 3,
+                        label: sliderText,
+                        onChanged: (double value) {
+                          setState(() {
+                            value == 0
+                                ? sliderText = '10 a 25 minutos'
+                                : value == 1
+                                    ? sliderText = '30 minutos'
+                                    : value == 2
+                                        ? sliderText = '45 minutos'
+                                        : sliderText = '60 minutos';
+                            sliderValue = value;
+                            controller.changedActivityTime(sliderText);
+                          });
+                        })),
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: RaisedButton(
                   onPressed: () {
-                    //TODO Remover apóe criação das novas telas
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, BookScreen.routeName, (route) => false);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                ActivityDayPage()));
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)),
