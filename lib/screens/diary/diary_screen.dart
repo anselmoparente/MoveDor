@@ -88,9 +88,9 @@ class _DiaryState extends State<Diary> {
                       onPressed: () {
                         Navigator.push(
                             context,
-                            new MaterialPageRoute(
+                            MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    new ActivityTimePage()));
+                                    ActivityTimePage()));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0)),
