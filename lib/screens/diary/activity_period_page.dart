@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
+import 'package:movedor/screens/diary/calendar_page.dart';
 import '../../constants.dart';
 
 class ActivityPeriodPage extends StatefulWidget {
@@ -16,7 +17,6 @@ class _ActivityPeriodPageState extends State<ActivityPeriodPage> {
   bool aux = false;
   double sliderValue = 0.0;
   String sliderText = 'Manhã';
-  
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _ActivityPeriodPageState extends State<ActivityPeriodPage> {
                         style: TextStyle(
                             fontFamily: 'MontserratRegular',
                             color: kTextColor,
-                          fontSize: 14.0),
+                            fontSize: 14.0),
                       ),
                     ],
                   ),
@@ -73,38 +73,37 @@ class _ActivityPeriodPageState extends State<ActivityPeriodPage> {
               ),
               Center(
                 child: Container(
-                  child: Slider(
-                    value: sliderValue,
-                    max: 2.0,
-                    min: 0.0,
-                    divisions: 2,
-                    label: sliderText,
-                    activeColor: sliderValue.toInt() == 2
+                    child: Slider(
+                        value: sliderValue,
+                        max: 2.0,
+                        min: 0.0,
+                        divisions: 2,
+                        label: sliderText,
+                        activeColor: sliderValue.toInt() == 2
                             ? Colors.blue[900]
                             : sliderValue.toInt() == 1
                                 ? Colors.orange
                                 : Colors.lightBlue,
-                    onChanged: (double value) {
-                      setState(() {
-                        value == 0
-                            ? sliderText = 'Manhã'
-                            : value == 1
-                                ? sliderText = 'Tarde'
-                                : sliderText = 'Noite';
-                        sliderValue = value;
-                        controller.changedActivityTime(sliderText);
-                      });
-                    }
-                  )
-                ),
+                        onChanged: (double value) {
+                          setState(() {
+                            value == 0
+                                ? sliderText = 'Manhã'
+                                : value == 1
+                                    ? sliderText = 'Tarde'
+                                    : sliderText = 'Noite';
+                            sliderValue = value;
+                            controller.changedActivityTime(sliderText);
+                          });
+                        })),
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: RaisedButton(
                   onPressed: () {
-                    //TODO Remover apóe criação das novas telas
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, BookScreen.routeName, (route) => false);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => CalendarPage()));
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)),
