@@ -136,8 +136,6 @@ class _ActivityDayPageState extends State<ActivityDayPage> {
                   } else {
                     controller.activitysDays.add(value);
                   }
-                  print(controller.activitysDays);
-                  controller.activitysDays.contains(value);
                 });
               },
             ),
@@ -160,7 +158,6 @@ class _ActivityDayPageState extends State<ActivityDayPage> {
                   } else {
                     controller.activitysDays.add(value);
                   }
-                  print(controller.activitysDays);
                 });
               },
             ),
