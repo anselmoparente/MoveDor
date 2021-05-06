@@ -97,7 +97,6 @@ class _ActivityTimePageState extends State<ActivityTimePage> {
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: RaisedButton(
                   onPressed: () {
-                    //TODO Remover apóe criação das novas telas
                     Navigator.push(
                         context,
                         MaterialPageRoute(

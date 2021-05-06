@@ -148,4 +148,13 @@ abstract class _MainController with Store {
     activitysDays.add(value);
   }
 
+  @observable
+  DateTime actualDay;
+
+  @action
+  void changeActualDay(DateTime value) => actualDay = value;
+
+  @observable
+  bool doneActivity; 
+
 }

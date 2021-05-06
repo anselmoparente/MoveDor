@@ -3,10 +3,11 @@ import 'package:movedor/routes.dart';
 import 'package:movedor/screens/splash/initial_splash.dart';
 import 'package:movedor/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   SharedPreferences.setMockInitialValues({});
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
