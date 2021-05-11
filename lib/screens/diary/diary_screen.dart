@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/screens/diary/activity_time_page.dart';
+import 'package:movedor/screens/diary/activity_page.dart';
 
 class Diary extends StatefulWidget {
   Diary({Key key}) : super(key: key);
@@ -90,7 +90,7 @@ class _DiaryState extends State<Diary> {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    ActivityTimePage()));
+                                    ActivityPage()));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0)),
