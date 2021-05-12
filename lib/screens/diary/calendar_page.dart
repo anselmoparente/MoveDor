@@ -3,16 +3,18 @@ import 'package:movedor/components/rounded_icon_btn.dart';
 import 'package:movedor/constants.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
+import 'package:movedor/screens/diary/components/dialog_borg.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
+
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  Size mediaSize;
   MainController controller = MainController();
+  Size mediaSize;
   String aux;
 
   @override
@@ -21,17 +23,30 @@ class _CalendarPageState extends State<CalendarPage> {
     controller.actualDay = DateTime.now();
   }
 
+  void _showFontSizePickerDialog() async {
+    final selectedSliderValue = await showDialog<double>(
+      context: context,
+      builder: (context) =>
+          DialogBorg(initialSliderValue: controller.valueBorg),
+    );
+
+    if (selectedSliderValue != null) {
+      setState(() {
+        controller.changeValueBorg(selectedSliderValue);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     mediaSize = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
-        leading: 
-        RoundedIconBtn(
-          iconData: Icon(Icons.arrow_back_ios, size: 18, color: Colors.black87),
-          press: () => Navigator.pushNamed(context, BookScreen.routeName)
-        ),
+        leading: RoundedIconBtn(
+            iconData:
+                Icon(Icons.arrow_back_ios, size: 18, color: Colors.black87),
+            press: () => Navigator.pushNamed(context, BookScreen.routeName)),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -81,6 +96,12 @@ class _CalendarPageState extends State<CalendarPage> {
                   ],
                 ),
               ],
+            ),
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                _showFontSizePickerDialog();
+              },
             ),
             Container(
               width: mediaSize.width * 0.9,

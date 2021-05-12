@@ -474,6 +474,21 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$valueBorgAtom = Atom(name: '_MainController.valueBorg');
+
+  @override
+  double get valueBorg {
+    _$valueBorgAtom.reportRead();
+    return super.valueBorg;
+  }
+
+  @override
+  set valueBorg(double value) {
+    _$valueBorgAtom.reportWrite(value, super.valueBorg, () {
+      super.valueBorg = value;
+    });
+  }
+
   final _$_MainControllerActionController =
       ActionController(name: '_MainController');
 
@@ -808,6 +823,17 @@ mixin _$MainController on _MainController, Store {
   }
 
   @override
+  void changeValueBorg(double value) {
+    final _$actionInfo = _$_MainControllerActionController.startAction(
+        name: '_MainController.changeValueBorg');
+    try {
+      return super.changeValueBorg(value);
+    } finally {
+      _$_MainControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 medication: ${medication},
@@ -840,7 +866,8 @@ textQuestion9: ${textQuestion9},
 question10: ${question10},
 textQuestion10: ${textQuestion10},
 actualDay: ${actualDay},
-doneActivity: ${doneActivity}
+doneActivity: ${doneActivity},
+valueBorg: ${valueBorg}
     ''';
   }
 }
