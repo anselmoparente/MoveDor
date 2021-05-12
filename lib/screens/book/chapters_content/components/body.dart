@@ -64,100 +64,106 @@ class _BodyState extends State<Body> {
       Container(
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    top: mediaSize.height * 0.05,
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(
+                        top: mediaSize.height * 0.04,
+                        left: mediaSize.width * 0.12),
+                    child: Text(
+                        "Você faz uso de algum medicamento para dor lombar?",
+                        style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          color: Color(0xff36a9b0),
+                          fontSize: mediaSize.width * 0.07,
+                        )),
                   ),
-                  child: Text("Você faz uso de algum \n       medicamento para dor?",
-                      style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        color: Color(0xff36a9b0),
-                        fontSize: mediaSize.width * 0.07,
-                      )),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                      left: mediaSize.width * 0.35,
-                      top: mediaSize.height * 0.03),
-                  child: Column(
-                    children: [
-                      componentUseMedication(context, "Sim", true, controller),
-                      componentUseMedication(context, "Não", false, controller),
-                    ],
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: mediaSize.width * 0.35,
+                        top: mediaSize.height * 0.03),
+                    child: Column(
+                      children: [
+                        componentUseMedication(
+                            context, "Sim", true, controller),
+                        componentUseMedication(
+                            context, "Não", false, controller),
+                      ],
+                    ),
                   ),
-                ),
-                aux == true
-                    ? Column(
-                        children: [
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: mediaSize.height * 0.05),
-                            child: Text(
-                              'Qual a frequência que você \n utiliza esses medicamentos?',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'MontserratRegular',
-                                color: Colors.black54,
-                                fontSize: 20,
+                  aux == true
+                      ? Column(
+                          children: [
+                            Container(
+                              margin:
+                                  EdgeInsets.only(top: mediaSize.height * 0.05),
+                              child: Text(
+                                'Qual a frequência que você \n utiliza esses medicamentos?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'MontserratRegular',
+                                  color: Colors.black54,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            componentFormMedication(context, 'Todo dia'),
+                            componentFormMedication(
+                                context, '2 ou 3 vezes na semana'),
+                            componentFormMedication(context, '1 vez na semana'),
+                            componentFormMedication(context, '2 vezes ao mês'),
+                            componentFormMedication(context, '1 vez ao mês'),
+                          ],
+                        )
+                      : Container(),
+                  Container(
+                    margin: EdgeInsets.only(top: mediaSize.height * 0.05),
+                    child: RaisedButton(
+                      onPressed: () {
+                        _scrollController.animateTo(
+                          0.0,
+                          curve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 300),
+                        );
+                        setState(() {
+                          currentFormIndex = 1;
+                        });
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Container(
+                          constraints:
+                              BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Continuar",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'MontserratRegular',
+                                fontSize: mediaSize.width * 0.09,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          componentFormMedication(context, 'Todo dia'),
-                          componentFormMedication(
-                              context, '2 ou 3 vezes na semana'),
-                          componentFormMedication(context, '1 vez na semana'),
-                          componentFormMedication(context, '2 vezes ao mês'),
-                          componentFormMedication(context, '1 vez ao mês'),
-                        ],
-                      )
-                    : Container(),
-                Container(
-                  margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                  child: RaisedButton(
-                    onPressed: () {
-                      _scrollController.animateTo(
-                        0.0,
-                        curve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 300),
-                      );
-                      setState(() {
-                        currentFormIndex = 1;
-                      });
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: Container(
-                        constraints:
-                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Continuar",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'MontserratRegular',
-                              fontSize: mediaSize.width * 0.09,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
