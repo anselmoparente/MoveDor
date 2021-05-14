@@ -143,8 +143,8 @@ abstract class _MainController with Store {
 
   ObservableList<String> activitysDays = ObservableList<String>();
 
-  @action 
-  void addactivitysDays(String value){
+  @action
+  void addactivitysDays(String value) {
     activitysDays.add(value);
   }
 
@@ -155,6 +155,11 @@ abstract class _MainController with Store {
   void changeActualDay(DateTime value) => actualDay = value;
 
   @observable
-  bool doneActivity; 
+  bool doneActivity;
 
+  @observable
+  double valueBorg = 5.0;
+
+  @action
+  void changeValueBorg(double value) => valueBorg = value;
 }
