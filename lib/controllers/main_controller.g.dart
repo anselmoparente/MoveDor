@@ -459,6 +459,21 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$selectedDayAtom = Atom(name: '_MainController.selectedDay');
+
+  @override
+  DateTime get selectedDay {
+    _$selectedDayAtom.reportRead();
+    return super.selectedDay;
+  }
+
+  @override
+  set selectedDay(DateTime value) {
+    _$selectedDayAtom.reportWrite(value, super.selectedDay, () {
+      super.selectedDay = value;
+    });
+  }
+
   final _$doneActivityAtom = Atom(name: '_MainController.doneActivity');
 
   @override
@@ -823,6 +838,17 @@ mixin _$MainController on _MainController, Store {
   }
 
   @override
+  void changeSelectedDay(DateTime value) {
+    final _$actionInfo = _$_MainControllerActionController.startAction(
+        name: '_MainController.changeSelectedDay');
+    try {
+      return super.changeSelectedDay(value);
+    } finally {
+      _$_MainControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeValueBorg(double value) {
     final _$actionInfo = _$_MainControllerActionController.startAction(
         name: '_MainController.changeValueBorg');
@@ -866,6 +892,7 @@ textQuestion9: ${textQuestion9},
 question10: ${question10},
 textQuestion10: ${textQuestion10},
 actualDay: ${actualDay},
+selectedDay: ${selectedDay},
 doneActivity: ${doneActivity},
 valueBorg: ${valueBorg}
     ''';
