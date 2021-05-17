@@ -151,8 +151,14 @@ abstract class _MainController with Store {
   @observable
   DateTime actualDay;
 
+  @observable
+  DateTime selectedDay;
+
   @action
   void changeActualDay(DateTime value) => actualDay = value;
+
+  @action
+  void changeSelectedDay(DateTime value) => selectedDay = value;
 
   @observable
   bool doneActivity;

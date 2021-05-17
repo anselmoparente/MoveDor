@@ -62,12 +62,23 @@ class _CalendarPageState extends State<CalendarPage> {
                   CalendarFormat.month: 'Mês',
                   CalendarFormat.week: 'Mês',
                 },
-                onDaySelected: (data, date) {
-                  setState(() {
-                    controller.changeActualDay(date);
-                  });
+                onDaySelected: (selectedDay, focusedDay) {
+                  if (!isSameDay(controller.selectedDay, selectedDay)) {
+                    setState(() {
+                      controller.changeSelectedDay(selectedDay);
+                      controller.changeActualDay(focusedDay);
+                    });
+                  }
                 },
                 daysOfWeekHeight: 30,
+                selectedDayPredicate: (day) {
+                  // Use `selectedDayPredicate` to determine which day is currently selected.
+                  // If this returns true, then `day` will be marked as selected.
+
+                  // Using `isSameDay` is recommended to disregard
+                  // the time-part of compared DateTime objects.
+                  return isSameDay(controller.selectedDay, day);
+                },
               ),
             ),
             Container(
