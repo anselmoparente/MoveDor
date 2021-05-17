@@ -84,7 +84,7 @@ class _DiaryState extends State<Diary> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -92,9 +92,11 @@ class _DiaryState extends State<Diary> {
                                 builder: (BuildContext context) =>
                                     ActivityPage()));
                       },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      padding: EdgeInsets.all(0.0),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        padding: EdgeInsets.all(0.0),
+                      ),
                       child: Ink(
                         decoration: BoxDecoration(
                             gradient: LinearGradient(

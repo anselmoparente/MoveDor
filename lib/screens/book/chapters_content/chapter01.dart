@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:movedor/constants.dart';
@@ -7,7 +5,6 @@ import 'package:movedor/models/Chapter.dart';
 import 'package:movedor/screens/book/chapters_content/components/play_pause.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../size_config.dart';
 import 'components/custom_app_bar.dart';
 import 'components/top_rounded_container.dart';
 
@@ -37,7 +34,7 @@ class _Chapter01State extends State<Chapter01> {
           _controller.play();
         });
       });
-      _controller.addListener(checkVideoStatus);
+    _controller.addListener(checkVideoStatus);
   }
 
   @override
@@ -106,8 +103,10 @@ class _Chapter01State extends State<Chapter01> {
       ),
     );
   }
+
   checkVideoStatus() async {
     int duration = (_controller.value.duration.inSeconds * 0.9).toInt();
+
     ///Se a posição de progresso do vídeo for igual a 90% da duração do mesmo, então vou dar como finalizado o capítulo.
     if (_controller.value.position.inSeconds == duration) {
       finalizouChapter01 = true;

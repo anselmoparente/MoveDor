@@ -17,31 +17,32 @@ class SocialCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return SizedBox(
+    return SizedBox(
       width: double.infinity,
       height: getProportionateScreenHeight(56),
-      child: RaisedButton(
-        elevation: 0,
-        
-        shape: RoundedRectangleBorder(side: BorderSide(color: Colors.black87), borderRadius: BorderRadius.circular(25)),
-        color: Colors.white,
-        onPressed: press,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(icon),
-            SizedBox(width: getProportionateScreenWidth(10)),
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: getProportionateScreenWidth(18),
-                color: Colors.black87,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.black87),
+                borderRadius: BorderRadius.circular(25)),
+            primary: Colors.white,
+          ),
+          onPressed: press,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(icon),
+              SizedBox(width: getProportionateScreenWidth(10)),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: getProportionateScreenWidth(18),
+                  color: Colors.black87,
+                ),
               ),
-            ),
-          ],
-        )
-      ),
+            ],
+          )),
     );
-
   }
 }
