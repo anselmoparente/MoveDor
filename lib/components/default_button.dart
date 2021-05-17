@@ -21,38 +21,36 @@ class DefaultButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: getProportionateScreenHeight(56),
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        onPressed: loading ? null : press,
-        padding: EdgeInsets.all(0.0),
-        child: 
-        loading ?
-        CircularProgressIndicator(
-          strokeWidth: 2,
-          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-        ) 
-        :
-        Ink(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            borderRadius: BorderRadius.circular(25.0)
-          ),
-          child: Container(
-            alignment: Alignment.center,
-            child: 
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: getProportionateScreenWidth(18),
-                color: Colors.white,
-              ),
-            ),
-          )
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+          padding: EdgeInsets.all(0.0),
         ),
-        
+        onPressed: loading ? null : press,
+        child: loading
+            ? CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+              )
+            : Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(25.0)),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(18),
+                      color: Colors.white,
+                    ),
+                  ),
+                )),
       ),
     );
   }

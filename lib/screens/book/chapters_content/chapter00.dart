@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/components/default_button.dart';
-import 'package:movedor/models/Chapter.dart';
-
-import '../../../constants.dart';
-import '../../../size_config.dart';
-import 'components/custom_app_bar.dart';
-import 'components/top_rounded_container.dart';
 
 class Chapter00 extends StatefulWidget {
   static String routeName = "/chapter-00";
@@ -44,7 +37,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Se você não for cuidadoso, você pode machucar suas costas",
+                child: Text(
+                    "Se você não for cuidadoso, você pode machucar suas costas",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -61,7 +55,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Dor nas costas significa que você lesionou nas costas",
+                child: Text(
+                    "Dor nas costas significa que você lesionou nas costas",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -78,7 +73,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Uma 'fisgadinha' nas costas pode ser o primeiro sinal de uma lesão séria",
+                child: Text(
+                    "Uma 'fisgadinha' nas costas pode ser o primeiro sinal de uma lesão séria",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -95,7 +91,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Se você tem dor nas costas, você deve evitar exercícios físicos",
+                child: Text(
+                    "Se você tem dor nas costas, você deve evitar exercícios físicos",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -112,7 +109,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Se você tem dor nas costas, você deveria se manter ativo",
+                child: Text(
+                    "Se você tem dor nas costas, você deveria se manter ativo",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -129,7 +127,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se de dor nas costas",
+                child: Text(
+                    "Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se de dor nas costas",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -146,7 +145,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas",
+                child: Text(
+                    "Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -163,7 +163,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza",
+                child: Text(
+                    "Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza",
                     style: TextStyle(
                       fontSize: 24,
                     )),
@@ -180,7 +181,8 @@ class _Chapter00State extends State<Chapter00> {
                 height: 50,
               ),
               Center(
-                child: Text("Existe uma grande chance de que um episódio de dor nas costas não se resolverá",
+                child: Text(
+                    "Existe uma grande chance de que um episódio de dor nas costas não se resolverá",
                     style: TextStyle(
                       fontSize: 24,
                     )),

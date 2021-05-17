@@ -12,21 +12,20 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: getProportionateScreenWidth(25)),
-      child: 
-      Stack(
-        overflow: Overflow.visible,
+      child: Stack(
         alignment: Alignment.topCenter,
         children: [
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [kPrimaryColor, kPrimaryLightColor],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,),
-              // color: kPrimaryColor,
-               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30)
+              gradient: LinearGradient(
+                colors: [kPrimaryColor, kPrimaryLightColor],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
+              // color: kPrimaryColor,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
               boxShadow: [
                 BoxShadow(
                   offset: Offset(-3, 3),
@@ -39,7 +38,6 @@ class HomeHeader extends StatelessWidget {
             width: double.infinity,
             height: getProportionateScreenHeight(130),
           ),
-          
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -65,7 +63,7 @@ class HomeHeader extends StatelessWidget {
                       ),
                     ),
                   ],
-                ), 
+                ),
               ),
               SizedBox(width: getProportionateScreenWidth(20)),
             ],
@@ -77,42 +75,34 @@ class HomeHeader extends StatelessWidget {
 }
 
 class FilterBtn extends StatelessWidget {
-  const FilterBtn({
-    Key key,
-    this.press
-  }) : super(key: key);
+  const FilterBtn({Key key, this.press}) : super(key: key);
   final GestureTapCallback press;
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Container(
-      width: 60,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(-3, 3),
-            blurRadius: 5,
-            color: Colors.black.withOpacity(0.3),
-            spreadRadius: -2,
-          )
-        ],
-      ),
-      child:
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
-        child: FlatButton (
+    return Container(
+        width: 60,
+        decoration: BoxDecoration(
           color: Colors.white,
-          onPressed: press,
-          child: 
-          Icon(
-            Icons.filter_list,
-            color: Colors.black.withOpacity(.5)
-          ),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(-3, 3),
+              blurRadius: 5,
+              color: Colors.black.withOpacity(0.3),
+              spreadRadius: -2,
+            )
+          ],
         ),
-      )
-    );
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2.0),
+          child: TextButton(
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+            ),
+            onPressed: press,
+            child: Icon(Icons.filter_list, color: Colors.black.withOpacity(.5)),
+          ),
+        ));
   }
 }
