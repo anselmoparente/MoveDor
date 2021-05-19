@@ -179,7 +179,7 @@ class _ActivityPageState extends State<ActivityPage> {
               ),
               Container(
                 width: mediaSize.width * 0.95,
-                height: mediaSize.height * 0.3,
+                height: mediaSize.height * 0.6,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: ExactAssetImage('assets/diary/calendario.png'),
@@ -187,35 +187,36 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 alignment: Alignment.center,
                 child: Container(
+                  margin: EdgeInsets.only(left: mediaSize.width * 0.28),
                   padding: EdgeInsets.only(top: 25),
-                  child: Wrap(
-                    spacing: 2,
+                  child: Column(
                     children: [
-                      buttonDay('DOM'),
-                      buttonDay('SEG'),
-                      buttonDay('TER'),
-                      buttonDay('QUA'),
-                      buttonDay('QUI'),
-                      buttonDay('SEX'),
-                      buttonDay('SAB'),
+                      SizedBox(
+                        height: mediaSize.height * 0.12,
+                      ),
+                      buttonDay('Domingo'),
+                      buttonDay('Segunda'),
+                      buttonDay('Terça'),
+                      buttonDay('Quarta'),
+                      buttonDay('Quinta'),
+                      buttonDay('Sexta'),
+                      buttonDay('Sábado'),
                     ],
                   ),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                child: ElevatedButton(
+                child: RaisedButton(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => CalendarPage()));
                   },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
-                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  padding: EdgeInsets.all(0.0),
                   child: Ink(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -250,55 +251,56 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget buttonDay(String value) {
-    return controller.activitysDays.contains(value)
-        ? Container(
-            width: 45,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: ExactAssetImage('assets/diary/seletor.png'),
+    return Container(
+      child: Row(
+        children: [
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(left: 20, top: 10),
+              width: 30,
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.0, color: Color(0xff36a9b0)),
+                borderRadius: BorderRadius.circular(5),
               ),
+              child: controller.activitysDays.contains(value)
+                  ? Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ))
+                  : Container(
+                      height: 30,
+                      width: 30,
+                    ),
             ),
-            child: TextButton(
-              child: Text(
-                value,
-                style: TextStyle(
-                  fontFamily: 'MontserratRegular',
-                  color: Colors.black,
-                  fontSize: mediaSize.width * 0.025,
-                ),
+            onTap: () {
+              setState(() {
+                if (controller.activitysDays.contains(value)) {
+                  controller.activitysDays.remove(value);
+                } else {
+                  controller.activitysDays.add(value);
+                }
+              });
+            },
+          ),
+          Container(
+            margin: EdgeInsets.only(
+                left: mediaSize.width * 0.03, top: mediaSize.height * 0.007),
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: mediaSize.width * 0.035,
+                color: Color(0xff36a9b0),
               ),
-              onPressed: () {
-                setState(() {
-                  if (controller.activitysDays.contains(value)) {
-                    controller.activitysDays.remove(value);
-                  } else {
-                    controller.activitysDays.add(value);
-                  }
-                });
-              },
             ),
           )
-        : Container(
-            width: 45,
-            child: TextButton(
-              child: Text(
-                value,
-                style: TextStyle(
-                  fontFamily: 'MontserratRegular',
-                  color: Colors.black,
-                  fontSize: mediaSize.width * 0.025,
-                ),
-              ),
-              onPressed: () {
-                setState(() {
-                  if (controller.activitysDays.contains(value)) {
-                    controller.activitysDays.remove(value);
-                  } else {
-                    controller.activitysDays.add(value);
-                  }
-                });
-              },
-            ),
-          );
+        ],
+      ),
+    );
   }
 }
