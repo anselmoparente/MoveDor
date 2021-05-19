@@ -76,16 +76,30 @@ class _CalendarPageState extends State<CalendarPage> {
                 color: Color(0xff36a9b0),
               ),
             ),
-            Row(
+            activityFrame(context),
+            Container(
+              width: mediaSize.width * 0.9,
+              child: Divider(
+                color: Color(0xff36a9b0),
+              ),
+            ),
+            activityFrame(context),
+            Container(
+              width: mediaSize.width * 0.9,
+              child: Divider(
+                color: Color(0xff36a9b0),
+              ),
+            ),
+            /*Row(
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                  margin: EdgeInsets.only(left: 20, bottom: 20),
                   child: Text(
                     'Atividade realizada?',
                     style: TextStyle(
                       fontFamily: 'MontserratRegular',
-                      fontSize: mediaSize.width * 0.05,
+                      fontSize: mediaSize.width * 0.04,
                     ),
                   ),
                 ),
@@ -108,7 +122,7 @@ class _CalendarPageState extends State<CalendarPage> {
               child: Divider(
                 color: Color(0xff36a9b0),
               ),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -163,6 +177,85 @@ class _CalendarPageState extends State<CalendarPage> {
           )
         ],
       ),
+    );
+  }
+
+  Widget activityFrame(BuildContext context){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          decoration: new BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.spa,
+            color: Colors.green,
+            size: 40,
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(left: 20),
+          child: Column(
+            children: [
+              Text(
+                'Atividade',
+                style: TextStyle(
+                  fontFamily: 'MontserratRegular',
+                  fontSize: mediaSize.width * 0.04,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 20),
+              child: Row(
+                  children: [
+                    Text(
+                      'Horário',
+                      style: TextStyle(
+                        fontFamily: 'MontserratRegular',
+                        fontSize: mediaSize.width * 0.03,
+                      ),
+                    ),
+                    Text(
+                      '  '
+                    ),
+                    Text(
+                      'Tipo',
+                      style: TextStyle(
+                        fontFamily: 'MontserratRegular',
+                        fontSize: mediaSize.width * 0.03,
+                      ),
+                    ),
+                  ]
+                )
+              )
+            ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(left: 20),
+          child: 
+            Column(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.assignment_turned_in),
+                    onPressed: () {},
+                ),
+                IconButton(
+                  iconSize: 32,
+                  icon: 
+                    Icon(
+                      Icons.delete_forever,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {},
+                ),
+              ],
+            ),
+        )
+      ],
     );
   }
 }
