@@ -39,6 +39,7 @@ dependencies:
   table_calendar: ^3.0.0
   intl: ^0.17.0
   syncfusion_flutter_sliders: ^19.1.59-beta
+  fl_chart: ^0.36.1
   webview_flutter:
     git:
       url: https://github.com/asjqkkkk/plugins.git
