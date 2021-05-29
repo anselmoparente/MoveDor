@@ -193,9 +193,10 @@ class _CalendarPageState extends State<CalendarPage> {
 
   Widget activityFrame(BuildContext context){
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
+          margin: EdgeInsets.only(left: 20),
           decoration: new BoxDecoration(
             shape: BoxShape.circle,
           ),
@@ -207,7 +208,7 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(left: 20),
+          margin: EdgeInsets.only(right: 100),
           child: Column(
             children: [
               Text(
@@ -246,13 +247,15 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(left: 20),
+          margin: EdgeInsets.only(right: 20),
           child: 
             Column(
               children: [
                 IconButton(
                   icon: Icon(Icons.assignment_turned_in),
-                    onPressed: () {},
+                    onPressed: () {
+                      _showFontSizePickerDialog();
+                    },
                 ),
                 IconButton(
                   iconSize: 32,
