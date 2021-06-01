@@ -25,7 +25,7 @@ class _DialogBorgState extends State<DialogBorg> {
     mediaSize = MediaQuery.of(context).size;
 
     return AlertDialog(
-      title: Text('Qual foi o grau de esforço para realizar a atividade?'),
+      title: Text('Qual foi o grau de esforço para realizar a atividade?(deslize o slider)'),
       content: Container(
         height: mediaSize.height * 0.6,
         child: Row(
@@ -62,7 +62,7 @@ class _DialogBorgState extends State<DialogBorg> {
                 });
               },
             ),
-            SizedBox(width: mediaSize.width * 0.1),
+            SizedBox(width: mediaSize.width * 0.05),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -112,26 +112,8 @@ class _DialogBorgState extends State<DialogBorg> {
                                                       ? 'Muito Intenso'
                                                       : 'Exaustivo',
                   style: TextStyle(
-                    fontSize: mediaSize.width * 0.035,
-                    color: _sliderValue.toInt() == 10
-                        ? Colors.yellow[200]
-                        : _sliderValue.toInt() == 9
-                            ? Colors.yellow
-                            : _sliderValue.toInt() == 8
-                                ? Colors.yellow[700]
-                                : _sliderValue.toInt() == 7
-                                    ? Colors.yellow[800]
-                                    : _sliderValue.toInt() == 6
-                                        ? Colors.yellow[900]
-                                        : _sliderValue.toInt() == 5
-                                            ? Colors.orange
-                                            : _sliderValue.toInt() == 4
-                                                ? Colors.orange[700]
-                                                : _sliderValue.toInt() == 3
-                                                    ? Colors.brown[400]
-                                                    : _sliderValue.toInt() == 2
-                                                        ? Colors.red
-                                                        : Colors.red[900],
+                    fontSize: mediaSize.width * 0.05,
+                    color: Colors.black
                   ),
                 )
               ],
