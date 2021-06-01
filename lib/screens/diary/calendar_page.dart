@@ -117,14 +117,14 @@ class _CalendarPageState extends State<CalendarPage> {
                 color: Color(0xff36a9b0),
               ),
             ),
-            activityFrame(context),
+            activityFrame(context, "Exercícios aeróbicos"),
             Container(
               width: mediaSize.width * 0.9,
               child: Divider(
                 color: Color(0xff36a9b0),
               ),
             ),
-            activityFrame(context),
+            activityFrame(context, "Exercícios de relaxamento"),
             Container(
               width: mediaSize.width * 0.9,
               child: Divider(
@@ -188,7 +188,7 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  Widget activityFrame(BuildContext context) {
+  Widget activityFrame(BuildContext context, String activity) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -198,18 +198,27 @@ class _CalendarPageState extends State<CalendarPage> {
             shape: BoxShape.circle,
           ),
           child: Icon(
-            Icons.spa,
+            activity == "Exercícios aeróbicos"
+                ? Icons.directions_run
+                : activity == "Exercícios de fortalecimento"
+                    ? Icons.fitness_center
+                    : activity == "Exercícios de relaxamento"
+                        ? Icons.self_improvement
+                        : activity == "Exercícios na água"
+                            ? Icons.pool
+                            : activity == "Ioga e thai chi chuan"
+                                ? Icons.spa
+                                : Icons.celebration,
             color: Colors.green,
             size: 40,
           ),
         ),
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(right: 100),
           child: Column(
             children: [
               Text(
-                'Atividade',
+                activity,
                 style: TextStyle(
                   fontFamily: 'MontserratRegular',
                   fontSize: mediaSize.width * 0.04,
@@ -243,6 +252,7 @@ class _CalendarPageState extends State<CalendarPage> {
           child: Column(
             children: [
               IconButton(
+                iconSize: 32,
                 icon: Icon(
                   Icons.done,
                   color: Colors.black,
