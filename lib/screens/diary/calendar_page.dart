@@ -7,7 +7,6 @@ import 'package:movedor/screens/diary/components/dialog_borg.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
-
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
@@ -23,7 +22,7 @@ class _CalendarPageState extends State<CalendarPage> {
     controller.actualDay = DateTime.now();
   }
 
-  void _showFontSizePickerDialog() async {
+  void _showBorgDialog() async {
     final selectedSliderValue = await showDialog<double>(
       context: context,
       builder: (context) =>
@@ -35,6 +34,37 @@ class _CalendarPageState extends State<CalendarPage> {
         controller.changeValueBorg(selectedSliderValue);
       });
     }
+  }
+
+  void _showAnswerDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Qual o motivo da atividade não ter sido realizada.",
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          content: TextField(),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -101,39 +131,6 @@ class _CalendarPageState extends State<CalendarPage> {
                 color: Color(0xff36a9b0),
               ),
             ),
-            /*Row(
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(left: 20, bottom: 20),
-                  child: Text(
-                    'Atividade realizada?',
-                    style: TextStyle(
-                      fontFamily: 'MontserratRegular',
-                      fontSize: mediaSize.width * 0.04,
-                    ),
-                  ),
-                ),
-                Wrap(
-                  children: [
-                    componentForms(context, 'Sim', true),
-                    componentForms(context, 'Não', true),
-                  ],
-                ),
-              ],
-            ),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                _showFontSizePickerDialog();
-              },
-            ),
-            Container(
-              width: mediaSize.width * 0.9,
-              child: Divider(
-                color: Color(0xff36a9b0),
-              ),
-            ),*/
           ],
         ),
       ),
@@ -191,7 +188,7 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  Widget activityFrame(BuildContext context){
+  Widget activityFrame(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -219,9 +216,8 @@ class _CalendarPageState extends State<CalendarPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 20),
-              child: Row(
-                  children: [
+                  margin: EdgeInsets.only(top: 20),
+                  child: Row(children: [
                     Text(
                       'Horário',
                       style: TextStyle(
@@ -229,9 +225,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         fontSize: mediaSize.width * 0.03,
                       ),
                     ),
-                    Text(
-                      '  '
-                    ),
+                    Text('  '),
                     Text(
                       'Tipo',
                       style: TextStyle(
@@ -239,35 +233,44 @@ class _CalendarPageState extends State<CalendarPage> {
                         fontSize: mediaSize.width * 0.03,
                       ),
                     ),
-                  ]
-                )
-              )
+                  ]))
             ],
           ),
         ),
         Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(right: 20),
-          child: 
-            Column(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.assignment_turned_in),
-                    onPressed: () {
-                      _showFontSizePickerDialog();
-                    },
+          child: Column(
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.done,
+                  color: Colors.black,
                 ),
-                IconButton(
-                  iconSize: 32,
-                  icon: 
-                    Icon(
-                      Icons.delete_forever,
-                      color: Colors.red,
-                    ),
-                    onPressed: () {},
+                onPressed: () {
+                  _showBorgDialog();
+                },
+              ),
+              IconButton(
+                iconSize: 32,
+                icon: Icon(
+                  Icons.edit,
+                  color: Colors.black,
                 ),
-              ],
-            ),
+                onPressed: () {},
+              ),
+              IconButton(
+                iconSize: 32,
+                icon: Icon(
+                  Icons.delete_forever,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  _showAnswerDialog();
+                },
+              ),
+            ],
+          ),
         )
       ],
     );
