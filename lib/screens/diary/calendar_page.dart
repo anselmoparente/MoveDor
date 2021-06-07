@@ -3,6 +3,7 @@ import 'package:movedor/components/rounded_icon_btn.dart';
 import 'package:movedor/constants.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
+import 'package:movedor/screens/diary/components/custom_elevated_button.dart';
 import 'package:movedor/screens/diary/components/dialog_borg.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -36,32 +37,50 @@ class _CalendarPageState extends State<CalendarPage> {
     }
   }
 
-  void _showAnswerDialog() {
+  void _chooseAnswerDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 25),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50.0))),
           title: Text(
-            "Qual o motivo da atividade não ter sido realizada.",
+            'Marque a alternativa que corresponde ao motivo pelo qual você não realizou a atividade:'
+                .toUpperCase(),
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MontserratRegular',
+              color: Color(0xff36a9b0),
+              fontSize: mediaSize.width * 0.05,
             ),
           ),
-          content: TextField(),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Cancelar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text("Ok"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+          content: Wrap(
+            runSpacing: 20.0,
+            children: [
+              CustomElevatedButton(
+                mediaSize: mediaSize,
+                text: 'Não tive tempo',
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              CustomElevatedButton(
+                mediaSize: mediaSize,
+                text: 'Não me senti motivado',
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              CustomElevatedButton(
+                mediaSize: mediaSize,
+                text: 'Minha dor aumentou após o último exercício',
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              CustomElevatedButton(
+                mediaSize: mediaSize,
+                text: 'Estava com dor no momento da realização',
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -276,7 +295,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  _showAnswerDialog();
+                  _chooseAnswerDialog();
                 },
               ),
             ],
