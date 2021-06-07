@@ -14,11 +14,12 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double radius = 30.0;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
         padding: EdgeInsets.all(0.0),
       ),
       child: Ink(
@@ -29,7 +30,7 @@ class CustomElevatedButton extends StatelessWidget {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(radius),
         ),
         child: Container(
           constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
@@ -40,7 +41,7 @@ class CustomElevatedButton extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'MontserratRegular',
-              fontSize: mediaSize.width * 0.055,
+              fontSize: mediaSize.width * 0.06,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

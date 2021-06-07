@@ -42,6 +42,7 @@ class _CalendarPageState extends State<CalendarPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 25),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(50.0))),
           title: Text(
