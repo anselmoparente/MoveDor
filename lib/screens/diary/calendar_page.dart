@@ -349,7 +349,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 iconSize: 32,
                 icon: Icon(
                   Icons.done,
-                  color: Colors.black,
+                  color: Colors.green,
                 ),
                 onPressed: () {
                   _showBorgDialog();
