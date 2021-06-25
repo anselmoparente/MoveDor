@@ -17,34 +17,35 @@ class _CalendarPageState extends State<CalendarPage> {
   MainController controller = MainController();
   Size mediaSize;
   String aux;
-  List<String> motivationalList = ['Não desanime! Enfrente cada dia e uma meta por vez!',
-  "Sem problema! Mantenha o foco e não desanime!",
-  "Não esqueça: uma rotina de exercícios pode nos ajudar a lidar melhor com a dor!",
-  "O seu maior aliado nesse momento é a atividade física, não desista!",
-  "Organize a sua rotina para o exercício faça parte dela!",
-  "O mais importante nos exercícios físicos é praticar sempre!",
-  "Você é o seu melhor aliado! Não desista!",
-  "O repouso não vai melhor a sua dor. Viver em movimento sim!",
-  "Inicie por atividades simples e progrida aos poucos, até ganhar mais confiança!",
-  "Não desista! Você é capaz!",
-  "O melhor exercício é aquele que você gosta!",
-  "Hoje não deu, mas amanhã esperamos você para se exercitar!",
-  "Você não está sozinho! Conte conosco para continuar!",
-  "Caso você tenha feito algum tipo de exercício que não o ajudou, não significa que o exercício não funciona pra você! Tente outro tipo de exercício.",
-  "Você não precisa começar pelo movimento mais desafiador! Você precisa fazer!",
-  "Um passo de cada vez! Não desista!",
-  "Dedique um tempo para cuidar da sua saúde!",
-  "O melhor investimento para a sua vida é cuidar de si mesmo!",
-  "Não desista, você pode mais!",
-  "A persistência é o melhor caminho para o êxito!",
-  "O exercício cura!",
-  "Valorize as suas pequenas vitórias!",
-  "Não desanime! O exercício físico é o melhor aliado para quem tem dor lombar!",
-  "Cada dia é uma nova chance de realizar os seus objetivos! Não desista!",
-  "Não deixe que a sua dor lhe defina!",
-  "Estamos aqui dando suporte para você continuar!",
-  "O exercício físico é importante para a sua saúde, não deixe de realiza-lo!"];
-
+  List<String> motivationalList = [
+    'Não desanime! Enfrente cada dia e uma meta por vez!',
+    "Sem problema! Mantenha o foco e não desanime!",
+    "Não esqueça: uma rotina de exercícios pode nos ajudar a lidar melhor com a dor!",
+    "O seu maior aliado nesse momento é a atividade física, não desista!",
+    "Organize a sua rotina para o exercício faça parte dela!",
+    "O mais importante nos exercícios físicos é praticar sempre!",
+    "Você é o seu melhor aliado! Não desista!",
+    "O repouso não vai melhor a sua dor. Viver em movimento sim!",
+    "Inicie por atividades simples e progrida aos poucos, até ganhar mais confiança!",
+    "Não desista! Você é capaz!",
+    "O melhor exercício é aquele que você gosta!",
+    "Hoje não deu, mas amanhã esperamos você para se exercitar!",
+    "Você não está sozinho! Conte conosco para continuar!",
+    "Caso você tenha feito algum tipo de exercício que não o ajudou, não significa que o exercício não funciona pra você! Tente outro tipo de exercício.",
+    "Você não precisa começar pelo movimento mais desafiador! Você precisa fazer!",
+    "Um passo de cada vez! Não desista!",
+    "Dedique um tempo para cuidar da sua saúde!",
+    "O melhor investimento para a sua vida é cuidar de si mesmo!",
+    "Não desista, você pode mais!",
+    "A persistência é o melhor caminho para o êxito!",
+    "O exercício cura!",
+    "Valorize as suas pequenas vitórias!",
+    "Não desanime! O exercício físico é o melhor aliado para quem tem dor lombar!",
+    "Cada dia é uma nova chance de realizar os seus objetivos! Não desista!",
+    "Não deixe que a sua dor lhe defina!",
+    "Estamos aqui dando suporte para você continuar!",
+    "O exercício físico é importante para a sua saúde, não deixe de realiza-lo!"
+  ];
 
   @override
   void initState() {
@@ -139,8 +140,7 @@ class _CalendarPageState extends State<CalendarPage> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(50.0))),
           title: Text(
-            'Não desista!'
-                .toUpperCase(), 
+            'Não desista!'.toUpperCase(),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -291,21 +291,22 @@ class _CalendarPageState extends State<CalendarPage> {
           decoration: new BoxDecoration(
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            activity == "Exercícios aeróbicos"
-                ? Icons.directions_run
-                : activity == "Exercícios de fortalecimento"
-                    ? Icons.fitness_center
-                    : activity == "Exercícios de relaxamento"
-                        ? Icons.self_improvement
-                        : activity == "Exercícios na água"
-                            ? Icons.pool
-                            : activity == "Ioga e thai chi chuan"
-                                ? Icons.spa
-                                : Icons.celebration,
-            color: Colors.green,
-            size: 40,
-          ),
+          child: Container(
+              width: 80,
+              height: 80,
+              child: Image.asset(
+                activity == "Exercícios aeróbicos"
+                    ? "assets/icons_borg/ÍconePrancheta1.png"
+                    : activity == "Exercícios de fortalecimento"
+                        ? "assets/icons_borg/ÍconePrancheta2.png"
+                        : activity == "Exercícios de relaxamento"
+                            ? "assets/icons_borg/ÍconePrancheta3.png"
+                            : activity == "Exercícios na água"
+                                ? "assets/icons_borg/ÍconePrancheta4.png"
+                                : activity == "Ioga e thai chi chuan"
+                                    ? "assets/icons_borg/ÍconePrancheta5.png"
+                                    : "assets/icons_borg/ÍconePrancheta6.png",
+              )),
         ),
         Container(
           alignment: Alignment.center,
