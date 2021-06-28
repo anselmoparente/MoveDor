@@ -33,7 +33,7 @@ class CustomElevatedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius),
         ),
         child: Container(
-          constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+          constraints: BoxConstraints(maxWidth: 250.0, minHeight: 40.0),
           alignment: Alignment.center,
           child: Text(
             text,
@@ -41,7 +41,7 @@ class CustomElevatedButton extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'MontserratRegular',
-              fontSize: mediaSize.width * 0.06,
+              fontSize: mediaSize.width * 0.05,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

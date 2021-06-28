@@ -87,6 +87,7 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ),
           content: Wrap(
+            alignment: WrapAlignment.center,
             runSpacing: 20.0,
             children: [
               CustomElevatedButton(
@@ -206,9 +207,10 @@ class _CalendarPageState extends State<CalendarPage> {
               ),
             ),
             Container(
-              width: mediaSize.width * 0.9,
+              width: mediaSize.width * 0.95,
               child: Divider(
                 color: Color(0xff36a9b0),
+                thickness: 2,
               ),
             ),
             activityFrame(context, "Exercícios aeróbicos"),
@@ -292,8 +294,11 @@ class _CalendarPageState extends State<CalendarPage> {
             shape: BoxShape.circle,
           ),
           child: Container(
-              width: 80,
-              height: 80,
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Color(0xff36a9b0))),
               child: Image.asset(
                 activity == "Exercícios aeróbicos"
                     ? "assets/icons_borg/ÍconePrancheta1.png"
@@ -316,7 +321,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 activity,
                 style: TextStyle(
                   fontFamily: 'MontserratRegular',
-                  fontSize: mediaSize.width * 0.04,
+                  fontSize: mediaSize.width * 0.045,
                 ),
               ),
               Container(
@@ -326,15 +331,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       'Horário',
                       style: TextStyle(
                         fontFamily: 'MontserratRegular',
-                        fontSize: mediaSize.width * 0.03,
-                      ),
-                    ),
-                    Text('  '),
-                    Text(
-                      'Tipo',
-                      style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        fontSize: mediaSize.width * 0.03,
+                        fontSize: mediaSize.width * 0.04,
                       ),
                     ),
                   ]))
@@ -346,33 +343,78 @@ class _CalendarPageState extends State<CalendarPage> {
           margin: EdgeInsets.only(right: 20),
           child: Column(
             children: [
-              IconButton(
-                iconSize: 32,
-                icon: Icon(
-                  Icons.done,
-                  color: Colors.green,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 0.5), //(x,y)
+                      blurRadius: 3.0,
+                    ),
+                  ],
                 ),
-                onPressed: () {
-                  _showBorgDialog();
-                },
+                child: IconButton(
+                  iconSize: 32,
+                  icon: Icon(
+                    Icons.done,
+                    color: Colors.green,
+                  ),
+                  onPressed: () {
+                    _showBorgDialog();
+                  },
+                ),
               ),
-              IconButton(
-                iconSize: 32,
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.black,
-                ),
-                onPressed: () {},
+              SizedBox(
+                height: 10,
               ),
-              IconButton(
-                iconSize: 32,
-                icon: Icon(
-                  Icons.delete_forever,
-                  color: Colors.red,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 0.5), //(x,y)
+                      blurRadius: 3.0,
+                    ),
+                  ],
                 ),
-                onPressed: () {
-                  _chooseAnswerDialog();
-                },
+                child: IconButton(
+                  iconSize: 32,
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 0.5), //(x,y)
+                      blurRadius: 3.0,
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  iconSize: 32,
+                  icon: Icon(
+                    Icons.delete_forever,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    _chooseAnswerDialog();
+                  },
+                ),
               ),
             ],
           ),
