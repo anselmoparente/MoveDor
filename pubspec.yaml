@@ -39,7 +39,7 @@ dependencies:
   table_calendar: ^3.0.0
   intl: ^0.17.0
   syncfusion_flutter_sliders: ^19.1.59-beta
-  fl_chart: ^0.36.1
+  fl_chart: ^0.36.2
   step_progress_indicator: ^1.0.0
   page_slider: ^0.0.2
   webview_flutter:
