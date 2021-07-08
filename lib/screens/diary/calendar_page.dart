@@ -14,9 +14,11 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  TextEditingController textController = TextEditingController();
   MainController controller = MainController();
   Size mediaSize;
   String aux;
+  String minutes;
   List<String> motivationalList = [
     'Não desanime! Enfrente cada dia e uma meta por vez!',
     "Sem problema! Mantenha o foco e não desanime!",
@@ -123,6 +125,91 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _minutesDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 25),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50.0))),
+          title: Text(
+            'Tempo de Exercício'.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MontserratRegular',
+              color: Color(0xff36a9b0),
+              fontSize: mediaSize.width * 0.05,
+            ),
+          ),
+          content: Container(
+            width: mediaSize.width * 0.8,
+            height: mediaSize.height * 0.4,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextFormField(
+                  controller: textController,
+                  style: TextStyle(color: Colors.blueAccent),
+                  decoration: InputDecoration(
+                    labelText: 'Tempo',
+                    suffix: Text(" minutos"),
+                    filled: true,
+                    fillColor: Colors.white,
+                    labelStyle: TextStyle(color: Colors.blueAccent),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: Colors.blueAccent,
+                        width: 1,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: Colors.blueAccent,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onEditingComplete: () {
+                    FocusScope.of(context).nextFocus();
+                    textController.text = '';
+                  },
+                ),
+                Wrap(
+                  direction: Axis.vertical,
+                  spacing: 20,
+                  children: [
+                    CustomElevatedButton(
+                        mediaSize: mediaSize,
+                        text: 'Confirmar',
+                        onPressed: () {
+                          minutes = textController.text;
+                          Navigator.of(context).pop();
+                          textController.text = '';
+                        }),
+                    CustomElevatedButton(
+                      mediaSize: mediaSize,
+                      text: 'Voltar',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        textController.text = '';
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -363,6 +450,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                   onPressed: () {
                     _showBorgDialog();
+                    _minutesDialog();
                   },
                 ),
               ),
