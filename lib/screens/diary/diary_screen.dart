@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/screens/diary/activity_page.dart';
 
 class Diary extends StatefulWidget {
@@ -9,6 +10,7 @@ class Diary extends StatefulWidget {
 }
 
 class _DiaryState extends State<Diary> {
+  DiaryController diaryController = DiaryController();
   Size mediaSize;
   bool aux = false;
   List<dynamic> exercises = [
@@ -86,11 +88,15 @@ class _DiaryState extends State<Diary> {
                     margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    ActivityPage()));
+                        if (diaryController.activities.isEmpty) {
+                          _showDialog(context);
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ActivityPage()));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -168,6 +174,11 @@ class _DiaryState extends State<Diary> {
                 } else if (boolExercises[index] == false) {
                   boolExercises[index] = true;
                 }
+                if (diaryController.activities.contains(exercises[index])) {
+                  diaryController.activities.remove(exercises[index]);
+                } else {
+                  diaryController.activities.add(exercises[index]);
+                }
               });
             },
           ),
@@ -184,6 +195,30 @@ class _DiaryState extends State<Diary> {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Erro'),
+          content: Text(
+            "Para continuar você deve marcar pelo menos uma atividade.",
+            style: TextStyle(fontSize: 14),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

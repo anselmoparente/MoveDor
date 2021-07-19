@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/chapters_content/chapter02.dart';
 
 class Body extends StatefulWidget {
@@ -10,6 +11,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   ScrollController _scrollController = new ScrollController();
   MainController controller = MainController();
+  SearchController searchController = SearchController();
 
   Map<String, bool> frases = {
     'Fico em casa a maior parte do tempo por causa de minhas costas.': false,
@@ -375,7 +377,7 @@ class _BodyState extends State<Body> {
                 border: Border.all(width: 1.0, color: Colors.blue[200]),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: controller.timeDor == label
+              child: searchController.timeDor == label
                   ? Container(
                       height: 30,
                       width: 30,
@@ -393,7 +395,7 @@ class _BodyState extends State<Body> {
             ),
             onTap: () {
               setState(() {
-                controller.changeTimeDor(label);
+                searchController.changeTimeDor(label);
               });
             },
           ),
@@ -424,7 +426,7 @@ class _BodyState extends State<Body> {
                 border: Border.all(width: 1.0, color: Color(0xff36a9b0)),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: controller.medication == value
+              child: searchController.medication == value
                   ? Container(
                       height: 30,
                       width: 30,
@@ -442,8 +444,8 @@ class _BodyState extends State<Body> {
             ),
             onTap: () {
               setState(() {
-                controller.changedMedication(value);
-                aux = controller.medication;
+                searchController.changedMedication(value);
+                aux = searchController.medication;
               });
             },
           ),

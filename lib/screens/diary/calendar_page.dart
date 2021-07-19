@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:movedor/components/rounded_icon_btn.dart';
 import 'package:movedor/constants.dart';
+import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/diary/components/custom_elevated_button.dart';
@@ -16,6 +17,7 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   TextEditingController textController = TextEditingController();
   MainController controller = MainController();
+  DiaryController diaryController = DiaryController();
   Size mediaSize;
   String aux;
   String minutes;
@@ -52,19 +54,19 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void initState() {
     super.initState();
-    controller.actualDay = DateTime.now();
+    diaryController.actualDay = DateTime.now();
   }
 
   void _showBorgDialog() async {
     final selectedSliderValue = await showDialog<double>(
       context: context,
       builder: (context) =>
-          DialogBorg(initialSliderValue: controller.valueBorg),
+          DialogBorg(initialSliderValue: diaryController.valueBorg),
     );
 
     if (selectedSliderValue != null) {
       setState(() {
-        controller.changeValueBorg(selectedSliderValue);
+        diaryController.changeValueBorg(selectedSliderValue);
       });
     }
   }
@@ -268,17 +270,17 @@ class _CalendarPageState extends State<CalendarPage> {
                 locale: "pt_BR",
                 firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 3, 14),
-                focusedDay: controller.actualDay,
+                focusedDay: diaryController.actualDay,
                 calendarFormat: CalendarFormat.month,
                 availableCalendarFormats: const {
                   CalendarFormat.month: 'Mês',
                   CalendarFormat.week: 'Mês',
                 },
                 onDaySelected: (selectedDay, focusedDay) {
-                  if (!isSameDay(controller.selectedDay, selectedDay)) {
+                  if (!isSameDay(diaryController.selectedDay, selectedDay)) {
                     setState(() {
-                      controller.changeSelectedDay(selectedDay);
-                      controller.changeActualDay(focusedDay);
+                      diaryController.changeSelectedDay(selectedDay);
+                      diaryController.changeActualDay(focusedDay);
                     });
                   }
                 },
@@ -289,7 +291,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
                   // Using `isSameDay` is recommended to disregard
                   // the time-part of compared DateTime objects.
-                  return isSameDay(controller.selectedDay, day);
+                  return isSameDay(diaryController.selectedDay, day);
                 },
               ),
             ),
@@ -352,7 +354,7 @@ class _CalendarPageState extends State<CalendarPage> {
             onTap: () {
               setState(() {
                 aux = label;
-                controller.doneActivity = value;
+                diaryController.doneActivity = value;
               });
             },
           ),

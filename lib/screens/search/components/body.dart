@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:rich_alert/rich_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   ScrollController _scrollController = new ScrollController();
   MainController controller = MainController();
+  SearchController searchController = SearchController();
 
   int currentFormIndex = 0;
 
@@ -722,11 +724,11 @@ class _BodyState extends State<Body> {
                       duration: const Duration(milliseconds: 300),
                     );
                     setState(() {
-                      if (controller.feelPain == true) {
+                      if (searchController.feelPain == true) {
                         currentFormIndex = 4;
                       }
                     });
-                    if (controller.feelPain == false) {
+                    if (searchController.feelPain == false) {
                       print("entrou");
                       _showDialog(context);
                     }
@@ -801,34 +803,34 @@ class _BodyState extends State<Body> {
                 children: [
                   GestureDetector(
                     child: Image.asset(
-                      controller.painSup
+                      searchController.painSup
                           ? "assets/caps_illustrations/dorSup_selecionado.png"
                           : "assets/caps_illustrations/dorSup_não_selecionado.png",
                       height: mediaSize.height * 0.6,
                       width: mediaSize.width * 0.35,
                     ),
                     onTap: () {
-                      if (controller.painSup == false) {
+                      if (searchController.painSup == false) {
                         setState(() {
-                          controller.changePainInf(false);
-                          controller.changePainSup(true);
+                          searchController.changePainInf(false);
+                          searchController.changePainSup(true);
                         });
                       }
                     },
                   ),
                   GestureDetector(
                     child: Image.asset(
-                      controller.painInf
+                      searchController.painInf
                           ? "assets/caps_illustrations/dorInf_selecionado.png"
                           : "assets/caps_illustrations/dorInf_não_selecionado.png",
                       height: mediaSize.height * 0.6,
                       width: mediaSize.width * 0.35,
                     ),
                     onTap: () {
-                      if (controller.painInf == false) {
+                      if (searchController.painInf == false) {
                         setState(() {
-                          controller.changePainInf(true);
-                          controller.changePainSup(false);
+                          searchController.changePainInf(true);
+                          searchController.changePainSup(false);
                         });
                       }
                     },
@@ -844,11 +846,11 @@ class _BodyState extends State<Body> {
                       duration: const Duration(milliseconds: 300),
                     );
                     setState(() {
-                      if (controller.painInf == true) {
+                      if (searchController.painInf == true) {
                         currentFormIndex = 5;
                       }
                     });
-                    if (controller.painInf == false) {
+                    if (searchController.painInf == false) {
                       _showDialog(context);
                     }
                   },
@@ -1416,16 +1418,16 @@ class _BodyState extends State<Body> {
             ),
             componentFormSliderText(
                 "1. É fácil de machucar as suas costas",
-                controller.question1,
-                controller.textQuestion1,
-                controller.changeTextQ1,
-                controller.changeQuestion1),
+                searchController.question1,
+                searchController.textQuestion1,
+                searchController.changeTextQ1,
+                searchController.changeQuestion1),
             componentFormSliderText(
                 "2. Se você não for cuidadoso, você pode machucar suas costas",
-                controller.question2,
-                controller.textQuestion2,
-                controller.changeTextQ2,
-                controller.changeQuestion2),
+                searchController.question2,
+                searchController.textQuestion2,
+                searchController.changeTextQ2,
+                searchController.changeQuestion2),
             SizedBox(
               height: 10,
             ),
@@ -1448,16 +1450,16 @@ class _BodyState extends State<Body> {
             ),
             componentFormSliderText(
                 "3. Dor nas costas significa que você lesionou suas costas",
-                controller.question3,
-                controller.textQuestion3,
-                controller.changeTextQ3,
-                controller.changeQuestion3),
+                searchController.question3,
+                searchController.textQuestion3,
+                searchController.changeTextQ3,
+                searchController.changeQuestion3),
             componentFormSliderText(
                 "4. Uma “fisgadinha” nas costas pode ser o primeiro sinal de uma lesão séria",
-                controller.question4,
-                controller.textQuestion4,
-                controller.changeTextQ4,
-                controller.changeQuestion4),
+                searchController.question4,
+                searchController.textQuestion4,
+                searchController.changeTextQ4,
+                searchController.changeQuestion4),
             SizedBox(
               height: 10,
             ),
@@ -1480,16 +1482,16 @@ class _BodyState extends State<Body> {
             ),
             componentFormSliderText(
                 "5. Se você tem dor nas costas, você deve evitar exercícios físicos",
-                controller.question5,
-                controller.textQuestion5,
-                controller.changeTextQ5,
-                controller.changeQuestion5),
+                searchController.question5,
+                searchController.textQuestion5,
+                searchController.changeTextQ5,
+                searchController.changeQuestion5),
             componentFormSliderText(
                 "6. Se você tem dor nas costas, você deveria tentar se manter ativo",
-                controller.question6,
-                controller.textQuestion6,
-                controller.changeTextQ6,
-                controller.changeQuestion6),
+                searchController.question6,
+                searchController.textQuestion6,
+                searchController.changeTextQ6,
+                searchController.changeQuestion6),
             SizedBox(
               height: 10,
             ),
@@ -1512,28 +1514,28 @@ class _BodyState extends State<Body> {
             ),
             componentFormSliderText(
                 "7. Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se da dor nas costas",
-                controller.question7,
-                controller.textQuestion7,
-                controller.changeTextQ7,
-                controller.changeQuestion7),
+                searchController.question7,
+                searchController.textQuestion7,
+                searchController.changeTextQ7,
+                searchController.changeQuestion7),
             componentFormSliderText(
                 "8. Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas",
-                controller.question8,
-                controller.textQuestion8,
-                controller.changeTextQ8,
-                controller.changeQuestion8),
+                searchController.question8,
+                searchController.textQuestion8,
+                searchController.changeTextQ8,
+                searchController.changeQuestion8),
             componentFormSliderText(
                 "9. Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza",
-                controller.question9,
-                controller.textQuestion9,
-                controller.changeTextQ9,
-                controller.changeQuestion9),
+                searchController.question9,
+                searchController.textQuestion9,
+                searchController.changeTextQ9,
+                searchController.changeQuestion9),
             componentFormSliderText(
                 "10. Existe uma grande chance de que um episódio de dor nas costas não se resolverá",
-                controller.question10,
-                controller.textQuestion10,
-                controller.changeTextQ10,
-                controller.changeQuestion10),
+                searchController.question10,
+                searchController.textQuestion10,
+                searchController.changeTextQ10,
+                searchController.changeQuestion10),
             SizedBox(
               height: 50,
             ),
@@ -1716,7 +1718,7 @@ class _BodyState extends State<Body> {
             onTap: () {
               setState(() {
                 aux = label;
-                controller.feelPain = value;
+                searchController.feelPain = value;
               });
             },
           ),
@@ -1747,7 +1749,7 @@ class _BodyState extends State<Body> {
                 border: Border.all(width: 1.0, color: Colors.blue[200]),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: controller.timeDor == label
+              child: searchController.timeDor == label
                   ? Container(
                       height: 30,
                       width: 30,
@@ -1765,7 +1767,7 @@ class _BodyState extends State<Body> {
             ),
             onTap: () {
               setState(() {
-                controller.changeTimeDor(label);
+                searchController.changeTimeDor(label);
               });
             },
           ),
