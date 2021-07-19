@@ -9,36 +9,6 @@ part of 'diary_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$DiaryController on _DiaryController, Store {
-  final _$activityTimeAtom = Atom(name: '_DiaryController.activityTime');
-
-  @override
-  String get activityTime {
-    _$activityTimeAtom.reportRead();
-    return super.activityTime;
-  }
-
-  @override
-  set activityTime(String value) {
-    _$activityTimeAtom.reportWrite(value, super.activityTime, () {
-      super.activityTime = value;
-    });
-  }
-
-  final _$activityPeriodAtom = Atom(name: '_DiaryController.activityPeriod');
-
-  @override
-  String get activityPeriod {
-    _$activityPeriodAtom.reportRead();
-    return super.activityPeriod;
-  }
-
-  @override
-  set activityPeriod(String value) {
-    _$activityPeriodAtom.reportWrite(value, super.activityPeriod, () {
-      super.activityPeriod = value;
-    });
-  }
-
   final _$actualDayAtom = Atom(name: '_DiaryController.actualDay');
 
   @override
@@ -103,28 +73,6 @@ mixin _$DiaryController on _DiaryController, Store {
       ActionController(name: '_DiaryController');
 
   @override
-  void changedActivityTime(String value) {
-    final _$actionInfo = _$_DiaryControllerActionController.startAction(
-        name: '_DiaryController.changedActivityTime');
-    try {
-      return super.changedActivityTime(value);
-    } finally {
-      _$_DiaryControllerActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changedActivityPeriod(String value) {
-    final _$actionInfo = _$_DiaryControllerActionController.startAction(
-        name: '_DiaryController.changedActivityPeriod');
-    try {
-      return super.changedActivityPeriod(value);
-    } finally {
-      _$_DiaryControllerActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void changeActualDay(DateTime value) {
     final _$actionInfo = _$_DiaryControllerActionController.startAction(
         name: '_DiaryController.changeActualDay');
@@ -160,8 +108,6 @@ mixin _$DiaryController on _DiaryController, Store {
   @override
   String toString() {
     return '''
-activityTime: ${activityTime},
-activityPeriod: ${activityPeriod},
 actualDay: ${actualDay},
 selectedDay: ${selectedDay},
 doneActivity: ${doneActivity},

@@ -8,25 +8,26 @@ class DiaryController = _DiaryController with _$DiaryController;
 
 // The store-class
 abstract class _DiaryController with Store {
-
   // Atividades pretendidas
   ObservableList<String> activities = ObservableList<String>();
 
-  // Tempo médio de atividade
-  @observable
-  String activityTime;
-  
-  @action
-  void changedActivityTime(String value) => activityTime = value;
-  
+  // Tempo médio das atividades
+  ObservableList<String> activityTime = ObservableList<String>();
+
+  // Auxiliar do tempo médio das atividades
+  ObservableList<double> activityTimeAux = ObservableList<double>();
+
   // Período da atividade
-  @observable
-  String activityPeriod;
-  @action
-  void changedActivityPeriod(String value) => activityPeriod = value;
+  ObservableList<String> activityPeriod = ObservableList<String>();
+
+  // Auxiliar do período da atividade
+  ObservableList<double> activityPeriodAux = ObservableList<double>();
 
   // Dias marcados com atividades
   ObservableList<String> activitysDays = ObservableList<String>();
+
+  // Dias marcados com atividades
+  ObservableList<List<String>> activitysDaysTest = ObservableList<List<String>>();
 
   @observable
   DateTime actualDay;

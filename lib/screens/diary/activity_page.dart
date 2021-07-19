@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
+import 'package:provider/provider.dart';
 import '../../constants.dart';
 
 class ActivityPage extends StatefulWidget {
@@ -12,27 +14,39 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  DiaryController diaryController = DiaryController();
-  MainController controller = MainController();
   Size mediaSize;
   bool aux = false;
-  double sliderTimeValue = 0.0;
-  String sliderTimeText = '10 a 25 minutos';
-  double sliderPeriodValue = 0.0;
-  String sliderPeriodText = 'Manhã';
-
-  @override
-  void initState() {
-    super.initState();
-    diaryController.activities
-        .add('Exercícios de fortalecimento(musculação, ginástica, funcional)');
-    diaryController.activities.add(
-        'Exercícios ou técnicas de relaxamento(exercícios respiratórios, meditação, alongamento)');
-  }
 
   @override
   Widget build(BuildContext context) {
     mediaSize = MediaQuery.of(context).size;
+    final controller = Provider.of<MainController>(context);
+    final diaryController = Provider.of<DiaryController>(context);
+
+    diaryController.activityTime.clear();
+    for (int i = 0; i < diaryController.activities.length; i++) {
+      diaryController.activityTime.insert(i, '10 a 25 minutos');
+    }
+
+    diaryController.activityTimeAux.clear();
+    for (int i = 0; i < diaryController.activities.length; i++) {
+      diaryController.activityTimeAux.insert(i, 0.0);
+    }
+
+    diaryController.activityPeriod.clear();
+    for (int i = 0; i < diaryController.activities.length; i++) {
+      diaryController.activityPeriod.insert(i, 'Manhã');
+    }
+
+    diaryController.activityPeriodAux.clear();
+    for (int i = 0; i < diaryController.activities.length; i++) {
+      diaryController.activityPeriodAux.insert(i, 0.0);
+    }
+
+    diaryController.activitysDaysTest.clear();
+    for (int i = 0; i < diaryController.activities.length; i++) {
+      diaryController.activitysDaysTest.insert(i, []);
+    }
 
     return Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
@@ -40,11 +54,12 @@ class _ActivityPageState extends State<ActivityPage> {
           child: Column(
             children: [
               for (int i = 0; i < diaryController.activities.length; i++)
-                body(i),
+                body(i, diaryController, controller),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: RaisedButton(
                   onPressed: () {
+                    controller.configuredDiary = true;
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -86,61 +101,66 @@ class _ActivityPageState extends State<ActivityPage> {
         ));
   }
 
-  Widget buttonDay(String value) {
-    return Container(
-      child: Row(
-        children: [
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 20, top: 10),
-              width: 30,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.0, color: Color(0xff36a9b0)),
-                borderRadius: BorderRadius.circular(5),
+  Widget buttonDay(String value, DiaryController diaryController, int index) {
+    return Observer(builder: (_) {
+      return Container(
+        child: Row(
+          children: [
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(left: 20, top: 10),
+                width: 30,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1.0, color: Color(0xff36a9b0)),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: diaryController.activitysDaysTest[index].contains(value)
+                    ? Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                        ))
+                    : Container(
+                        height: 30,
+                        width: 30,
+                      ),
               ),
-              child: diaryController.activitysDays.contains(value)
-                  ? Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                      ))
-                  : Container(
-                      height: 30,
-                      width: 30,
-                    ),
+              onTap: () {
+                setState(() {
+                  if (diaryController.activitysDaysTest[index]
+                      .contains(value)) {
+                    diaryController.activitysDaysTest[index].remove(value);
+                  } else {
+                    diaryController.activitysDaysTest[index].add(value);
+                  }
+                  print(diaryController.activitysDaysTest);
+                });
+              },
             ),
-            onTap: () {
-              setState(() {
-                if (diaryController.activitysDays.contains(value)) {
-                  diaryController.activitysDays.remove(value);
-                } else {
-                  diaryController.activitysDays.add(value);
-                }
-              });
-            },
-          ),
-          Container(
-            margin: EdgeInsets.only(
-                left: mediaSize.width * 0.03, top: mediaSize.height * 0.007),
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: mediaSize.width * 0.035,
-                color: Color(0xff36a9b0),
+            Container(
+              margin: EdgeInsets.only(
+                  left: mediaSize.width * 0.03, top: mediaSize.height * 0.007),
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontSize: mediaSize.width * 0.035,
+                  color: Color(0xff36a9b0),
+                ),
               ),
-            ),
-          )
-        ],
-      ),
-    );
+            )
+          ],
+        ),
+      );
+    });
   }
 
-  Widget body(int index) {
+  Widget body(
+      int index, DiaryController diaryController, MainController controller) {
     return Column(
       children: [
         Container(
@@ -148,7 +168,9 @@ class _ActivityPageState extends State<ActivityPage> {
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
           width: MediaQuery.of(context).size.width * 0.9,
           child: Text(
-            'Por quanto tempo em geral você pretende realizar' + diaryController.activities[index] + '?',
+            'Por quanto tempo em geral você pretende realizar ' +
+                diaryController.activities[index] +
+                '?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'MontserratRegular',
@@ -184,36 +206,36 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
           ),
         ),
-        Center(
-          child: Container(
+        Center(child: Observer(builder: (_) {
+          return Container(
               width: mediaSize.width * 0.9,
               margin: EdgeInsets.only(top: 10),
               child: Slider(
-                  value: sliderTimeValue,
+                  value: diaryController.activityTimeAux[index],
                   max: 3.0,
                   min: 0.0,
                   divisions: 3,
-                  label: sliderTimeText,
+                  label: diaryController.activityTime[index],
                   onChanged: (double value) {
-                    setState(() {
-                      value == 0
-                          ? sliderTimeText = '10 a 25 minutos'
-                          : value == 1
-                              ? sliderTimeText = '30 minutos'
-                              : value == 2
-                                  ? sliderTimeText = '45 minutos'
-                                  : sliderTimeText = '60 minutos';
-                      sliderTimeValue = value;
-                      diaryController.changedActivityTime(sliderTimeText);
-                    });
-                  })),
-        ),
+                    value == 0
+                        ? diaryController.activityTime[index] =
+                            '10 a 25 minutos'
+                        : value == 1
+                            ? diaryController.activityTime[index] = '30 minutos'
+                            : value == 2
+                                ? diaryController.activityTime[index] =
+                                    '45 minutos'
+                                : diaryController.activityTime[index] =
+                                    '60 minutos';
+                    diaryController.activityTimeAux[index] = value;
+                  }));
+        })),
         Container(
           padding:
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
           width: MediaQuery.of(context).size.width * 0.9,
           child: Text(
-            'Em qual período do dia você pretende realizar a(s) atividade(s)?',
+            'Em qual período do dia você pretende realizar a atividade?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'MontserratRegular',
@@ -254,37 +276,38 @@ class _ActivityPageState extends State<ActivityPage> {
           margin: EdgeInsets.only(top: 10.0),
         ),
         Center(
-          child: Container(
-              width: mediaSize.width * 0.9,
-              child: Slider(
-                  value: sliderPeriodValue,
-                  max: 2.0,
-                  min: 0.0,
-                  divisions: 2,
-                  label: sliderPeriodText,
-                  activeColor: sliderPeriodValue.toInt() == 2
-                      ? Colors.blue[900]
-                      : sliderPeriodValue.toInt() == 1
-                          ? Colors.orange
-                          : Colors.lightBlue,
-                  onChanged: (double value) {
-                    setState(() {
+          child: Observer(builder: (_) {
+            return Container(
+                width: mediaSize.width * 0.9,
+                child: Slider(
+                    value: diaryController.activityPeriodAux[index],
+                    max: 2.0,
+                    min: 0.0,
+                    divisions: 2,
+                    label: diaryController.activityPeriod[index],
+                    activeColor: diaryController.activityPeriodAux[index]
+                                .toInt() ==
+                            2
+                        ? Colors.blue[900]
+                        : diaryController.activityPeriodAux[index].toInt() == 1
+                            ? Colors.orange
+                            : Colors.lightBlue,
+                    onChanged: (double value) {
                       value == 0
-                          ? sliderPeriodText = 'Manhã'
+                          ? diaryController.activityPeriod[index] = 'Manhã'
                           : value == 1
-                              ? sliderPeriodText = 'Tarde'
-                              : sliderPeriodText = 'Noite';
-                      sliderPeriodValue = value;
-                      diaryController.changedActivityPeriod(sliderPeriodText);
-                    });
-                  })),
+                              ? diaryController.activityPeriod[index] = 'Tarde'
+                              : diaryController.activityPeriod[index] = 'Noite';
+                      diaryController.activityPeriodAux[index] = value;
+                    }));
+          }),
         ),
         Container(
           padding:
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
           width: MediaQuery.of(context).size.width * 0.9,
           child: Text(
-            'Em quais dias da semana você pretende praticar(Nome da Atividade)?',
+            'Em quais dias da semana você pretende praticar?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'MontserratRegular',
@@ -310,13 +333,13 @@ class _ActivityPageState extends State<ActivityPage> {
                 SizedBox(
                   height: mediaSize.height * 0.12,
                 ),
-                buttonDay('Domingo'),
-                buttonDay('Segunda'),
-                buttonDay('Terça'),
-                buttonDay('Quarta'),
-                buttonDay('Quinta'),
-                buttonDay('Sexta'),
-                buttonDay('Sábado'),
+                buttonDay('Domingo', diaryController, index),
+                buttonDay('Segunda', diaryController, index),
+                buttonDay('Terça', diaryController, index),
+                buttonDay('Quarta', diaryController, index),
+                buttonDay('Quinta', diaryController, index),
+                buttonDay('Sexta', diaryController, index),
+                buttonDay('Sábado', diaryController, index),
               ],
             ),
           ),

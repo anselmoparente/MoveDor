@@ -54,7 +54,7 @@ class HomeHeader extends StatelessWidget {
                     Text(
                       "Olá ${controller.name},",
                       style: TextStyle(
-                          fontSize: getProportionateScreenWidth(30),
+                          fontSize: getProportionateScreenWidth(26),
                           color: Colors.white,
                           height: 0.5),
                     ),
@@ -62,7 +62,7 @@ class HomeHeader extends StatelessWidget {
                       "Que bom te ver por aqui de novo!",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: getProportionateScreenWidth(20),
+                        fontSize: getProportionateScreenWidth(18),
                       ),
                     ),
                   ],

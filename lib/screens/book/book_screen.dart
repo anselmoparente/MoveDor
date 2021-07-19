@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movedor/components/bottom_nav.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/screens/diary/calendar_page.dart';
 import 'package:movedor/screens/infographic/infographic_screen.dart';
 import 'package:movedor/screens/diary/diary_screen.dart';
 import 'package:movedor/screens/profile/profile_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'components/body.dart';
 
@@ -18,6 +21,16 @@ class _HomePageState extends State<BookScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MainController>(context);
+
+    Widget test () {
+      if(controller.configuredDiary) {
+        return CalendarPage();
+      } else {
+        return Diary();
+      }
+    }
+
     return Scaffold(
       // body: Body(),
       body: PageView(
@@ -26,7 +39,7 @@ class _HomePageState extends State<BookScreen> {
           children: <Widget>[
             Body(),
             Infographic(),
-            Diary(),
+            test(),
             ProfileScreen(),
           ],
           onPageChanged: (page) {

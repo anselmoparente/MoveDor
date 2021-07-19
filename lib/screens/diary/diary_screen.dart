@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/screens/diary/activity_page.dart';
+import 'package:provider/provider.dart';
 
 class Diary extends StatefulWidget {
   Diary({Key key}) : super(key: key);
@@ -10,7 +11,6 @@ class Diary extends StatefulWidget {
 }
 
 class _DiaryState extends State<Diary> {
-  DiaryController diaryController = DiaryController();
   Size mediaSize;
   bool aux = false;
   List<dynamic> exercises = [
@@ -25,6 +25,8 @@ class _DiaryState extends State<Diary> {
 
   @override
   Widget build(BuildContext context) {
+    final diaryController = Provider.of<DiaryController>(context);
+
     mediaSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
@@ -71,16 +73,29 @@ class _DiaryState extends State<Diary> {
                   Container(
                     child: Column(
                       children: [
-                        componentForms(context, 0,
-                            'Exercícios aeróbios(caminhada, corrida,\n bicicleta)'),
-                        componentForms(context, 1,
-                            'Exercícios de fortalecimento(musculação,\n ginástica, funcional)'),
-                        componentForms(context, 2,
-                            'Exercícios ou técnicas de relaxamento \n(exercícios respiratórios, meditação,\n alongamento)'),
-                        componentForms(context, 3,
-                            'Exercícios na água(hidroginástica, natação,\n caminhada na água, fisioterapia aquática)'),
-                        componentForms(context, 4, 'Ioga e Thai chi chuan'),
-                        componentForms(context, 5, 'Dança'),
+                        componentForms(
+                            context,
+                            0,
+                            'Exercícios aeróbios(caminhada, corrida,\n bicicleta)',
+                            diaryController),
+                        componentForms(
+                            context,
+                            1,
+                            'Exercícios de fortalecimento(musculação,\n ginástica, funcional)',
+                            diaryController),
+                        componentForms(
+                            context,
+                            2,
+                            'Exercícios ou técnicas de relaxamento \n(exercícios respiratórios, meditação,\n alongamento)',
+                            diaryController),
+                        componentForms(
+                            context,
+                            3,
+                            'Exercícios na água(hidroginástica, natação,\n caminhada na água, fisioterapia aquática)',
+                            diaryController),
+                        componentForms(context, 4, 'Ioga e Thai chi chuan',
+                            diaryController),
+                        componentForms(context, 5, 'Dança', diaryController),
                       ],
                     ),
                   ),
@@ -138,7 +153,8 @@ class _DiaryState extends State<Diary> {
         ));
   }
 
-  Widget componentForms(BuildContext context, int index, String label) {
+  Widget componentForms(BuildContext context, int index, String label,
+      DiaryController diaryController) {
     bool aux2 = boolExercises[index];
     return Container(
       child: Row(
