@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:rich_alert/rich_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +20,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   ScrollController _scrollController = new ScrollController();
-  MainController controller = MainController();
+  // MainController controller = MainController();
+  
   SearchController searchController = SearchController();
 
   int currentFormIndex = 0;
@@ -155,6 +157,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MainController>(context);
     mediaSize = MediaQuery.of(context).size;
 
     List<Widget> formsPesquisas = [
@@ -375,10 +378,12 @@ class _BodyState extends State<Body> {
                           if (endIndex > -1) {
                             name = nomeController.text.substring(0, endIndex);
                           }
-
+                            
                           nomeController.text = name;
 
                           prefs.setString("name", name);
+
+                          controller.name = name;
 
                           _scrollController.animateTo(
                             0.0,

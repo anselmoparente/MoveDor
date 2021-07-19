@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:provider/provider.dart';
 
 import '../../../size_config.dart';
 import 'package:movedor/constants.dart';
@@ -10,6 +12,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MainController>(context);
     return Padding(
       padding: EdgeInsets.only(bottom: getProportionateScreenWidth(25)),
       child: Stack(
@@ -49,7 +52,7 @@ class HomeHeader extends StatelessWidget {
                   children: [
                     SizedBox(height: getProportionateScreenHeight(50)),
                     Text(
-                      "Olá João,",
+                      "Olá ${controller.name},",
                       style: TextStyle(
                           fontSize: getProportionateScreenWidth(30),
                           color: Colors.white,
