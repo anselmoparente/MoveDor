@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:movedor/constants.dart';
+import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/Chapter.dart';
 import 'package:movedor/screens/book/chapters_content/components/play_pause.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import 'components/custom_app_bar.dart';
@@ -49,6 +52,23 @@ class _Chapter03State extends State<Chapter03> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MainController>(context);
+
+    if (finalizouChapter03 == true) {
+      if (controller.lastChapter < 3) {
+        controller.lastChapter = 3;
+        FirebaseFirestore.instance
+            .collection('users_v2')
+            .doc(controller.id)
+            .update({
+          'book': {
+            'last_chapter': controller.lastChapter,
+            'questions': controller.finishedQuestions,
+            'quiz': controller.finishedQuiz
+          }
+        });
+      }
+    }
     return Scaffold(
       backgroundColor: Color(0xFFF5F6F9),
       appBar: CustomAppBar(chapters[2]),
@@ -109,7 +129,9 @@ class _Chapter03State extends State<Chapter03> {
 
     ///Se a posição de progresso do vídeo for igual a 90% da duração do mesmo, então vou dar como finalizado o capítulo.
     if (_controller.value.position.inSeconds == duration) {
-      finalizouChapter03 = true;
+      setState(() {
+        finalizouChapter03 = true;
+      });
     }
   }
 }

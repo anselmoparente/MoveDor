@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,18 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
+
+    FirebaseFirestore.instance
+        .collection('users_v2')
+        .doc(controller.id)
+        .update({
+      'book': {
+        'last_chapter': controller.lastChapter,
+        'questions': controller.finishedQuestions,
+        'quiz': controller.finishedQuiz
+      }
+    });
+
     return Padding(
       padding: EdgeInsets.only(bottom: getProportionateScreenWidth(25)),
       child: Stack(

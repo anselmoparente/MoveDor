@@ -8,6 +8,9 @@ class DiaryController = _DiaryController with _$DiaryController;
 
 // The store-class
 abstract class _DiaryController with Store {
+  @observable
+  bool configuredDiary = false;
+
   // Atividades pretendidas
   ObservableList<String> activities = ObservableList<String>();
 
@@ -27,7 +30,8 @@ abstract class _DiaryController with Store {
   ObservableList<String> activitysDays = ObservableList<String>();
 
   // Dias marcados com atividades
-  ObservableList<List<String>> activitysDaysTest = ObservableList<List<String>>();
+  ObservableList<List<String>> activitysDaysTest =
+      ObservableList<List<String>>();
 
   @observable
   DateTime actualDay;

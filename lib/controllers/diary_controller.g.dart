@@ -9,6 +9,21 @@ part of 'diary_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$DiaryController on _DiaryController, Store {
+  final _$configuredDiaryAtom = Atom(name: '_DiaryController.configuredDiary');
+
+  @override
+  bool get configuredDiary {
+    _$configuredDiaryAtom.reportRead();
+    return super.configuredDiary;
+  }
+
+  @override
+  set configuredDiary(bool value) {
+    _$configuredDiaryAtom.reportWrite(value, super.configuredDiary, () {
+      super.configuredDiary = value;
+    });
+  }
+
   final _$actualDayAtom = Atom(name: '_DiaryController.actualDay');
 
   @override
@@ -108,6 +123,7 @@ mixin _$DiaryController on _DiaryController, Store {
   @override
   String toString() {
     return '''
+configuredDiary: ${configuredDiary},
 actualDay: ${actualDay},
 selectedDay: ${selectedDay},
 doneActivity: ${doneActivity},

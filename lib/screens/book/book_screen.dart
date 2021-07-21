@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movedor/components/bottom_nav.dart';
+import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
 import 'package:movedor/screens/infographic/infographic_screen.dart';
@@ -21,10 +22,10 @@ class _HomePageState extends State<BookScreen> {
   
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<MainController>(context);
+    final diaryController = Provider.of<DiaryController>(context);
 
     Widget test () {
-      if(controller.configuredDiary) {
+      if(diaryController.configuredDiary) {
         return CalendarPage();
       } else {
         return Diary();

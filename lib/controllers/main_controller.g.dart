@@ -39,79 +39,72 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
-  final _$chapter1CompleteAtom = Atom(name: '_MainController.chapter1Complete');
+  final _$lastChapterAtom = Atom(name: '_MainController.lastChapter');
 
   @override
-  bool get chapter1Complete {
-    _$chapter1CompleteAtom.reportRead();
-    return super.chapter1Complete;
+  int get lastChapter {
+    _$lastChapterAtom.reportRead();
+    return super.lastChapter;
   }
 
   @override
-  set chapter1Complete(bool value) {
-    _$chapter1CompleteAtom.reportWrite(value, super.chapter1Complete, () {
-      super.chapter1Complete = value;
+  set lastChapter(int value) {
+    _$lastChapterAtom.reportWrite(value, super.lastChapter, () {
+      super.lastChapter = value;
     });
   }
 
-  final _$chapter2CompleteAtom = Atom(name: '_MainController.chapter2Complete');
+  final _$idAtom = Atom(name: '_MainController.id');
 
   @override
-  bool get chapter2Complete {
-    _$chapter2CompleteAtom.reportRead();
-    return super.chapter2Complete;
+  String get id {
+    _$idAtom.reportRead();
+    return super.id;
   }
 
   @override
-  set chapter2Complete(bool value) {
-    _$chapter2CompleteAtom.reportWrite(value, super.chapter2Complete, () {
-      super.chapter2Complete = value;
+  set id(String value) {
+    _$idAtom.reportWrite(value, super.id, () {
+      super.id = value;
     });
   }
 
-  final _$chapter3CompleteAtom = Atom(name: '_MainController.chapter3Complete');
+  final _$finishedQuizAtom = Atom(name: '_MainController.finishedQuiz');
 
   @override
-  bool get chapter3Complete {
-    _$chapter3CompleteAtom.reportRead();
-    return super.chapter3Complete;
+  bool get finishedQuiz {
+    _$finishedQuizAtom.reportRead();
+    return super.finishedQuiz;
   }
 
   @override
-  set chapter3Complete(bool value) {
-    _$chapter3CompleteAtom.reportWrite(value, super.chapter3Complete, () {
-      super.chapter3Complete = value;
+  set finishedQuiz(bool value) {
+    _$finishedQuizAtom.reportWrite(value, super.finishedQuiz, () {
+      super.finishedQuiz = value;
     });
   }
 
-  final _$chapter4CompleteAtom = Atom(name: '_MainController.chapter4Complete');
+  final _$finishedQuestionsAtom =
+      Atom(name: '_MainController.finishedQuestions');
 
   @override
-  bool get chapter4Complete {
-    _$chapter4CompleteAtom.reportRead();
-    return super.chapter4Complete;
+  bool get finishedQuestions {
+    _$finishedQuestionsAtom.reportRead();
+    return super.finishedQuestions;
   }
 
   @override
-  set chapter4Complete(bool value) {
-    _$chapter4CompleteAtom.reportWrite(value, super.chapter4Complete, () {
-      super.chapter4Complete = value;
+  set finishedQuestions(bool value) {
+    _$finishedQuestionsAtom.reportWrite(value, super.finishedQuestions, () {
+      super.finishedQuestions = value;
     });
   }
 
-  final _$configuredDiaryAtom = Atom(name: '_MainController.configuredDiary');
+  final _$getMainAsyncAction = AsyncAction('_MainController.getMain');
 
   @override
-  bool get configuredDiary {
-    _$configuredDiaryAtom.reportRead();
-    return super.configuredDiary;
-  }
-
-  @override
-  set configuredDiary(bool value) {
-    _$configuredDiaryAtom.reportWrite(value, super.configuredDiary, () {
-      super.configuredDiary = value;
-    });
+  Future<void> getMain() {
+    return _$getMainAsyncAction.run(() => super.getMain());
   }
 
   @override
@@ -119,11 +112,10 @@ mixin _$MainController on _MainController, Store {
     return '''
 name: ${name},
 searchComplete: ${searchComplete},
-chapter1Complete: ${chapter1Complete},
-chapter2Complete: ${chapter2Complete},
-chapter3Complete: ${chapter3Complete},
-chapter4Complete: ${chapter4Complete},
-configuredDiary: ${configuredDiary}
+lastChapter: ${lastChapter},
+id: ${id},
+finishedQuiz: ${finishedQuiz},
+finishedQuestions: ${finishedQuestions}
     ''';
   }
 }

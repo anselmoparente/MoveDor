@@ -99,6 +99,21 @@ mixin _$SearchController on _SearchController, Store {
     });
   }
 
+  final _$painScaleAtom = Atom(name: '_SearchController.painScale');
+
+  @override
+  int get painScale {
+    _$painScaleAtom.reportRead();
+    return super.painScale;
+  }
+
+  @override
+  set painScale(int value) {
+    _$painScaleAtom.reportWrite(value, super.painScale, () {
+      super.painScale = value;
+    });
+  }
+
   final _$timeDorAtom = Atom(name: '_SearchController.timeDor');
 
   @override
@@ -473,6 +488,17 @@ mixin _$SearchController on _SearchController, Store {
   }
 
   @override
+  void changePainScale(double value) {
+    final _$actionInfo = _$_SearchControllerActionController.startAction(
+        name: '_SearchController.changePainScale');
+    try {
+      return super.changePainScale(value);
+    } finally {
+      _$_SearchControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeTimeDor(String value) {
     final _$actionInfo = _$_SearchControllerActionController.startAction(
         name: '_SearchController.changeTimeDor');
@@ -712,6 +738,7 @@ nameMedications: ${nameMedications},
 feelPain: ${feelPain},
 painSup: ${painSup},
 painInf: ${painInf},
+painScale: ${painScale},
 timeDor: ${timeDor},
 question1: ${question1},
 textQuestion1: ${textQuestion1},

@@ -8,6 +8,9 @@ import 'package:movedor/screens/book/book_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:rich_alert/rich_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 import '../../../constants.dart';
 
@@ -21,7 +24,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   ScrollController _scrollController = new ScrollController();
   // MainController controller = MainController();
-  
+
   SearchController searchController = SearchController();
 
   int currentFormIndex = 0;
@@ -41,6 +44,7 @@ class _BodyState extends State<Body> {
   final pesoController = TextEditingController();
   final alturaController = TextEditingController();
   String nascimento = '';
+  var dataSend;
 
   bool _autovalidadeForm1 = false;
 
@@ -74,52 +78,8 @@ class _BodyState extends State<Body> {
     'Não possuo nenhum dos sintomas citados': false,
   };
 
-  List selectedSports = [];
-  List selectedSintoms = [];
-  //--------//
-
-  // // Form 3 //
-  // final _form3 = GlobalKey<FormState>();
-  // Map<String, bool> frases = {
-  //   'Fico em casa a maior parte do tempo por causa de minhas costas.': false,
-  //   'Mudo de posição frequentemente tentando deixar minhas costas confortáveis.':
-  //       false,
-  //   'Ando mais devagar que o habitual por causa de minhas costas.': false,
-  //   'Por causa de minhas costas, eu não estou fazendo nenhum dos meus trabalhos que geralmente faço em casa.':
-  //       false,
-  //   'Por causa de minhas costas, eu uso o corrimão para subir escadas.': false,
-  //   'Por causa de minhas costas, eu me deito para descansar mais frequentemente.':
-  //       false,
-  //   'Por causa de minhas costas, eu tenho que me apoiar em alguma coisa para me levantar de uma cadeira normal.':
-  //       false,
-  //   'Por causa de minhas costas, tento conseguir com que outras pessoas façam as coisas para mim.':
-  //       false,
-  //   'Eu me visto mais lentamente que o habitual por causa de minhas costas.':
-  //       false,
-  //   'Eu somente fico em pé por períodos curtos de tempo por causa de minhas costas.':
-  //       false,
-  //   'Por causa de minhas costas, evito me abaixar ou me ajoelhar.': false,
-  //   'Encontro dificuldades em me levantar de uma cadeira por causa de minhas costas.':
-  //       false,
-  //   'As minhas costas doem quase o tempo todo.': false,
-  //   'Tenho dificuldade em me virar na cama por causa de minhas costas.': false,
-  //   'Meu apetite não é muito bom por causa das dores em minhas costas.': false,
-  //   'Tenho problemas para colocar minhas meias (ou meia-calça) por causa das dores em minhas costas.':
-  //       false,
-  //   'Caminho apenas curtas distâncias por causa de minhas dores nas costas.':
-  //       false,
-  //   'Não durmo tão bem por causa de minhas costas.': false,
-  //   'Por causa de minhas dores nas costas, eu me visto com ajuda de outras pessoas.':
-  //       false,
-  //   'Fico sentado a maior parte do dia por causa de minhas costas.': false,
-  //   'Evito trabalhos pesados em casa por causa de minhas costas.': false,
-  //   'Por causa das dores em minhas costas, fico mais irritado e mal humorado com as pessoas que o habitual.':
-  //       false,
-  //   'Por causa de minhas costas, eu subo escadas mais vagarosamente do que o habitual.':
-  //       false,
-  //   'Fico na cama a maior parte do tempo por causa de minhas costas.': false,
-  // };
-  // List selectedFrases = [];
+  List<String> selectedSports = [];
+  List<String> selectedSintoms = [];
   double sliderValue = 0.0;
 
   // //--------//
@@ -151,14 +111,34 @@ class _BodyState extends State<Body> {
   double value = 2;
   //--------//
 
-  Future<void> _setAnsweredSearchTrue() async {
-    print('ok');
+  SnackBar customSnackBar({String message}) {
+    return SnackBar(
+      content: Text(
+        message,
+        textAlign: TextAlign.center,
+      ),
+      duration: const Duration(seconds: 2),
+      margin: EdgeInsets.only(bottom: 80.0, left: 10.0, right: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
+    final searchController = Provider.of<SearchController>(context);
     mediaSize = MediaQuery.of(context).size;
+
+    void id() async {
+      var androidInfo = await DeviceInfoPlugin().androidInfo;
+      controller.id = androidInfo.androidId;
+    }
+
+    id();
 
     List<Widget> formsPesquisas = [
       Container(
@@ -253,7 +233,9 @@ class _BodyState extends State<Body> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    controller.getMain();
+
                     _scrollController.animateTo(
                       0.0,
                       curve: Curves.easeOut,
@@ -378,12 +360,17 @@ class _BodyState extends State<Body> {
                           if (endIndex > -1) {
                             name = nomeController.text.substring(0, endIndex);
                           }
-                            
+
                           nomeController.text = name;
 
                           prefs.setString("name", name);
 
                           controller.name = name;
+
+                          FirebaseFirestore.instance
+                              .collection('users_v2')
+                              .doc(controller.id)
+                              .set({'name': controller.name});
 
                           _scrollController.animateTo(
                             0.0,
@@ -441,8 +428,10 @@ class _BodyState extends State<Body> {
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    DatePicker.showDatePicker(context, showTitleActions: true,
-                        onConfirm: (date) {
+                    DatePicker.showDatePicker(context,
+                        showTitleActions: true,
+                        maxTime: DateTime.now(), onConfirm: (date) {
+                      dataSend = date;
                       var data = "${date.toLocal()}".split(' ')[0];
                       var newData = data.split('-');
 
@@ -635,7 +624,7 @@ class _BodyState extends State<Body> {
                         labelStyle: TextStyle(
                           color: isDarkMode ? Colors.white70 : Colors.black45,
                         ),
-                        labelText: 'Qual a sua altura?'),
+                        labelText: 'Qual a sua altura (cm)?'),
                     style: TextStyle(
                         fontFamily: 'MontserratRegular',
                         color: isDarkMode ? Colors.white70 : Colors.black54),
@@ -652,14 +641,44 @@ class _BodyState extends State<Body> {
                     margin: EdgeInsets.only(bottom: 10),
                     child: ElevatedButton(
                       onPressed: () {
-                        _scrollController.animateTo(
-                          0.0,
-                          curve: Curves.easeOut,
-                          duration: const Duration(milliseconds: 300),
-                        );
-                        setState(() {
-                          currentFormIndex = 3;
-                        });
+                        if (dataSend == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              customSnackBar(
+                                  message: 'Digite uma data de nascimento!'));
+                        } else if (cidadeController.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              customSnackBar(
+                                  message: 'Digite a cidade onde você mora!'));
+                        } else if (anosEstudoController.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              customSnackBar(
+                                  message: 'Digite o seu tempo de estudo!'));
+                        } else if (pesoController.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              customSnackBar(message: 'Digite o seu peso!'));
+                        } else if (alturaController.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              customSnackBar(message: 'Digite a sua altura!'));
+                        } else {
+                          FirebaseFirestore.instance
+                              .collection('users_v2')
+                              .doc(controller.id)
+                              .update({
+                            'birth_date': dataSend,
+                            'city': cidadeController.text,
+                            'height': int.parse(alturaController.text),
+                            'study': int.parse(anosEstudoController.text),
+                            'weight': int.parse(pesoController.text)
+                          });
+                          _scrollController.animateTo(
+                            0.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 300),
+                          );
+                          setState(() {
+                            currentFormIndex = 3;
+                          });
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -713,11 +732,11 @@ class _BodyState extends State<Body> {
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05, left: 20),
-                child: componentForms(context, "Sim", true),
+                child: componentForms(context, "Sim", true, searchController),
               ),
               Container(
                 margin: EdgeInsets.only(left: 20),
-                child: componentForms(context, "Não", false),
+                child: componentForms(context, "Não", false, searchController),
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
@@ -734,7 +753,6 @@ class _BodyState extends State<Body> {
                       }
                     });
                     if (searchController.feelPain == false) {
-                      print("entrou");
                       _showDialog(context);
                     }
                   },
@@ -953,6 +971,7 @@ class _BodyState extends State<Body> {
                         onChanged: (double value) {
                           setState(() {
                             sliderValue = value;
+                            searchController.changePainScale(value);
                           });
                         })),
                 Container(
@@ -970,22 +989,29 @@ class _BodyState extends State<Body> {
                 SizedBox(
                   height: 20,
                 ),
-                componentFormPain(context, 'até 6 semanas'),
-                componentFormPain(context, 'de 7 semanas a 3 meses'),
-                componentFormPain(context, 'mais de 3 meses'),
-                componentFormPain(context, 'mais de 1 ano'),
+                componentFormPain(context, 'até 6 semanas', searchController),
+                componentFormPain(
+                    context, 'de 7 semanas a 3 meses', searchController),
+                componentFormPain(context, 'mais de 3 meses', searchController),
+                componentFormPain(context, 'mais de 1 ano', searchController),
                 Container(
                   margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                   child: ElevatedButton(
                     onPressed: () {
-                      _scrollController.animateTo(
-                        0.0,
-                        curve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 300),
-                      );
-                      setState(() {
-                        currentFormIndex = 6;
-                      });
+                      if (searchController.timeDor == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            customSnackBar(
+                                message: 'Marque o tempo que você sente essa dor!'));
+                      } else {
+                        _scrollController.animateTo(
+                          0.0,
+                          curve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 300),
+                        );
+                        setState(() {
+                          currentFormIndex = 6;
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -1081,7 +1107,6 @@ class _BodyState extends State<Body> {
                         setState(() {
                           searchSportQuestions[key] = value;
                         });
-                        // print(selectedSports);
                       },
                     );
                   }).toList(),
@@ -1164,11 +1189,20 @@ class _BodyState extends State<Body> {
                                   ],
                                 );
                               });
+                          alertaDeRiscoMostrado = true;
                         }
 
+                        if (value) {
+                          setState(() {
+                            selectedSintoms.add(key);
+                          });
+                        } else {
+                          setState(() {
+                            selectedSintoms.remove(key);
+                          });
+                        }
                         setState(() {
                           searchsSintomsQuestions[key] = value;
-                          alertaDeRiscoMostrado = true;
                         });
                       },
                     );
@@ -1180,6 +1214,8 @@ class _BodyState extends State<Body> {
                   margin: EdgeInsets.only(bottom: 20),
                   child: ElevatedButton(
                     onPressed: () {
+                      searchController.selectedSports.addAll(selectedSports);
+                      searchController.selectedSintoms.addAll(selectedSintoms);
                       _scrollController.animateTo(
                         0.0,
                         curve: Curves.easeOut,
@@ -1630,7 +1666,44 @@ class _BodyState extends State<Body> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    _setAnsweredSearchTrue();
+                    FirebaseFirestore.instance
+                        .collection('users_v2')
+                        .doc(controller.id)
+                        .update({
+                      'search': {
+                        'activities_performed': searchController.selectedSports,
+                        'disease': searchController.selectedSintoms,
+                        'medication': {'frequency': null, 'use': null},
+                        'pain': {
+                          'back_pain': searchController.feelPain,
+                          'scale_pain': searchController.painScale,
+                          'time_scale': searchController.timeDor,
+                          'under_region': searchController.painInf,
+                        },
+                        'own_back': {
+                          'Dor nas costas significa que você lesionou suas costas':
+                              searchController.question3,
+                          'Existe uma grande chance de que um episódio de dor nas costas não se resolverá':
+                              searchController.question10,
+                          'Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se da dor nas costas':
+                              searchController.question7,
+                          'Se você não for cuidadoso, você pode machucar suas costas':
+                              searchController.question2,
+                          'Se você tem dor nas costas, você deve evitar exercícios físicos':
+                              searchController.question5,
+                          'Se você tem dor nas costas, você deveria tentar se manter ativo':
+                              searchController.question6,
+                          'Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas':
+                              searchController.question8,
+                          'Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza':
+                              searchController.question9,
+                          'Uma “fisgadinha” nas costas pode ser o primeiro sinal de uma lesão séria':
+                              searchController.question4,
+                          'É fácil de machucar as suas costas':
+                              searchController.question1,
+                        }
+                      }
+                    });
                     Navigator.pushNamedAndRemoveUntil(
                         context, BookScreen.routeName, (route) => false);
                   },
@@ -1691,7 +1764,8 @@ class _BodyState extends State<Body> {
     ]);
   }
 
-  componentForms(BuildContext context, String label, bool value) {
+  componentForms(BuildContext context, String label, bool value,
+      SearchController searchController) {
     return Container(
       child: Row(
         children: [
@@ -1741,7 +1815,8 @@ class _BodyState extends State<Body> {
     );
   }
 
-  componentFormPain(BuildContext context, String label) {
+  componentFormPain(
+      BuildContext context, String label, SearchController searchController) {
     return Container(
       child: Row(
         children: [
@@ -1792,19 +1867,19 @@ class _BodyState extends State<Body> {
   componentFormSliderText(String label, double value, String text,
       functionSwitchText, functionSwitchValue) {
     void switchText(double value) {
-      if (value == 0) {
+      if (value == -2) {
         functionSwitchText('Falsa');
       }
-      if (value == 1) {
+      if (value == -1) {
         functionSwitchText('Possivelmente Falsa');
       }
-      if (value == 2) {
+      if (value == 0) {
         functionSwitchText('Incerto');
       }
-      if (value == 3) {
+      if (value == 1) {
         functionSwitchText('Possivelmente Verdadeira');
       }
-      if (value == 4) {
+      if (value == 2) {
         functionSwitchText('Verdadeira');
       }
     }
@@ -1856,8 +1931,8 @@ class _BodyState extends State<Body> {
           child: Observer(
             builder: (_) {
               return Slider(
-                min: 0,
-                max: 4,
+                min: -2,
+                max: 2,
                 divisions: 4,
                 value: value,
                 label: text,

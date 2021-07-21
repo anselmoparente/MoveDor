@@ -37,12 +37,21 @@ abstract class _SearchController with Store {
   void changePainInf(bool value) => painInf = value;
 
   @observable
+  int painScale = 0;
+  @action
+  void changePainScale(double value) => painScale = value.toInt();
+
+  @observable
   String timeDor;
   @action
   void changeTimeDor(String value) => timeDor = value;
 
+  ObservableList<String> selectedSports = ObservableList<String>();
+
+  ObservableList<String> selectedSintoms = ObservableList<String>();
+
   @observable
-  double question1 = 2;
+  double question1 = 0;
   @action
   changeQuestion1(double value) => question1 = value;
   @observable
@@ -51,7 +60,7 @@ abstract class _SearchController with Store {
   void changeTextQ1(String value) => textQuestion1 = value;
 
   @observable
-  double question2 = 2;
+  double question2 = 0;
   @action
   changeQuestion2(double value) => question2 = value;
   @observable
@@ -60,7 +69,7 @@ abstract class _SearchController with Store {
   void changeTextQ2(String value) => textQuestion2 = value;
 
   @observable
-  double question3 = 2;
+  double question3 = 0;
   @action
   changeQuestion3(double value) => question3 = value;
   @observable
@@ -69,7 +78,7 @@ abstract class _SearchController with Store {
   void changeTextQ3(String value) => textQuestion3 = value;
 
   @observable
-  double question4 = 2;
+  double question4 = 0;
   @action
   changeQuestion4(double value) => question4 = value;
   @observable
@@ -78,7 +87,7 @@ abstract class _SearchController with Store {
   void changeTextQ4(String value) => textQuestion4 = value;
 
   @observable
-  double question5 = 2;
+  double question5 = 0;
   @action
   changeQuestion5(double value) => question5 = value;
   @observable
@@ -87,7 +96,7 @@ abstract class _SearchController with Store {
   void changeTextQ5(String value) => textQuestion5 = value;
 
   @observable
-  double question6 = 2;
+  double question6 = 0;
   @action
   changeQuestion6(double value) => question6 = value;
   @observable
@@ -96,7 +105,7 @@ abstract class _SearchController with Store {
   void changeTextQ6(String value) => textQuestion6 = value;
 
   @observable
-  double question7 = 2;
+  double question7 = 0;
   @action
   changeQuestion7(double value) => question7 = value;
   @observable
@@ -105,7 +114,7 @@ abstract class _SearchController with Store {
   void changeTextQ7(String value) => textQuestion7 = value;
 
   @observable
-  double question8 = 2;
+  double question8 = 0;
   @action
   changeQuestion8(double value) => question8 = value;
   @observable
@@ -114,7 +123,7 @@ abstract class _SearchController with Store {
   void changeTextQ8(String value) => textQuestion8 = value;
 
   @observable
-  double question9 = 2;
+  double question9 = 0;
   @action
   changeQuestion9(double value) => question9 = value;
   @observable
@@ -123,7 +132,7 @@ abstract class _SearchController with Store {
   void changeTextQ9(String value) => textQuestion9 = value;
 
   @observable
-  double question10 = 2;
+  double question10 = 0;
   @action
   changeQuestion10(double value) => question10 = value;
   @observable

@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:movedor/components/default_button.dart';
+import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/Chapter.dart';
 import 'package:movedor/screens/book/book_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -17,29 +20,29 @@ class Chapter02 extends StatefulWidget {
 class _Chapter02State extends State<Chapter02> {
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MainController>(context);
+    
     return Scaffold(
-      backgroundColor: Color(0xFFF5F6F9),
-      appBar: CustomAppBar(chapters[1]),
-      body:
-        SingleChildScrollView(
-          child: 
-            Column(
-              children: [
-                SizedBox(
+        backgroundColor: Color(0xFFF5F6F9),
+        appBar: CustomAppBar(chapters[1]),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
                   width: getProportionateScreenWidth(238),
                   height: getProportionateScreenWidth(238),
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: Image.asset(chapters[1].image, scale: 0.6,),
-                  )
-                ),
-                Row(children: []),
-                
-                TopRoundedContainer(
-                  color: Colors.white, 
-                  child: 
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 25 ),
+                    child: Image.asset(
+                      chapters[1].image,
+                      scale: 0.6,
+                    ),
+                  )),
+              Row(children: []),
+              TopRoundedContainer(
+                  color: Colors.white,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
                         Text(
@@ -60,7 +63,10 @@ class _Chapter02State extends State<Chapter02> {
                         ),
                         AspectRatio(
                           aspectRatio: 1,
-                          child: Image.asset('assets/caps_illustrations/cap2-01.png', scale: 0.6,),
+                          child: Image.asset(
+                            'assets/caps_illustrations/cap2-01.png',
+                            scale: 0.6,
+                          ),
                         ),
                         Text(
                           "Em algumas pessoas, essa memória pode levar a comportamentos como evitar um movimento ou uma atividade, colaborando para a persistência da dor e da incapacidade.",
@@ -70,9 +76,12 @@ class _Chapter02State extends State<Chapter02> {
                             fontSize: 20,
                           ),
                         ),
-                         AspectRatio(
+                        AspectRatio(
                           aspectRatio: 1,
-                          child: Image.asset('assets/caps_illustrations/cap2-02.png', scale: 0.6,),
+                          child: Image.asset(
+                            'assets/caps_illustrations/cap2-02.png',
+                            scale: 0.6,
+                          ),
                         ),
                         Text(
                           "O movimento pode romper esse ciclo!",
@@ -108,18 +117,31 @@ class _Chapter02State extends State<Chapter02> {
                         ),
                         SizedBox(height: 20),
                         DefaultButton(
-                          text: "Concluir capítulo",
-                          press: () => Navigator.pushNamedAndRemoveUntil(
-                        context, BookScreen.routeName, (route) => false)
-                        ),
+                            text: "Concluir capítulo",
+                            press: () {
+                              if (controller.lastChapter < 2) {
+                                controller.lastChapter = 2;
+                                FirebaseFirestore.instance
+                                    .collection('users_v2')
+                                    .doc(controller.id)
+                                    .update({
+                                  'book': {
+                                    'last_chapter': controller.lastChapter,
+                                    'questions': controller.finishedQuestions,
+                                    'quiz': controller.finishedQuiz
+                                  }
+                                });
+                              }
+
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  BookScreen.routeName, (route) => false);
+                            }),
                         SizedBox(height: 20),
                       ],
                     ),
-                  )
-                )
-              ],
-            ),
-        )
-    );
+                  ))
+            ],
+          ),
+        ));
   }
 }

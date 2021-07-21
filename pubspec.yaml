@@ -43,6 +43,8 @@ dependencies:
   step_progress_indicator: ^1.0.0
   page_slider: ^0.0.2
   cloud_firestore: 0.14.1+2
+  firebase_core : ^0.5.0
+  device_info_plus: ^0.7.2
   webview_flutter:
     git:
       url: https://github.com/asjqkkkk/plugins.git

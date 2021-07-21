@@ -59,7 +59,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: RaisedButton(
                   onPressed: () {
-                    controller.configuredDiary = true;
+                    diaryController.configuredDiary = true;
                     Navigator.push(
                         context,
                         MaterialPageRoute(
