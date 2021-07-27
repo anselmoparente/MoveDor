@@ -103,14 +103,15 @@ class _DiaryState extends State<Diary> {
                     margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                     child: ElevatedButton(
                       onPressed: () {
-                        if (diaryController.activities.isEmpty) {
-                          _showDialog(context);
-                        } else {
+                        print(diaryController.activities.length);
+                        if (diaryController.activities.length > 0) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
                                       ActivityPage()));
+                        } else {
+                          _showDialog(context);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -195,6 +196,7 @@ class _DiaryState extends State<Diary> {
                 } else {
                   diaryController.activities.add(exercises[index]);
                 }
+                print(diaryController.activities);
               });
             },
           ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/chapters_content/chapter02.dart';
@@ -12,8 +13,6 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   ScrollController _scrollController = new ScrollController();
-  MainController controller = MainController();
-  SearchController searchController = SearchController();
 
   Map<String, bool> frases = {
     'Fico em casa a maior parte do tempo por causa de minhas costas.': false,
@@ -54,6 +53,58 @@ class _BodyState extends State<Body> {
         false,
     'Fico na cama a maior parte do tempo por causa de minhas costas.': false,
   };
+  List<String> frasesText = [
+    'Fico em casa a maior parte do tempo por causa de minhas costas.',
+    'Mudo de posição frequentemente tentando deixar minhas costas confortáveis.',
+    'Ando mais devagar que o habitual por causa de minhas costas.',
+    'Por causa de minhas costas, eu não estou fazendo nenhum dos meus trabalhos que geralmente faço em casa.',
+    'Por causa de minhas costas, eu uso o corrimão para subir escadas.',
+    'Por causa de minhas costas, eu me deito para descansar mais frequentemente.',
+    'Por causa de minhas costas, eu tenho que me apoiar em alguma coisa para me levantar de uma cadeira normal.',
+    'Por causa de minhas costas, tento conseguir com que outras pessoas façam as coisas para mim.',
+    'Eu me visto mais lentamente que o habitual por causa de minhas costas.',
+    'Eu somente fico em pé por períodos curtos de tempo por causa de minhas costas.',
+    'Por causa de minhas costas, evito me abaixar ou me ajoelhar.',
+    'Encontro dificuldades em me levantar de uma cadeira por causa de minhas costas.',
+    'As minhas costas doem quase o tempo todo.',
+    'Tenho dificuldade em me virar na cama por causa de minhas costas.',
+    'Meu apetite não é muito bom por causa das dores em minhas costas.',
+    'Tenho problemas para colocar minhas meias (ou meia-calça) por causa das dores em minhas costas.',
+    'Caminho apenas curtas distâncias por causa de minhas dores nas costas.',
+    'Não durmo tão bem por causa de minhas costas.',
+    'Por causa de minhas dores nas costas, eu me visto com ajuda de outras pessoas.',
+    'Fico sentado a maior parte do dia por causa de minhas costas.',
+    'Evito trabalhos pesados em casa por causa de minhas costas.',
+    'Por causa das dores em minhas costas, fico mais irritado e mal humorado com as pessoas que o habitual.',
+    'Por causa de minhas costas, eu subo escadas mais vagarosamente do que o habitual.',
+    'Fico na cama a maior parte do tempo por causa de minhas costas.',
+  ];
+  List<bool> frasesRespostas = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   List selectedFrases = [];
 
   int currentFormIndex = 0;
@@ -64,6 +115,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     mediaSize = MediaQuery.of(context).size;
     final controller = Provider.of<MainController>(context);
+    final searchController = Provider.of<SearchController>(context);
 
     List<Widget> formsPesquisas = [
       Container(
@@ -92,9 +144,9 @@ class _BodyState extends State<Body> {
                     child: Column(
                       children: [
                         componentUseMedication(
-                            context, "Sim", true, controller),
+                            context, "Sim", true, searchController),
                         componentUseMedication(
-                            context, "Não", false, controller),
+                            context, "Não", false, searchController),
                       ],
                     ),
                   ),
@@ -117,12 +169,16 @@ class _BodyState extends State<Body> {
                             SizedBox(
                               height: 20,
                             ),
-                            componentFormMedication(context, 'Todo dia'),
                             componentFormMedication(
-                                context, '2 ou 3 vezes na semana'),
-                            componentFormMedication(context, '1 vez na semana'),
-                            componentFormMedication(context, '2 vezes ao mês'),
-                            componentFormMedication(context, '1 vez ao mês'),
+                                context, 'Todo dia', searchController),
+                            componentFormMedication(context,
+                                '2 ou 3 vezes na semana', searchController),
+                            componentFormMedication(
+                                context, '1 vez na semana', searchController),
+                            componentFormMedication(
+                                context, '2 vezes ao mês', searchController),
+                            componentFormMedication(
+                                context, '1 vez ao mês', searchController),
                           ],
                         )
                       : Container(),
@@ -333,6 +389,205 @@ class _BodyState extends State<Body> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
+                    for (int i = 0; i < selectedFrases.length; i++) {
+                      String text = selectedFrases[i];
+                      int index = frasesText.indexOf(text);
+                      if (frasesRespostas[index] == false) {
+                        frasesRespostas.removeAt(index);
+                        frasesRespostas.insert(index, true);
+                      } else if (frasesRespostas[index] == true) {
+                        frasesRespostas.removeAt(index);
+                        frasesRespostas.insert(index, false);
+                      }
+                    }
+                    FirebaseFirestore.instance
+                        .collection('users_v2')
+                        .doc(controller.id)
+                        .update({
+                      'search': {
+                        'search_complete': controller.searchComplete,
+                        'activities_performed': searchController.selectedSports,
+                        'disease': searchController.selectedSintoms,
+                        'medication': {
+                          'frequency': searchController.timeMedication,
+                          'use': searchController.medication,
+                        },
+                        'pain': {
+                          'back_pain': searchController.feelPain,
+                          'scale_pain': searchController.painScale,
+                          'time_scale': searchController.timeDor,
+                          'under_region': searchController.painInf,
+                        },
+                        'own_back': {
+                          'Dor nas costas significa que você lesionou suas costas':
+                              searchController.question3,
+                          'Existe uma grande chance de que um episódio de dor nas costas não se resolverá':
+                              searchController.question10,
+                          'Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se da dor nas costas':
+                              searchController.question7,
+                          'Se você não for cuidadoso, você pode machucar suas costas':
+                              searchController.question2,
+                          'Se você tem dor nas costas, você deve evitar exercícios físicos':
+                              searchController.question5,
+                          'Se você tem dor nas costas, você deveria tentar se manter ativo':
+                              searchController.question6,
+                          'Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas':
+                              searchController.question8,
+                          'Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza':
+                              searchController.question9,
+                          'Uma “fisgadinha” nas costas pode ser o primeiro sinal de uma lesão séria':
+                              searchController.question4,
+                          'É fácil de machucar as suas costas':
+                              searchController.question1,
+                        },
+                        'rolland_morris': [
+                          {
+                            'answer': frasesRespostas[0],
+                            'order': 1,
+                            'text':
+                                'Fico em casa a maior parte do tempo por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[1],
+                            'order': 2,
+                            'text':
+                                'Mudo de posição frequentemente tentando deixar minhas costas confortáveis'
+                          },
+                          {
+                            'answer': frasesRespostas[2],
+                            'order': 3,
+                            'text':
+                                'Ando mais devagar que o habitual por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[3],
+                            'order': 4,
+                            'text':
+                                'Por causa de minhas costas, eu não estou fazendo nenhum dos meus trabalhos que geralmente faço em casa'
+                          },
+                          {
+                            'answer': frasesRespostas[4],
+                            'order': 5,
+                            'text':
+                                'Por causa de minhas costas, eu uso o corrimão para subir escadas'
+                          },
+                          {
+                            'answer': frasesRespostas[5],
+                            'order': 6,
+                            'text':
+                                'Por causa de minhas costas, eu me deito para descansar mais frequentemente'
+                          },
+                          {
+                            'answer': frasesRespostas[6],
+                            'order': 7,
+                            'text':
+                                'Por causa de minhas costas, eu tenho que me apoiar em alguma coisa para me levantar de uma cadeira normal'
+                          },
+                          {
+                            'answer': frasesRespostas[7],
+                            'order': 8,
+                            'text':
+                                'Por causa de minhas costas, tento conseguir com que outras pessoas façam as coisas para mim'
+                          },
+                          {
+                            'answer': frasesRespostas[8],
+                            'order': 9,
+                            'text':
+                                'Eu me visto mais lentamente que o habitual por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[9],
+                            'order': 10,
+                            'text':
+                                'Eu somente fico em pé por períodos curtos de tempo por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[10],
+                            'order': 11,
+                            'text':
+                                'Por causa de minhas costas, evito me abaixar ou me ajoelhar'
+                          },
+                          {
+                            'answer': frasesRespostas[11],
+                            'order': 12,
+                            'text':
+                                'Encontro dificuldades em me levantar de uma cadeira por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[12],
+                            'order': 13,
+                            'text': 'As minhas costas doem quase o tempo todo'
+                          },
+                          {
+                            'answer': frasesRespostas[13],
+                            'order': 14,
+                            'text':
+                                'Tenho dificuldade em me virar na cama por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[14],
+                            'order': 15,
+                            'text':
+                                'Meu apetite não é muito bom por causa das dores em minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[15],
+                            'order': 16,
+                            'text':
+                                'Tenho problemas para colocar minhas meias (ou meia-calça) por causa das dores em minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[16],
+                            'order': 17,
+                            'text':
+                                'Caminho apenas curtas distâncias por causa de minhas dores nas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[17],
+                            'order': 18,
+                            'text':
+                                'Não durmo tão bem por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[18],
+                            'order': 19,
+                            'text':
+                                'Por causa de minhas dores nas costas, eu me visto com ajuda de outras pessoas'
+                          },
+                          {
+                            'answer': frasesRespostas[19],
+                            'order': 20,
+                            'text':
+                                'Fico sentado a maior parte do dia por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[20],
+                            'order': 21,
+                            'text':
+                                'Evito trabalhos pesados em casa por causa de minhas costas'
+                          },
+                          {
+                            'answer': frasesRespostas[21],
+                            'order': 22,
+                            'text':
+                                'Por causa das dores em minhas costas, fico mais irritado e mal humorado com as pessoas que o habitual'
+                          },
+                          {
+                            'answer': frasesRespostas[22],
+                            'order': 23,
+                            'text':
+                                'Por causa de minhas costas, eu subo escadas mais vagarosamente do que o habitual'
+                          },
+                          {
+                            'answer': frasesRespostas[23],
+                            'order': 24,
+                            'text':
+                                'Fico na cama a maior parte do tempo por causa de minhas costas'
+                          },
+                        ]
+                      }
+                    });
+
                     Navigator.pushNamedAndRemoveUntil(
                         context, Chapter02.routeName, (route) => false);
                   },
@@ -379,39 +634,44 @@ class _BodyState extends State<Body> {
     ]);
   }
 
-  componentFormMedication(BuildContext context, String label) {
+  componentFormMedication(
+      BuildContext context, String label, SearchController searchController) {
     return Container(
       child: Row(
         children: [
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 50, top: 10),
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.0, color: Colors.blue[200]),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: searchController.timeDor == label
-                  ? Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
+          Observer(
+            builder: (_) {
+              return GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(left: 50, top: 10),
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: Colors.blue[200]),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: searchController.timeMedication == label
+                      ? Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                          ))
+                      : Container(
+                          height: 30,
+                          width: 30,
                         ),
-                      ))
-                  : Container(
-                      height: 30,
-                      width: 30,
-                    ),
-            ),
-            onTap: () {
-              setState(() {
-                searchController.changeTimeDor(label);
-              });
+                ),
+                onTap: () {
+                  setState(() {
+                    searchController.changedTimeMedication(label);
+                  });
+                },
+              );
             },
           ),
           Container(
@@ -428,7 +688,7 @@ class _BodyState extends State<Body> {
   }
 
   Widget componentUseMedication(BuildContext context, String label, bool value,
-      MainController controller) {
+      SearchController searchController) {
     return Container(
       child: Row(
         children: [

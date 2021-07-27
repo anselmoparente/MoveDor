@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 
 // Include generated file
@@ -53,4 +54,11 @@ abstract class _DiaryController with Store {
 
   @action
   void changeValueBorg(double value) => valueBorg = value;
+
+  @action
+  Future<void> getDiary(String id) async {
+    FirebaseFirestore.instance.collection('users_v2').doc(id).get().then((value) {
+      configuredDiary = value['configured_diary'];
+    });
+  }
 }

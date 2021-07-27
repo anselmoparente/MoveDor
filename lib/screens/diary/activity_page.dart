@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/controllers/diary_controller.dart';
@@ -60,6 +61,12 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: RaisedButton(
                   onPressed: () {
                     diaryController.configuredDiary = true;
+                    FirebaseFirestore.instance
+                        .collection('users_v2')
+                        .doc(controller.id)
+                        .update({'configured_diary': diaryController.configuredDiary});
+                    diaryController.activities.clear();
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(

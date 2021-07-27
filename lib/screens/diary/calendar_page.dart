@@ -7,6 +7,9 @@ import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/diary/components/custom_elevated_button.dart';
 import 'package:movedor/screens/diary/components/dialog_borg.dart';
+import 'package:movedor/screens/diary/diary_screen.dart';
+import 'package:movedor/screens/diary/effort_page.dart';
+import 'package:movedor/screens/diary/goal_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -261,6 +264,30 @@ class _CalendarPageState extends State<CalendarPage> {
             iconData:
                 Icon(Icons.arrow_back_ios, size: 18, color: Colors.black87),
             press: () => Navigator.pushNamed(context, BookScreen.routeName)),
+        actions: [
+          RoundedIconBtn(
+            iconData: Icon(Icons.trending_up, size: 24, color: Colors.black87),
+            press: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EffortPage()),
+            ),
+          ),
+          RoundedIconBtn(
+            iconData: Icon(Icons.leaderboard, size: 24, color: Colors.black87),
+            press: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GoalPage()),
+            ),
+          ),
+          RoundedIconBtn(
+              iconData: Icon(Icons.edit, size: 24, color: Colors.black87),
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Diary()),
+                );
+              }),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -498,7 +525,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 child: IconButton(
                   iconSize: 32,
                   icon: Icon(
-                    Icons.delete_forever,
+                    Icons.close,
                     color: Colors.red,
                   ),
                   onPressed: () {

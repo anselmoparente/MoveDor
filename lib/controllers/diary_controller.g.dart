@@ -84,6 +84,13 @@ mixin _$DiaryController on _DiaryController, Store {
     });
   }
 
+  final _$getDiaryAsyncAction = AsyncAction('_DiaryController.getDiary');
+
+  @override
+  Future<void> getDiary(String id) {
+    return _$getDiaryAsyncAction.run(() => super.getDiary(id));
+  }
+
   final _$_DiaryControllerActionController =
       ActionController(name: '_DiaryController');
 

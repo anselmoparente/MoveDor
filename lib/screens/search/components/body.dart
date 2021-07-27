@@ -133,150 +133,145 @@ class _BodyState extends State<Body> {
     final searchController = Provider.of<SearchController>(context);
     mediaSize = MediaQuery.of(context).size;
 
-    void id() async {
-      var androidInfo = await DeviceInfoPlugin().androidInfo;
-      controller.id = androidInfo.androidId;
-    }
-
-    id();
+    // controller.getMain();
 
     List<Widget> formsPesquisas = [
       Container(
         height: MediaQuery.of(context).size.height * 0.8,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(bottom: 40),
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: new TextSpan(
-                    style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        color: Color(0xFF36a9b0),
-                        fontSize: 30),
-                    children: <TextSpan>[
-                      new TextSpan(text: 'Seja bem vindo ao '),
-                      new TextSpan(
-                          text: 'MoveDor!',
-                          style: new TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'MontserratBold')),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 40),
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: new TextSpan(
-                    style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        color: isDarkMode ? Colors.white70 : Colors.black54,
-                        fontSize: 24),
-                    children: <TextSpan>[
-                      new TextSpan(
-                          text:
-                              '''Esse app é voltado para pessoas com Dor Lombar Crônica!
-  Antes de iniciarmos, gostaríamos de fazer algumas perguntas para que possamos te conhecer melhor, pode ser? '''),
-                      new TextSpan(
-                          text: '😁',
-                          style: new TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontFamily: 'MontserratBold')),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 40),
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: new TextSpan(
-                    style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        color: isDarkMode ? Colors.white70 : Colors.black54,
-                        fontSize: 24),
-                    children: <TextSpan>[
-                      new TextSpan(
-                          text:
-                              'Ao clicar em avançar, você concorda com os nossos '),
-                      new TextSpan(
-                          text: ' termos de uso',
-                          style: TextStyle(color: Colors.blue),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              // Navigator.pushNamed(context, Terms.routeName, (route) => false);
-
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(builder: (context) => Terms()),
-                              // );
-                            }),
-                      new TextSpan(
-                          text:
-                              ' e nos autoriza a utilizar as informações aqui coletadas para '),
-                      new TextSpan(
-                          text: 'FINS DE PESQUISA CIENTÍFICA.',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    controller.getMain();
-
-                    _scrollController.animateTo(
-                      0.0,
-                      curve: Curves.easeOut,
-                      duration: const Duration(milliseconds: 300),
-                    );
-                    setState(() {
-                      currentFormIndex = 1;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    padding: EdgeInsets.all(0.0),
-                  ),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Container(
-                      constraints:
-                          BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Vamos lá",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
+        child: SingleChildScrollView(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: 40),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: new TextSpan(
+                      style: TextStyle(
                           fontFamily: 'MontserratRegular',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Color(0xFF36a9b0),
+                          fontSize: 30),
+                      children: <TextSpan>[
+                        new TextSpan(text: 'Seja bem vindo ao '),
+                        new TextSpan(
+                            text: 'MoveDor!',
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'MontserratBold')),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 40),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: new TextSpan(
+                      style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          color: isDarkMode ? Colors.white70 : Colors.black54,
+                          fontSize: 24),
+                      children: <TextSpan>[
+                        new TextSpan(
+                            text:
+                                '''Esse app é voltado para pessoas com Dor Lombar Crônica!
+  Antes de iniciarmos, gostaríamos de fazer algumas perguntas para que possamos te conhecer melhor, pode ser? '''),
+                        new TextSpan(
+                            text: '😁',
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontFamily: 'MontserratBold')),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 40),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: new TextSpan(
+                      style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          color: isDarkMode ? Colors.white70 : Colors.black54,
+                          fontSize: 24),
+                      children: <TextSpan>[
+                        new TextSpan(
+                            text:
+                                'Ao clicar em avançar, você concorda com os nossos '),
+                        new TextSpan(
+                            text: ' termos de uso',
+                            style: TextStyle(color: Colors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Navigator.pushNamed(context, Terms.routeName, (route) => false);
+
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(builder: (context) => Terms()),
+                                // );
+                              }),
+                        new TextSpan(
+                            text:
+                                ' e nos autoriza a utilizar as informações aqui coletadas para '),
+                        new TextSpan(
+                            text: 'FINS DE PESQUISA CIENTÍFICA.',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      _scrollController.animateTo(
+                        0.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 300),
+                      );
+                      setState(() {
+                        currentFormIndex = 1;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                    ),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Vamos lá",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'MontserratRegular',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ]),
+              ]),
+        ),
       ),
       Container(
           height: MediaQuery.of(context).size.height * 0.8,
@@ -421,186 +416,58 @@ class _BodyState extends State<Body> {
       Container(
         margin: EdgeInsets.only(top: mediaSize.height * 0.1),
         height: MediaQuery.of(context).size.height * 0.8,
-        child: Form(
-            key: _form1,
-            autovalidate: _autovalidadeForm1,
-            child: Column(
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        maxTime: DateTime.now(), onConfirm: (date) {
-                      dataSend = date;
-                      var data = "${date.toLocal()}".split(' ')[0];
-                      var newData = data.split('-');
+        child: SingleChildScrollView(
+          child: Form(
+              key: _form1,
+              autovalidate: _autovalidadeForm1,
+              child: Column(
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          maxTime: DateTime.now(), onConfirm: (date) {
+                        dataSend = date;
+                        var data = "${date.toLocal()}".split(' ')[0];
+                        var newData = data.split('-');
 
-                      setState(() {
-                        nascimento =
-                            "${newData[2]}/${newData[1]}/${newData[0]}";
-                      });
-                    }, currentTime: DateTime.now(), locale: LocaleType.pt);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1.0,
-                        color: isDarkMode ? Colors.white70 : Colors.black45,
+                        setState(() {
+                          nascimento =
+                              "${newData[2]}/${newData[1]}/${newData[0]}";
+                        });
+                      }, currentTime: DateTime.now(), locale: LocaleType.pt);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.0,
+                          color: isDarkMode ? Colors.white70 : Colors.black45,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      margin: EdgeInsets.only(top: 25),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      child: Text(
+                        nascimento.length > 1
+                            ? '       ' + nascimento
+                            : '       Data de nascimento',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: isDarkMode ? Colors.white70 : Colors.black54,
+                            fontSize: 16,
+                            fontFamily: 'MontserratRegular',
+                            fontWeight: FontWeight.normal),
+                      ),
                     ),
+                  ),
+                  Container(
                     margin: EdgeInsets.only(top: 25),
                     width: MediaQuery.of(context).size.width * 0.9,
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                    child: Text(
-                      nascimento.length > 1
-                          ? '       ' + nascimento
-                          : '       Data de nascimento',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: isDarkMode ? Colors.white70 : Colors.black54,
-                          fontSize: 16,
-                          fontFamily: 'MontserratRegular',
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 25),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: TextFormField(
-                    controller: cidadeController,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      labelStyle: TextStyle(
-                        color: isDarkMode ? Colors.white70 : Colors.black45,
-                      ),
-                      labelText: 'Em que cidade você mora?',
-                    ),
-                    style: TextStyle(
-                      fontFamily: 'MontserratRegular',
-                      color: isDarkMode ? Colors.white70 : Colors.black54,
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Informe a cidade em que mora.';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 25),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: TextFormField(
-                    controller: anosEstudoController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      labelStyle: TextStyle(
-                        color: isDarkMode ? Colors.white70 : Colors.black45,
-                      ),
-                      labelText: 'Você estudou por quantos anos?',
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        color: isDarkMode ? Colors.white70 : Colors.black54),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Informe por quantos anos você estudou.';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 25),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: TextFormField(
-                    controller: pesoController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        ),
-                      ),
-                      labelStyle: TextStyle(
-                        color: isDarkMode ? Colors.white70 : Colors.black45,
-                      ),
-                      labelText: 'Qual o seu peso (kg)?',
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        color: isDarkMode ? Colors.white70 : Colors.black54),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Informe o seu peso.';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 25),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: TextFormField(
-                    controller: alturaController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    child: TextFormField(
+                      controller: cidadeController,
+                      decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: isDarkMode ? Colors.white70 : Colors.black45,
@@ -624,95 +491,232 @@ class _BodyState extends State<Body> {
                         labelStyle: TextStyle(
                           color: isDarkMode ? Colors.white70 : Colors.black45,
                         ),
-                        labelText: 'Qual a sua altura (cm)?'),
-                    style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        color: isDarkMode ? Colors.white70 : Colors.black54),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Informe a sua altura.';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (dataSend == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              customSnackBar(
-                                  message: 'Digite uma data de nascimento!'));
-                        } else if (cidadeController.text == '') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              customSnackBar(
-                                  message: 'Digite a cidade onde você mora!'));
-                        } else if (anosEstudoController.text == '') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              customSnackBar(
-                                  message: 'Digite o seu tempo de estudo!'));
-                        } else if (pesoController.text == '') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              customSnackBar(message: 'Digite o seu peso!'));
-                        } else if (alturaController.text == '') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              customSnackBar(message: 'Digite a sua altura!'));
-                        } else {
-                          FirebaseFirestore.instance
-                              .collection('users_v2')
-                              .doc(controller.id)
-                              .update({
-                            'birth_date': dataSend,
-                            'city': cidadeController.text,
-                            'height': int.parse(alturaController.text),
-                            'study': int.parse(anosEstudoController.text),
-                            'weight': int.parse(pesoController.text)
-                          });
-                          _scrollController.animateTo(
-                            0.0,
-                            curve: Curves.easeOut,
-                            duration: const Duration(milliseconds: 300),
-                          );
-                          setState(() {
-                            currentFormIndex = 3;
-                          });
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        padding: EdgeInsets.all(0.0),
+                        labelText: 'Em que cidade você mora?',
                       ),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
+                      style: TextStyle(
+                        fontFamily: 'MontserratRegular',
+                        color: isDarkMode ? Colors.white70 : Colors.black54,
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Informe a cidade em que mora.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: TextFormField(
+                      controller: anosEstudoController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: isDarkMode ? Colors.white70 : Colors.black45,
+                        ),
+                        labelText: 'Você estudou por quantos anos?',
+                      ),
+                      style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          color: isDarkMode ? Colors.white70 : Colors.black54),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Informe por quantos anos você estudou.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: TextFormField(
+                      controller: pesoController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: isDarkMode ? Colors.white70 : Colors.black45,
+                        ),
+                        labelText: 'Qual o seu peso (kg)?',
+                      ),
+                      style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          color: isDarkMode ? Colors.white70 : Colors.black54),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Informe o seu peso.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 25),
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: TextFormField(
+                      controller: alturaController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  isDarkMode ? Colors.white70 : Colors.black45,
                             ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Continuar",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'MontserratRegular',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  isDarkMode ? Colors.white70 : Colors.black45,
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  isDarkMode ? Colors.white70 : Colors.black45,
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  isDarkMode ? Colors.white70 : Colors.black45,
+                            ),
+                          ),
+                          labelStyle: TextStyle(
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                          labelText: 'Qual a sua altura (cm)?'),
+                      style: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          color: isDarkMode ? Colors.white70 : Colors.black54),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Informe a sua altura.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (dataSend == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message: 'Digite uma data de nascimento!'));
+                          } else if (cidadeController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message:
+                                        'Digite a cidade onde você mora!'));
+                          } else if (anosEstudoController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message: 'Digite o seu tempo de estudo!'));
+                          } else if (pesoController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(message: 'Digite o seu peso!'));
+                          } else if (alturaController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message: 'Digite a sua altura!'));
+                          } else {
+                            FirebaseFirestore.instance
+                                .collection('users_v2')
+                                .doc(controller.id)
+                                .update({
+                              'birth_date': dataSend,
+                              'city': cidadeController.text,
+                              'height': int.parse(alturaController.text),
+                              'study': int.parse(anosEstudoController.text),
+                              'weight': int.parse(pesoController.text)
+                            });
+                            _scrollController.animateTo(
+                              0.0,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300),
+                            );
+                            setState(() {
+                              currentFormIndex = 3;
+                            });
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                        ),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: Container(
+                            constraints: BoxConstraints(
+                                maxWidth: 300.0, minHeight: 50.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Continuar",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'MontserratRegular',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              )),
+        ),
       ),
       Container(
         child: Center(
@@ -1001,7 +1005,8 @@ class _BodyState extends State<Body> {
                       if (searchController.timeDor == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             customSnackBar(
-                                message: 'Marque o tempo que você sente essa dor!'));
+                                message:
+                                    'Marque o tempo que você sente essa dor!'));
                       } else {
                         _scrollController.animateTo(
                           0.0,
@@ -1666,16 +1671,18 @@ class _BodyState extends State<Body> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
+                    controller.searchComplete = true;
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)
                         .update({
                       'search': {
+                        'search_complete': controller.searchComplete,
                         'activities_performed': searchController.selectedSports,
                         'disease': searchController.selectedSintoms,
                         'medication': {'frequency': null, 'use': null},
                         'pain': {
-                          'back_pain': searchController.feelPain,
+                          'back_pain': true,
                           'scale_pain': searchController.painScale,
                           'time_scale': searchController.timeDor,
                           'under_region': searchController.painInf,
@@ -1701,7 +1708,8 @@ class _BodyState extends State<Body> {
                               searchController.question4,
                           'É fácil de machucar as suas costas':
                               searchController.question1,
-                        }
+                        },
+                        'rolland_morris': []
                       }
                     });
                     Navigator.pushNamedAndRemoveUntil(

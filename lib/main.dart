@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/diary_controller.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-void main() async{
+void main() async {
   SharedPreferences.setMockInitialValues({});
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -29,6 +30,21 @@ class MyApp extends StatelessWidget {
         Provider<SearchController>(create: (_) => SearchController()),
       ],
       child: MaterialApp(
+        builder: (context, child) {
+          MainController controller = Provider.of<MainController>(context);
+          DiaryController diaryController = Provider.of<DiaryController>(context);
+
+          void id() async {
+            var androidInfo = await DeviceInfoPlugin().androidInfo;
+            controller.id = androidInfo.androidId;
+          }
+          id();
+          Future.delayed(Duration(seconds: 1));
+          controller.getMain();
+          diaryController.getDiary(controller.id);
+
+          return child;
+        },
         debugShowCheckedModeBanner: false,
         title: 'MoveDor',
         theme: theme(),

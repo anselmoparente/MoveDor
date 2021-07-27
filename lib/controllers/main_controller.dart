@@ -29,11 +29,11 @@ abstract class _MainController with Store {
 
   @action
   Future<void> getMain() async {
-    DocumentSnapshot variable = await Firestore.instance
-        .collection('users')
-        .doc('ruMDKcF5Ob3lJLABj71f')
-        .get();
-
-    print(variable);
+    FirebaseFirestore.instance.collection('users_v2').doc(id).get().then((value) {
+      name = value['name'];
+      searchComplete = value['search']['search_complete'];
+      lastChapter = value['book']['last_chapter'];
+      finishedQuestions = value['book']['questions'];
+    });
   }
 }
