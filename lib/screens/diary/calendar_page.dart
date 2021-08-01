@@ -266,13 +266,6 @@ class _CalendarPageState extends State<CalendarPage> {
             press: () => Navigator.pushNamed(context, BookScreen.routeName)),
         actions: [
           RoundedIconBtn(
-            iconData: Icon(Icons.trending_up, size: 24, color: Colors.black87),
-            press: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => EffortPage()),
-            ),
-          ),
-          RoundedIconBtn(
             iconData: Icon(Icons.leaderboard, size: 24, color: Colors.black87),
             press: () => Navigator.push(
               context,
