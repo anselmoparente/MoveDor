@@ -19,8 +19,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -32,14 +30,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         builder: (context, child) {
           MainController controller = Provider.of<MainController>(context);
-          DiaryController diaryController = Provider.of<DiaryController>(context);
+          DiaryController diaryController =
+              Provider.of<DiaryController>(context);
 
           void id() async {
             var androidInfo = await DeviceInfoPlugin().androidInfo;
             controller.id = androidInfo.androidId;
           }
+
           id();
-          Future.delayed(Duration(seconds: 1));
+
           controller.getMain();
           diaryController.getDiary(controller.id);
 

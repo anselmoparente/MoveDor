@@ -13,6 +13,9 @@ abstract class _MainController with Store {
   String name = '';
 
   @observable
+  String token = '';
+
+  @observable
   bool searchComplete = false;
 
   @observable

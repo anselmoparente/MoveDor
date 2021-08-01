@@ -24,6 +24,21 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$tokenAtom = Atom(name: '_MainController.token');
+
+  @override
+  String get token {
+    _$tokenAtom.reportRead();
+    return super.token;
+  }
+
+  @override
+  set token(String value) {
+    _$tokenAtom.reportWrite(value, super.token, () {
+      super.token = value;
+    });
+  }
+
   final _$searchCompleteAtom = Atom(name: '_MainController.searchComplete');
 
   @override
@@ -111,6 +126,7 @@ mixin _$MainController on _MainController, Store {
   String toString() {
     return '''
 name: ${name},
+token: ${token},
 searchComplete: ${searchComplete},
 lastChapter: ${lastChapter},
 id: ${id},
