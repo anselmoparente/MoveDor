@@ -8,7 +8,6 @@ import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/diary/components/custom_elevated_button.dart';
 import 'package:movedor/screens/diary/components/dialog_borg.dart';
 import 'package:movedor/screens/diary/diary_screen.dart';
-import 'package:movedor/screens/diary/effort_page.dart';
 import 'package:movedor/screens/diary/goal_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
