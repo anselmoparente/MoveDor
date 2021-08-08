@@ -33,7 +33,7 @@ class Body extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'MontserratRegular',
                       color: Color(0xff36a9b0),
-                      fontSize: mediaSize.width * 0.04,
+                      fontSize: mediaSize.width * 0.05,
                     ),
                   ),
                 ),
@@ -48,7 +48,7 @@ class Body extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'MontserratRegular',
                       color: Color(0xff36a9b0),
-                      fontSize: mediaSize.width * 0.04,
+                      fontSize: mediaSize.width * 0.05,
                     ),
                   ),
                 ),
@@ -129,13 +129,21 @@ class Body extends StatelessWidget {
   Widget developersContainer(Size mediaSize, String type, String developers) {
     return Container(
       padding: EdgeInsets.only(left: 10, right: 10),
-      child: Text(
-        type + ': ' + developers,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontFamily: 'MontserratRegular',
-          color: Color(0xff36a9b0),
-          fontSize: mediaSize.width * 0.04,
+      child: RichText(
+        textAlign: TextAlign.start,
+        text: TextSpan(
+          style: TextStyle(
+            fontFamily: 'MontserratRegular',
+            color: Color(0xff36a9b0),
+            fontSize: mediaSize.width * 0.04,
+          ),
+          children: <TextSpan>[
+            TextSpan(text: type, style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: ': '),
+            TextSpan(
+              text: developers,
+            ),
+          ],
         ),
       ),
     );
