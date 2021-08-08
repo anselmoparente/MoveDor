@@ -26,7 +26,7 @@ class _DiaryState extends State<Diary> {
   @override
   Widget build(BuildContext context) {
     final diaryController = Provider.of<DiaryController>(context);
-
+    
     mediaSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
@@ -103,7 +103,6 @@ class _DiaryState extends State<Diary> {
                     margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                     child: ElevatedButton(
                       onPressed: () {
-                        print(diaryController.activities.length);
                         if (diaryController.activities.length > 0) {
                           Navigator.push(
                               context,
@@ -193,10 +192,11 @@ class _DiaryState extends State<Diary> {
                 }
                 if (diaryController.activities.contains(exercises[index])) {
                   diaryController.activities.remove(exercises[index]);
+                      
                 } else {
                   diaryController.activities.add(exercises[index]);
+                      
                 }
-                print(diaryController.activities);
               });
             },
           ),

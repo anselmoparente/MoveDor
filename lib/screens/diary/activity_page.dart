@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:movedor/controllers/activity_controller.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/activity_planed.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -23,6 +25,7 @@ class _ActivityPageState extends State<ActivityPage> {
     mediaSize = MediaQuery.of(context).size;
     final controller = Provider.of<MainController>(context);
     final diaryController = Provider.of<DiaryController>(context);
+    final activityController = Provider.of<ActivityController>(context);
 
     if (controller.first == false) {
       diaryController.activityTime.clear();
@@ -45,11 +48,11 @@ class _ActivityPageState extends State<ActivityPage> {
         diaryController.activityPeriodAux.insert(i, 0.0);
       }
 
-      diaryController.activitysDaysTest.clear();
+      diaryController.activitysDays.clear();
       for (int i = 0; i < diaryController.activities.length; i++) {
-        diaryController.activitysDaysTest.insert(i, []);
+        diaryController.activitysDays.insert(i, []);
       }
-      
+
       controller.first = true;
     }
 
@@ -71,7 +74,33 @@ class _ActivityPageState extends State<ActivityPage> {
                         .update({
                       'configured_diary': diaryController.configuredDiary
                     });
-                    diaryController.activities.clear();
+
+                    for (int i = 0;
+                        i < diaryController.activities.length;
+                        i++) {
+                      var activity = ActivityPlaned(
+                          diaryController.activities[i],
+                          diaryController.activityPeriod[i],
+                          diaryController.activityTime[i],
+                          diaryController.activitysDays[i]);
+                      activityController.activitiesPlaned.add(activity);
+                    }
+
+                    for (int i = 0;
+                        i < diaryController.activities.length;
+                        i++) {
+                      FirebaseFirestore.instance
+                          .collection('users_v2')
+                          .doc(controller.id)
+                          .collection('activities_planed')
+                          .doc()
+                          .set({
+                        'activity': activityController.activitiesPlaned[i].type,
+                        'days': activityController.activitiesPlaned[i].days,
+                        'period': activityController.activitiesPlaned[i].period,
+                        'time': activityController.activitiesPlaned[i].time,
+                      });
+                    }
 
                     Navigator.push(
                         context,
@@ -127,7 +156,7 @@ class _ActivityPageState extends State<ActivityPage> {
                   border: Border.all(width: 1.0, color: Color(0xff36a9b0)),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: diaryController.activitysDaysTest[index].contains(value)
+                child: diaryController.activitysDays[index].contains(value)
                     ? Container(
                         height: 30,
                         width: 30,
@@ -145,13 +174,11 @@ class _ActivityPageState extends State<ActivityPage> {
               ),
               onTap: () {
                 setState(() {
-                  if (diaryController.activitysDaysTest[index]
-                      .contains(value)) {
-                    diaryController.activitysDaysTest[index].remove(value);
+                  if (diaryController.activitysDays[index].contains(value)) {
+                    diaryController.activitysDays[index].remove(value);
                   } else {
-                    diaryController.activitysDaysTest[index].add(value);
+                    diaryController.activitysDays[index].add(value);
                   }
-                  print(diaryController.activitysDaysTest);
                 });
               },
             ),

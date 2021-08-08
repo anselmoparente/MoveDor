@@ -28,11 +28,7 @@ abstract class _DiaryController with Store {
   ObservableList<double> activityPeriodAux = ObservableList<double>();
 
   // Dias marcados com atividades
-  ObservableList<String> activitysDays = ObservableList<String>();
-
-  // Dias marcados com atividades
-  ObservableList<List<String>> activitysDaysTest =
-      ObservableList<List<String>>();
+  ObservableList<List<String>> activitysDays = ObservableList<List<String>>();
 
   @observable
   DateTime actualDay;
@@ -57,7 +53,11 @@ abstract class _DiaryController with Store {
 
   @action
   Future<void> getDiary(String id) async {
-    FirebaseFirestore.instance.collection('users_v2').doc(id).get().then((value) {
+    FirebaseFirestore.instance
+        .collection('users_v2')
+        .doc(id)
+        .get()
+        .then((value) {
       configuredDiary = value['configured_diary'];
     });
   }

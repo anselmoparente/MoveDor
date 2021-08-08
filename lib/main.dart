@@ -3,6 +3,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:movedor/controllers/activity_controller.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
@@ -42,6 +43,7 @@ class _MyAppState extends State<MyApp> {
         Provider<MainController>(create: (_) => MainController()),
         Provider<DiaryController>(create: (_) => DiaryController()),
         Provider<SearchController>(create: (_) => SearchController()),
+        Provider<ActivityController>(create: (_) => ActivityController()),
       ],
       child: MaterialApp(
         builder: (context, child) {
