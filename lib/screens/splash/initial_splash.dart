@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cron/cron.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/main_controller.dart';
@@ -37,11 +36,6 @@ class _SplashScreenInitialState extends State<SplashScreenInitial> {
     Future.delayed(Duration(seconds: 1), () {
       controller.token = token;
     });
-
-    // var cron = new Cron();
-    // cron.schedule(new Schedule.parse('* * * * *'), () async {
-    //   sendNotification('Teste', 'Testado com sucesso', controller.token);
-    // });
 
     return Scaffold(
       body: Stack(

@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cron/cron.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
@@ -19,20 +21,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  void sendNotification(String body, String title, String token) {
+
+  void sendNotification(String body, String title, String token) async {
     String keyServer =
-        "AAAAHpgTV48:APA91bHNSsnOeRgi3x8yeP7E_eqCEI0-3h2nrpEYaBdm6OglTtPczePKjS_mNXt10mAnWcPdN4EaHyVMc0j973ep29XHwoyvWU8AwlT5Mir5qp7VZHAk5RVntIwtDcHG-pzVdwefzPnQ";
+        "AAAAHpgTV48:APA91bGAfRl9WYJ65qCBgC6fIsTbLGMrhjVDtc6n8lIZl5boWLoAulNty2Twv5ydUzVm8RnUHbXmYjU-qiAJ6KP3EJ8bpO9E0lR3Yx_HD_5Nr3jfdA68uc13vVduk8OiFL_vaznwAqiS";
     var data = {
       "notification": {"body": body, "title": title},
       "priority": "high",
       "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK"},
-      "to": token
+      "to": token,
     };
     var dataBody = json.encode(data);
-    http.post("https://fcm.googleapis.com/fcm/send", body: dataBody, headers: {
-      "Content-Type": "application/json",
-      "Authorization": "key=$keyServer"
-    });
+    final test = await http.post("https://fcm.googleapis.com/fcm/send",
+        body: dataBody,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "key=$keyServer"
+        });
+
+    print(test.statusCode);
   }
 
   @override
@@ -44,14 +51,23 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
 
-    sendNotification('Teste', 'Testado com sucesso', controller.token);
+    var cron = new Cron();
+    cron.schedule(new Schedule.parse('* * * * *'), () async {
+      print('vai enviar?');
+      sendNotification('Teste', 'Testado com sucesso', controller.token);
+      print('enviouuuu');
+    });
 
     if (controller.searchComplete == true) {
-      Timer(Duration(seconds: 0),
-          () => Navigator.pushNamed(context, BookScreen.routeName));
+      Timer(Duration(seconds: 0), () {
+        Navigator.pushNamed(context, BookScreen.routeName);
+        print('entrou');
+      });
     } else if (controller.searchComplete == false) {
-      Timer(Duration(seconds: 0),
-          () => Navigator.pushNamed(context, SearchScreen.routeName));
+      Timer(Duration(seconds: 0), () {
+        Navigator.pushNamed(context, SearchScreen.routeName);
+        print('entrou 2');
+      });
     }
 
     // You have to call it on your starting screen

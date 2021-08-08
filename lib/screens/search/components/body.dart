@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -11,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../constants.dart';
 
@@ -29,7 +32,19 @@ class _BodyState extends State<Body> {
 
   int currentFormIndex = 0;
 
-  final _name = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => nomeController.clear());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => cidadeController.clear());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => anosEstudoController.clear());
+    WidgetsBinding.instance.addPostFrameCallback((_) => pesoController.clear());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => alturaController.clear());
+  }
+
   bool _autovalidadeName = false;
   bool isDarkMode = false;
   double fontSize = 18;
@@ -275,144 +290,134 @@ class _BodyState extends State<Body> {
       ),
       Container(
           height: MediaQuery.of(context).size.height * 0.8,
-          child: Form(
-            key: _name,
-            autovalidate: _autovalidadeName,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 40),
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: new TextSpan(
-                        style: TextStyle(
-                            fontFamily: 'MontserratRegular',
-                            color: Color(0xFF36a9b0),
-                            fontSize: 30),
-                        children: <TextSpan>[
-                          new TextSpan(text: 'Primeiro, nos diga seu nome'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 25),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: TextFormField(
-                      controller: nomeController,
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color:
-                                  isDarkMode ? Colors.white70 : Colors.black45,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color:
-                                  isDarkMode ? Colors.white70 : Colors.black45,
-                            ),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color:
-                                  isDarkMode ? Colors.white70 : Colors.black45,
-                            ),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color:
-                                  isDarkMode ? Colors.white70 : Colors.black45,
-                            ),
-                          ),
-                          labelText: 'Seu nome',
-                          labelStyle: TextStyle(
-                            fontFamily: 'MontserratRegular',
-                            color: isDarkMode ? Colors.white70 : Colors.black45,
-                          )),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: 40),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: new TextSpan(
                       style: TextStyle(
-                          color: isDarkMode ? Colors.white70 : Colors.black54),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Por favor, informe o seu nome.';
-                        }
-                        return null;
-                      },
+                          fontFamily: 'MontserratRegular',
+                          color: Color(0xFF36a9b0),
+                          fontSize: 30),
+                      children: <TextSpan>[
+                        new TextSpan(text: 'Primeiro, nos diga seu nome'),
+                      ],
                     ),
                   ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (_name.currentState.validate()) {
-                          final prefs = await SharedPreferences.getInstance();
-
-                          final endIndex = nomeController.text.indexOf(" ");
-                          var name = nomeController.text;
-
-                          if (endIndex > -1) {
-                            name = nomeController.text.substring(0, endIndex);
-                          }
-
-                          nomeController.text = name;
-
-                          prefs.setString("name", name);
-
-                          controller.name = name;
-
-                          FirebaseFirestore.instance
-                              .collection('users_v2')
-                              .doc(controller.id)
-                              .set({'name': controller.name});
-
-                          _scrollController.animateTo(
-                            0.0,
-                            curve: Curves.easeOut,
-                            duration: const Duration(milliseconds: 300),
-                          );
-                          setState(() {
-                            currentFormIndex = 2;
-                          });
-                        } else {
-                          setState(() {
-                            _autovalidadeName = true;
-                          });
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        padding: EdgeInsets.all(0.0),
-                      ),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Pronto!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'MontserratRegular',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 25),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: TextFormField(
+                    controller: nomeController,
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color:
+                                isDarkMode ? Colors.white70 : Colors.black45,
                           ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color:
+                                isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color:
+                                isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color:
+                                isDarkMode ? Colors.white70 : Colors.black45,
+                          ),
+                        ),
+                        labelText: 'Seu nome',
+                        labelStyle: TextStyle(
+                          fontFamily: 'MontserratRegular',
+                          color: isDarkMode ? Colors.white70 : Colors.black45,
+                        )),
+                    style: TextStyle(
+                        color: isDarkMode ? Colors.white70 : Colors.black54),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Por favor, informe o seu nome.';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+
+                      final endIndex = nomeController.text.indexOf(" ");
+                      var name = nomeController.text;
+
+                      if (endIndex > -1) {
+                        name = nomeController.text.substring(0, endIndex);
+                      }
+
+                      nomeController.text = name;
+
+                      prefs.setString("name", name);
+
+                      controller.name = name;
+
+                      FirebaseFirestore.instance
+                          .collection('users_v2')
+                          .doc(controller.id)
+                          .set({'name': controller.name});
+
+                      _scrollController.animateTo(
+                        0.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 300),
+                      );
+                      setState(() {
+                        currentFormIndex = 2;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                    ),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Pronto!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'MontserratRegular',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.white),
                         ),
                       ),
                     ),
                   ),
-                ]),
-          )),
+                ),
+              ])),
       Container(
         margin: EdgeInsets.only(top: mediaSize.height * 0.1),
         height: MediaQuery.of(context).size.height * 0.8,
@@ -642,46 +647,46 @@ class _BodyState extends State<Body> {
                       margin: EdgeInsets.only(bottom: 10),
                       child: ElevatedButton(
                         onPressed: () {
-                          if (dataSend == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(
-                                    message: 'Digite uma data de nascimento!'));
-                          } else if (cidadeController.text == '') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(
-                                    message:
-                                        'Digite a cidade onde você mora!'));
-                          } else if (anosEstudoController.text == '') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(
-                                    message: 'Digite o seu tempo de estudo!'));
-                          } else if (pesoController.text == '') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(message: 'Digite o seu peso!'));
-                          } else if (alturaController.text == '') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(
-                                    message: 'Digite a sua altura!'));
-                          } else {
-                            FirebaseFirestore.instance
-                                .collection('users_v2')
-                                .doc(controller.id)
-                                .update({
-                              'birth_date': dataSend,
-                              'city': cidadeController.text,
-                              'height': int.parse(alturaController.text),
-                              'study': int.parse(anosEstudoController.text),
-                              'weight': int.parse(pesoController.text)
-                            });
-                            _scrollController.animateTo(
-                              0.0,
-                              curve: Curves.easeOut,
-                              duration: const Duration(milliseconds: 300),
-                            );
-                            setState(() {
-                              currentFormIndex = 3;
-                            });
-                          }
+                          // if (dataSend == null) {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //       customSnackBar(
+                          //           message: 'Digite uma data de nascimento!'));
+                          // } else if (cidadeController.text == '') {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //       customSnackBar(
+                          //           message:
+                          //               'Digite a cidade onde você mora!'));
+                          // } else if (anosEstudoController.text == '') {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //       customSnackBar(
+                          //           message: 'Digite o seu tempo de estudo!'));
+                          // } else if (pesoController.text == '') {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //       customSnackBar(message: 'Digite o seu peso!'));
+                          // } else if (alturaController.text == '') {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //       customSnackBar(
+                          //           message: 'Digite a sua altura!'));
+                          // } else {
+                          // FirebaseFirestore.instance
+                          //     .collection('users_v2')
+                          //     .doc(controller.id)
+                          //     .update({
+                          //   'birth_date': dataSend,
+                          //   'city': cidadeController.text,
+                          //   'height': int.parse(alturaController.text),
+                          //   'study': int.parse(anosEstudoController.text),
+                          //   'weight': int.parse(pesoController.text)
+                          // });
+                          _scrollController.animateTo(
+                            0.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 300),
+                          );
+                          setState(() {
+                            currentFormIndex = 3;
+                          });
+                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(

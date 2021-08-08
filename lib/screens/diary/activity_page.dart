@@ -24,29 +24,33 @@ class _ActivityPageState extends State<ActivityPage> {
     final controller = Provider.of<MainController>(context);
     final diaryController = Provider.of<DiaryController>(context);
 
-    diaryController.activityTime.clear();
-    for (int i = 0; i < diaryController.activities.length; i++) {
-      diaryController.activityTime.insert(i, '10 a 25 minutos');
-    }
+    if (controller.first == false) {
+      diaryController.activityTime.clear();
+      for (int i = 0; i < diaryController.activities.length; i++) {
+        diaryController.activityTime.insert(i, '10 a 25 minutos');
+      }
 
-    diaryController.activityTimeAux.clear();
-    for (int i = 0; i < diaryController.activities.length; i++) {
-      diaryController.activityTimeAux.insert(i, 0.0);
-    }
+      diaryController.activityTimeAux.clear();
+      for (int i = 0; i < diaryController.activities.length; i++) {
+        diaryController.activityTimeAux.insert(i, 0.0);
+      }
 
-    diaryController.activityPeriod.clear();
-    for (int i = 0; i < diaryController.activities.length; i++) {
-      diaryController.activityPeriod.insert(i, 'Manhã');
-    }
+      diaryController.activityPeriod.clear();
+      for (int i = 0; i < diaryController.activities.length; i++) {
+        diaryController.activityPeriod.insert(i, 'Manhã');
+      }
 
-    diaryController.activityPeriodAux.clear();
-    for (int i = 0; i < diaryController.activities.length; i++) {
-      diaryController.activityPeriodAux.insert(i, 0.0);
-    }
+      diaryController.activityPeriodAux.clear();
+      for (int i = 0; i < diaryController.activities.length; i++) {
+        diaryController.activityPeriodAux.insert(i, 0.0);
+      }
 
-    diaryController.activitysDaysTest.clear();
-    for (int i = 0; i < diaryController.activities.length; i++) {
-      diaryController.activitysDaysTest.insert(i, []);
+      diaryController.activitysDaysTest.clear();
+      for (int i = 0; i < diaryController.activities.length; i++) {
+        diaryController.activitysDaysTest.insert(i, []);
+      }
+      
+      controller.first = true;
     }
 
     return Scaffold(
@@ -64,7 +68,9 @@ class _ActivityPageState extends State<ActivityPage> {
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)
-                        .update({'configured_diary': diaryController.configuredDiary});
+                        .update({
+                      'configured_diary': diaryController.configuredDiary
+                    });
                     diaryController.activities.clear();
 
                     Navigator.push(

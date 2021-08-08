@@ -39,6 +39,21 @@ mixin _$MainController on _MainController, Store {
     });
   }
 
+  final _$firstAtom = Atom(name: '_MainController.first');
+
+  @override
+  bool get first {
+    _$firstAtom.reportRead();
+    return super.first;
+  }
+
+  @override
+  set first(bool value) {
+    _$firstAtom.reportWrite(value, super.first, () {
+      super.first = value;
+    });
+  }
+
   final _$searchCompleteAtom = Atom(name: '_MainController.searchComplete');
 
   @override
@@ -127,6 +142,7 @@ mixin _$MainController on _MainController, Store {
     return '''
 name: ${name},
 token: ${token},
+first: ${first},
 searchComplete: ${searchComplete},
 lastChapter: ${lastChapter},
 id: ${id},
