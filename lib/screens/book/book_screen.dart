@@ -24,9 +24,9 @@ class _HomePageState extends State<BookScreen> {
   Widget build(BuildContext context) {
     final diaryController = Provider.of<DiaryController>(context);
 
-    Widget test () {
+    Widget diario () {
       if(diaryController.configuredDiary) {
-        return Diary();
+        return CalendarPage();
       } else {
         return Diary();
       }
@@ -40,7 +40,7 @@ class _HomePageState extends State<BookScreen> {
           children: <Widget>[
             Body(),
             Infographic(),
-            test(),
+            diario(),
             ProfileScreen(),
           ],
           onPageChanged: (page) {

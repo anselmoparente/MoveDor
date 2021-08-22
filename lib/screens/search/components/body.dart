@@ -318,26 +318,22 @@ class _BodyState extends State<Body> {
                     decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color:
-                                isDarkMode ? Colors.white70 : Colors.black45,
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color:
-                                isDarkMode ? Colors.white70 : Colors.black45,
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color:
-                                isDarkMode ? Colors.white70 : Colors.black45,
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
                           ),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color:
-                                isDarkMode ? Colors.white70 : Colors.black45,
+                            color: isDarkMode ? Colors.white70 : Colors.black45,
                           ),
                         ),
                         labelText: 'Seu nome',
@@ -1226,14 +1222,24 @@ class _BodyState extends State<Body> {
                     onPressed: () {
                       searchController.selectedSports.addAll(selectedSports);
                       searchController.selectedSintoms.addAll(selectedSintoms);
-                      _scrollController.animateTo(
-                        0.0,
-                        curve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 300),
-                      );
-                      setState(() {
-                        currentFormIndex = 7;
-                      });
+                      if (selectedSports.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            customSnackBar(
+                                message: 'Marque a opção de esporte!'));
+                      } else if (selectedSintoms.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            customSnackBar(
+                                message: 'Marque a opção de sintomas!'));
+                      } else {
+                        _scrollController.animateTo(
+                          0.0,
+                          curve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 300),
+                        );
+                        setState(() {
+                          currentFormIndex = 7;
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

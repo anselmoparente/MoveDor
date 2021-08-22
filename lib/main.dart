@@ -27,7 +27,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
   @override
@@ -56,12 +55,16 @@ class _MyAppState extends State<MyApp> {
             controller.id = androidInfo.androidId;
           }
 
+          void down() async {
+            await controller.getMain();
+            await diaryController.getDiary(controller.id);
+          }
+
           id();
 
           Future.delayed(Duration(seconds: 1));
 
-          controller.getMain();
-          diaryController.getDiary(controller.id);
+          down();
 
           return child;
         },

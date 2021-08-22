@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final controller = Provider.of<MainController>(context);
 
     var cron = new Cron();
-    cron.schedule(new Schedule.parse('* * * * *'), () async {
+    cron.schedule(new Schedule.parse('* 1 * * *'), () async {
       print('vai enviar?');
       sendNotification('Teste', 'Testado com sucesso', controller.token);
       print('enviouuuu');
@@ -61,12 +61,10 @@ class _SplashScreenState extends State<SplashScreen> {
     if (controller.searchComplete == true) {
       Timer(Duration(seconds: 0), () {
         Navigator.pushNamed(context, BookScreen.routeName);
-        print('entrou');
       });
     } else if (controller.searchComplete == false) {
       Timer(Duration(seconds: 0), () {
         Navigator.pushNamed(context, SearchScreen.routeName);
-        print('entrou 2');
       });
     }
 

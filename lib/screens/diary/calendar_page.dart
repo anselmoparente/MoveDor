@@ -14,7 +14,6 @@ import 'package:movedor/screens/diary/diary_screen.dart';
 import 'package:movedor/screens/diary/goal_page.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:uuid/uuid.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -25,9 +24,9 @@ class _CalendarPageState extends State<CalendarPage> {
   TextEditingController textController = TextEditingController();
   MainController controller = MainController();
   DiaryController diaryController = DiaryController();
-  ActivityController activityController = ActivityController();
-  var uuid = Uuid();
   Size mediaSize;
+  String data;
+  String dataSelect;
   String aux;
   String minutes;
   List<String> motivationalList = [
@@ -59,12 +58,6 @@ class _CalendarPageState extends State<CalendarPage> {
     "Estamos aqui dando suporte para você continuar!",
     "O exercício físico é importante para a sua saúde, não deixe de realiza-lo!"
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    diaryController.actualDay = DateTime.now();
-  }
 
   void _showBorgDialog() async {
     final selectedSliderValue = await showDialog<double>(
@@ -264,6 +257,55 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     mediaSize = MediaQuery.of(context).size;
     final controller = Provider.of<MainController>(context);
+    final activityController = Provider.of<ActivityController>(context);
+    final diaryController = Provider.of<DiaryController>(context);
+    diaryController.actualDay = DateTime.now();
+
+    String day(int date) {
+      date == 1
+          ? data = 'Segunda'
+          : date == 2
+              ? data = 'Terça'
+              : date == 3
+                  ? data = 'Quarta'
+                  : date == 4
+                      ? data = 'Quinta'
+                      : date == 5
+                          ? data = 'Sexta'
+                          : date == 6
+                              ? data = 'Sábado'
+                              : data = 'Domingo';
+      return data;
+    }
+
+    activityController.activitiesCalendar.clear();
+
+    for (int i = 0; i < diaryController.activities.length; i++) {
+      bool finish = false;
+      for (int j = 0; j < activityController.activities.length; j++) {
+        if (finish == false) {
+          if (activityController.activities[j].type ==
+                  diaryController.activities[i] &&
+              activityController.activities[j].status == 'Pendente') {
+            activityController.activitiesCalendar
+                .add(activityController.activities[j]);
+            finish = true;
+          }
+        }
+      }
+    }
+
+    print(activityController.activitiesCalendar);
+
+    for (int i = activityController.activitiesCalendar.length - 1;
+        i >= 0;
+        i--) {
+      if (activityController.activitiesCalendar[i].date != dataSelect) {
+        activityController.activitiesCalendar.removeAt(i);
+      }
+    }
+
+    print(activityController.activitiesCalendar);
 
     return Scaffold(
       appBar: AppBar(
@@ -309,6 +351,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       diaryController.changeSelectedDay(selectedDay);
                       diaryController.changeActualDay(focusedDay);
                     });
+                    dataSelect = day(diaryController.selectedDay.weekday);
                   }
                 },
                 daysOfWeekHeight: 30,
@@ -329,20 +372,11 @@ class _CalendarPageState extends State<CalendarPage> {
                 thickness: 2,
               ),
             ),
-            activityFrame(context, "Exercícios aeróbicos", controller),
-            Container(
-              width: mediaSize.width * 0.9,
-              child: Divider(
-                color: Color(0xff36a9b0),
-              ),
-            ),
-            activityFrame(context, "Exercícios de relaxamento", controller),
-            Container(
-              width: mediaSize.width * 0.9,
-              child: Divider(
-                color: Color(0xff36a9b0),
-              ),
-            ),
+            for (int i = 0;
+                i < activityController.activitiesCalendar.length;
+                i++)
+              activityFrame(context,
+                  activityController.activitiesCalendar[i].type, controller),
           ],
         ),
       ),
@@ -350,221 +384,192 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   Widget componentForms(BuildContext context, String label, bool value) {
-    return Container(
-      child: Row(
-        children: [
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 20),
-              width: 25,
-              height: 25,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.0, color: Colors.blue[200]),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: aux == label
-                  ? Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                      ))
-                  : Container(
-                      height: 25,
-                      width: 25,
-                    ),
+    return Row(
+      children: [
+        GestureDetector(
+          child: Container(
+            margin: EdgeInsets.only(left: 20),
+            width: 25,
+            height: 25,
+            decoration: BoxDecoration(
+              border: Border.all(width: 1.0, color: Colors.blue[200]),
+              borderRadius: BorderRadius.circular(5),
             ),
-            onTap: () {
-              setState(() {
-                aux = label;
-                diaryController.doneActivity = value;
-              });
-            },
+            child: aux == label
+                ? Container(
+                    height: 25,
+                    width: 25,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xffa9d6c2), Color(0xff36a9b0)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                    ))
+                : Container(
+                    height: 25,
+                    width: 25,
+                  ),
           ),
-          Container(
-            margin: EdgeInsets.only(
-              left: mediaSize.width * 0.03,
-            ),
-            child: Text(label,
-                style: TextStyle(
-                  fontSize: mediaSize.width * 0.03,
-                  color: kTextColor,
-                )),
-          )
-        ],
-      ),
+          onTap: () {
+            setState(() {
+              aux = label;
+              diaryController.doneActivity = value;
+            });
+          },
+        ),
+        Container(
+          margin: EdgeInsets.only(
+            left: mediaSize.width * 0.03,
+          ),
+          child: Text(label,
+              style: TextStyle(
+                fontSize: mediaSize.width * 0.03,
+                color: kTextColor,
+              )),
+        )
+      ],
     );
   }
 
   Widget activityFrame(
       BuildContext context, String activity, MainController controller) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+        child: Column(
       children: [
-        Container(
-          margin: EdgeInsets.only(left: 20),
-          decoration: new BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Color(0xff36a9b0))),
-              child: Image.asset(
-                activity == "Exercícios aeróbicos"
-                    ? "assets/icons_borg/ÍconePrancheta1.png"
-                    : activity == "Exercícios de fortalecimento"
-                        ? "assets/icons_borg/ÍconePrancheta2.png"
-                        : activity == "Exercícios de relaxamento"
-                            ? "assets/icons_borg/ÍconePrancheta3.png"
-                            : activity == "Exercícios na água"
-                                ? "assets/icons_borg/ÍconePrancheta4.png"
-                                : activity == "Ioga e thai chi chuan"
-                                    ? "assets/icons_borg/ÍconePrancheta5.png"
-                                    : "assets/icons_borg/ÍconePrancheta6.png",
-              )),
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              Text(
-                activity,
-                style: TextStyle(
-                  fontFamily: 'MontserratRegular',
-                  fontSize: mediaSize.width * 0.045,
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              decoration: new BoxDecoration(
+                shape: BoxShape.circle,
               ),
-              Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Row(children: [
-                    Text(
-                      'Horário',
-                      style: TextStyle(
-                        fontFamily: 'MontserratRegular',
-                        fontSize: mediaSize.width * 0.04,
+              child: Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color(0xff36a9b0))),
+                  child: Image.asset(
+                    activity == "Exercícios aeróbicos"
+                        ? "assets/icons_borg/ÍconePrancheta1.png"
+                        : activity == "Exercícios de fortalecimento"
+                            ? "assets/icons_borg/ÍconePrancheta2.png"
+                            : activity == "Exercícios de relaxamento"
+                                ? "assets/icons_borg/ÍconePrancheta3.png"
+                                : activity == "Exercícios na água"
+                                    ? "assets/icons_borg/ÍconePrancheta4.png"
+                                    : activity == "Ioga e thai chi chuan"
+                                        ? "assets/icons_borg/ÍconePrancheta5.png"
+                                        : "assets/icons_borg/ÍconePrancheta6.png",
+                  )),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  Text(
+                    activity,
+                    style: TextStyle(
+                      fontFamily: 'MontserratRegular',
+                      fontSize: mediaSize.width * 0.045,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 0.5), //(x,y)
+                          blurRadius: 3.0,
+                        ),
+                      ],
+                    ),
+                    child: IconButton(
+                      iconSize: 32,
+                      icon: Icon(
+                        Icons.done,
+                        color: Colors.green,
                       ),
+                      onPressed: () {
+                        _showBorgDialog();
+                        _minutesDialog();
+                      },
                     ),
-                  ]))
-            ],
-          ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 0.5), //(x,y)
+                          blurRadius: 3.0,
+                        ),
+                      ],
+                    ),
+                    child: IconButton(
+                      iconSize: 32,
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 0.5), //(x,y)
+                          blurRadius: 3.0,
+                        ),
+                      ],
+                    ),
+                    child: IconButton(
+                      iconSize: 32,
+                      icon: Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ),
+                      onPressed: () async {
+                        _chooseAnswerDialog();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
         Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(right: 20),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 0.5), //(x,y)
-                      blurRadius: 3.0,
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  iconSize: 32,
-                  icon: Icon(
-                    Icons.done,
-                    color: Colors.green,
-                  ),
-                  onPressed: () {
-                    _showBorgDialog();
-                    _minutesDialog();
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 0.5), //(x,y)
-                      blurRadius: 3.0,
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  iconSize: 32,
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 0.5), //(x,y)
-                      blurRadius: 3.0,
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  iconSize: 32,
-                  icon: Icon(
-                    Icons.close,
-                    color: Colors.red,
-                  ),
-                  onPressed: () async {
-                    String data;
-                    // _chooseAnswerDialog();
-                    String day(int date) {
-                      date == 1
-                          ? data = 'Segunda'
-                          : date == 2
-                              ? data = 'Terça'
-                              : date == 3
-                                  ? data = 'Quarta'
-                                  : date == 4
-                                      ? data = 'Quinta'
-                                      : date == 5
-                                          ? data = 'Sexta'
-                                          : date == 6
-                                              ? data = 'Sábado'
-                                              : data = ' Domingo';
-                      return data;
-                    }
-
-                    activityController.activities.clear();
-                    activityController.activities.add(Activities(uuid.v4(),
-                        'Dança', null, 'Pendente', null, null, null));
-                    activityController.activities.add(Activities(uuid.v4(),
-                        'Dança', null, 'Pendente', null, null, null));
-                    activityController.activities.add(Activities(uuid.v4(),
-                        'Dança', null, 'Pendente', null, null, null));
-                    activityController.activities.add(Activities(uuid.v4(),
-                        'Dança', null, 'Pendente', null, null, null));
-                  },
-                ),
-              ),
-            ],
+          width: mediaSize.width * 0.9,
+          child: Divider(
+            color: Color(0xff36a9b0),
           ),
-        )
+        ),
       ],
-    );
+    ));
   }
 }
