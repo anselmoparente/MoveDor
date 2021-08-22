@@ -48,6 +48,7 @@ dependencies:
   firebase_messaging: "^8.0.0-dev.15"
   cron: ^0.3.0
   http: ^0.12.2
+  uuid: ^3.0.0
   webview_flutter:
     git:
       url: https://github.com/asjqkkkk/plugins.git

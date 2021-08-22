@@ -4,8 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/controllers/activity_controller.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/activities.dart';
 import 'package:movedor/models/activity_planed.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
+import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 
@@ -19,6 +21,7 @@ class ActivityPage extends StatefulWidget {
 class _ActivityPageState extends State<ActivityPage> {
   Size mediaSize;
   bool aux = false;
+  var uuid = Uuid();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,7 @@ class _ActivityPageState extends State<ActivityPage> {
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
                 child: RaisedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     diaryController.configuredDiary = true;
                     FirebaseFirestore.instance
                         .collection('users_v2')
@@ -99,6 +102,81 @@ class _ActivityPageState extends State<ActivityPage> {
                         'days': activityController.activitiesPlaned[i].days,
                         'period': activityController.activitiesPlaned[i].period,
                         'time': activityController.activitiesPlaned[i].time,
+                      });
+                    }
+
+                    String data;
+                    String dataFirst;
+                    String dataSecond;
+
+                    String day(int date) {
+                      date == 1
+                          ? data = 'Segunda'
+                          : date == 2
+                              ? data = 'Terça'
+                              : date == 3
+                                  ? data = 'Quarta'
+                                  : date == 4
+                                      ? data = 'Quinta'
+                                      : date == 5
+                                          ? data = 'Sexta'
+                                          : date == 6
+                                              ? data = 'Sábado'
+                                              : data = 'Domingo';
+                      return data;
+                    }
+
+                    dataFirst = day(DateTime.now().weekday);
+                    if (dataFirst == 'Domingo') {
+                      dataSecond = 'Segunda';
+                    } else {
+                      dataSecond = day((DateTime.now().weekday + 1));
+                    }
+
+                    activityController.activities.clear();
+                    for (int i = 0;
+                        i < diaryController.activities.length;
+                        i++) {
+                      for (int j = 0;
+                          j < diaryController.activitysDays[i].length;
+                          j++) {
+                        int x = 4;
+                        if (diaryController.activitysDays[i]
+                                .contains(dataFirst) ||
+                            diaryController.activitysDays[i]
+                                .contains(dataSecond)) {
+                          x = x + 1;
+                        }
+                        for (int k = 0; k < x; k++) {
+                          activityController.activities.add(Activities(
+                              uuid.v4(),
+                              diaryController.activities[i],
+                              diaryController.activitysDays[i][j],
+                              'Pendente',
+                              null,
+                              null,
+                              null));
+                        }
+                      }
+                    }
+
+                    for (int l = 0;
+                        l < activityController.activities.length;
+                        l++) {
+                      print(
+                          'id da atividade: ${activityController.activities[l].id}');
+                      await FirebaseFirestore.instance
+                          .collection('users_v2')
+                          .doc(controller.id)
+                          .collection('activities')
+                          .doc(activityController.activities[l].id)
+                          .set({
+                        'type': activityController.activities[l].type,
+                        'date': activityController.activities[l].date,
+                        'status': activityController.activities[l].status,
+                        'reason': activityController.activities[l].reason,
+                        'time': activityController.activities[l].time,
+                        'borg': activityController.activities[l].borg,
                       });
                     }
 

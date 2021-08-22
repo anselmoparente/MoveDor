@@ -1,15 +1,20 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:movedor/components/rounded_icon_btn.dart';
 import 'package:movedor/constants.dart';
+import 'package:movedor/controllers/activity_controller.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/activities.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/diary/components/custom_elevated_button.dart';
 import 'package:movedor/screens/diary/components/dialog_borg.dart';
 import 'package:movedor/screens/diary/diary_screen.dart';
 import 'package:movedor/screens/diary/goal_page.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:uuid/uuid.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -20,6 +25,8 @@ class _CalendarPageState extends State<CalendarPage> {
   TextEditingController textController = TextEditingController();
   MainController controller = MainController();
   DiaryController diaryController = DiaryController();
+  ActivityController activityController = ActivityController();
+  var uuid = Uuid();
   Size mediaSize;
   String aux;
   String minutes;
@@ -256,6 +263,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     mediaSize = MediaQuery.of(context).size;
+    final controller = Provider.of<MainController>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -321,14 +329,14 @@ class _CalendarPageState extends State<CalendarPage> {
                 thickness: 2,
               ),
             ),
-            activityFrame(context, "Exercícios aeróbicos"),
+            activityFrame(context, "Exercícios aeróbicos", controller),
             Container(
               width: mediaSize.width * 0.9,
               child: Divider(
                 color: Color(0xff36a9b0),
               ),
             ),
-            activityFrame(context, "Exercícios de relaxamento"),
+            activityFrame(context, "Exercícios de relaxamento", controller),
             Container(
               width: mediaSize.width * 0.9,
               child: Divider(
@@ -392,7 +400,8 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  Widget activityFrame(BuildContext context, String activity) {
+  Widget activityFrame(
+      BuildContext context, String activity, MainController controller) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -520,8 +529,35 @@ class _CalendarPageState extends State<CalendarPage> {
                     Icons.close,
                     color: Colors.red,
                   ),
-                  onPressed: () {
-                    _chooseAnswerDialog();
+                  onPressed: () async {
+                    String data;
+                    // _chooseAnswerDialog();
+                    String day(int date) {
+                      date == 1
+                          ? data = 'Segunda'
+                          : date == 2
+                              ? data = 'Terça'
+                              : date == 3
+                                  ? data = 'Quarta'
+                                  : date == 4
+                                      ? data = 'Quinta'
+                                      : date == 5
+                                          ? data = 'Sexta'
+                                          : date == 6
+                                              ? data = 'Sábado'
+                                              : data = ' Domingo';
+                      return data;
+                    }
+
+                    activityController.activities.clear();
+                    activityController.activities.add(Activities(uuid.v4(),
+                        'Dança', null, 'Pendente', null, null, null));
+                    activityController.activities.add(Activities(uuid.v4(),
+                        'Dança', null, 'Pendente', null, null, null));
+                    activityController.activities.add(Activities(uuid.v4(),
+                        'Dança', null, 'Pendente', null, null, null));
+                    activityController.activities.add(Activities(uuid.v4(),
+                        'Dança', null, 'Pendente', null, null, null));
                   },
                 ),
               ),

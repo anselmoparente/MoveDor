@@ -26,7 +26,7 @@ class _HomePageState extends State<BookScreen> {
 
     Widget test () {
       if(diaryController.configuredDiary) {
-        return CalendarPage();
+        return Diary();
       } else {
         return Diary();
       }
