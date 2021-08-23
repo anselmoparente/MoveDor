@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movedor/components/rounded_icon_btn.dart';
 import 'package:movedor/constants.dart';
 import 'package:movedor/controllers/activity_controller.dart';
@@ -22,13 +23,12 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   TextEditingController textController = TextEditingController();
-  MainController controller = MainController();
   DiaryController diaryController = DiaryController();
   Size mediaSize;
   String data;
   String dataSelect;
   String aux;
-  String minutes;
+
   List<String> motivationalList = [
     'Não desanime! Enfrente cada dia e uma meta por vez!',
     "Sem problema! Mantenha o foco e não desanime!",
@@ -59,23 +59,36 @@ class _CalendarPageState extends State<CalendarPage> {
     "O exercício físico é importante para a sua saúde, não deixe de realiza-lo!"
   ];
 
-  void _showBorgDialog() async {
+  void _showBorgDialog(Activities activity, String id) async {
     final selectedSliderValue = await showDialog<double>(
       context: context,
+      barrierDismissible: false,
       builder: (context) =>
           DialogBorg(initialSliderValue: diaryController.valueBorg),
     );
 
     if (selectedSliderValue != null) {
       setState(() {
-        diaryController.changeValueBorg(selectedSliderValue);
+        activity.status = "Concluída";
+        activity.borg = selectedSliderValue.toInt();
+      });
+      await FirebaseFirestore.instance
+          .collection('users_v2')
+          .doc(id)
+          .collection('activities')
+          .doc(activity.id)
+          .update({
+        'status': activity.status,
+        'time': activity.time,
+        'borg': activity.borg,
       });
     }
   }
 
-  void _chooseAnswerDialog() {
+  void _chooseAnswerDialog(Activities activity, String id) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 25),
@@ -99,7 +112,20 @@ class _CalendarPageState extends State<CalendarPage> {
               CustomElevatedButton(
                 mediaSize: mediaSize,
                 text: 'Não tive tempo',
-                onPressed: () {
+                onPressed: () async {
+                  setState(() {
+                    activity.status = 'Não concluída';
+                    activity.reason = 'Não tive tempo';
+                  });
+                  await FirebaseFirestore.instance
+                      .collection('users_v2')
+                      .doc(id)
+                      .collection('activities')
+                      .doc(activity.id)
+                      .update({
+                    'status': activity.status,
+                    'reason': activity.reason,
+                  });
                   Navigator.of(context).pop();
                   _motivationalDialog();
                 },
@@ -107,7 +133,20 @@ class _CalendarPageState extends State<CalendarPage> {
               CustomElevatedButton(
                 mediaSize: mediaSize,
                 text: 'Não me senti motivado',
-                onPressed: () {
+                onPressed: () async {
+                  setState(() {
+                    activity.status = 'Não concluída';
+                    activity.reason = 'Não me senti motivado';
+                  });
+                  await FirebaseFirestore.instance
+                      .collection('users_v2')
+                      .doc(id)
+                      .collection('activities')
+                      .doc(activity.id)
+                      .update({
+                    'status': activity.status,
+                    'reason': activity.reason,
+                  });
                   Navigator.of(context).pop();
                   _motivationalDialog();
                 },
@@ -115,7 +154,21 @@ class _CalendarPageState extends State<CalendarPage> {
               CustomElevatedButton(
                 mediaSize: mediaSize,
                 text: 'Minha dor aumentou após o último exercício',
-                onPressed: () {
+                onPressed: () async {
+                  setState(() {
+                    activity.status = 'Não concluída';
+                    activity.reason =
+                        'Minha dor aumentou após o último exercício';
+                  });
+                  await FirebaseFirestore.instance
+                      .collection('users_v2')
+                      .doc(id)
+                      .collection('activities')
+                      .doc(activity.id)
+                      .update({
+                    'status': activity.status,
+                    'reason': activity.reason,
+                  });
                   Navigator.of(context).pop();
                   _motivationalDialog();
                 },
@@ -123,7 +176,20 @@ class _CalendarPageState extends State<CalendarPage> {
               CustomElevatedButton(
                 mediaSize: mediaSize,
                 text: 'Estava com dor no momento da realização',
-                onPressed: () {
+                onPressed: () async {
+                  setState(() {
+                    activity.status = 'Não concluída';
+                    activity.reason = 'Estava com dor no momento da realização';
+                  });
+                  await FirebaseFirestore.instance
+                      .collection('users_v2')
+                      .doc(id)
+                      .collection('activities')
+                      .doc(activity.id)
+                      .update({
+                    'status': activity.status,
+                    'reason': activity.reason,
+                  });
                   Navigator.of(context).pop();
                   _motivationalDialog();
                 },
@@ -135,9 +201,10 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  void _minutesDialog() {
+  void _minutesDialog(Activities activity) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 25),
@@ -197,7 +264,8 @@ class _CalendarPageState extends State<CalendarPage> {
                         mediaSize: mediaSize,
                         text: 'Confirmar',
                         onPressed: () {
-                          minutes = textController.text;
+                          textController.text = '10';
+                          activity.time = int.parse(textController.text);
                           Navigator.of(context).pop();
                           textController.text = '';
                         }),
@@ -278,24 +346,23 @@ class _CalendarPageState extends State<CalendarPage> {
       return data;
     }
 
-    activityController.activitiesCalendar.clear();
-
-    for (int i = 0; i < diaryController.activities.length; i++) {
-      bool finish = false;
-      for (int j = 0; j < activityController.activities.length; j++) {
-        if (finish == false) {
-          if (activityController.activities[j].type ==
-                  diaryController.activities[i] &&
-              activityController.activities[j].status == 'Pendente') {
-            activityController.activitiesCalendar
-                .add(activityController.activities[j]);
-            finish = true;
+    if (activityController.activitiesCalendar.isEmpty) {
+      for (int i = 0; i < diaryController.activities.length; i++) {
+        bool finish = false;
+        for (int j = 0; j < activityController.activities.length; j++) {
+          if (finish == false) {
+            if (activityController.activities[j].type ==
+                    diaryController.activities[i] &&
+                activityController.activities[j].status == 'Pendente') {
+              activityController.activitiesCalendar
+                  .add(activityController.activities[j]);
+              finish = true;
+            }
           }
         }
       }
+      print(activityController.activitiesCalendar);
     }
-
-    print(activityController.activitiesCalendar);
 
     for (int i = activityController.activitiesCalendar.length - 1;
         i >= 0;
@@ -375,8 +442,8 @@ class _CalendarPageState extends State<CalendarPage> {
             for (int i = 0;
                 i < activityController.activitiesCalendar.length;
                 i++)
-              activityFrame(context,
-                  activityController.activitiesCalendar[i].type, controller),
+              activityFrame(context, activityController.activitiesCalendar[i],
+                  controller),
           ],
         ),
       ),
@@ -433,7 +500,22 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   Widget activityFrame(
-      BuildContext context, String activity, MainController controller) {
+      BuildContext context, Activities activity, MainController controller) {
+    String type;
+    activity.type == 'Exercícios aeróbios(caminhada, corrida, bicicleta)'
+        ? type = 'Exercícios aeróbicos'
+        : activity.type ==
+                'Exercícios de fortalecimento(musculação, ginástica, funcional)'
+            ? type = 'Exercícios de fortalecimento'
+            : activity.type ==
+                    'Exercícios ou técnicas de relaxamento(exercícios respiratórios, meditação, alongamento)'
+                ? type = 'Exercícios de relaxamento'
+                : activity.type ==
+                        'Exercícios na água(hidroginástica, natação, caminhada na água, fisioterapia aquática)'
+                    ? type = 'Exercícios na água'
+                    : activity.type == 'Ioga e Thai chi chuan'
+                        ? type = 'Ioga e Thai chi chuan'
+                        : type = 'Dança';
     return Container(
         child: Column(
       children: [
@@ -452,15 +534,15 @@ class _CalendarPageState extends State<CalendarPage> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Color(0xff36a9b0))),
                   child: Image.asset(
-                    activity == "Exercícios aeróbicos"
+                    type == "Exercícios aeróbicos"
                         ? "assets/icons_borg/ÍconePrancheta1.png"
-                        : activity == "Exercícios de fortalecimento"
+                        : type == "Exercícios de fortalecimento"
                             ? "assets/icons_borg/ÍconePrancheta2.png"
-                            : activity == "Exercícios de relaxamento"
+                            : type == "Exercícios de relaxamento"
                                 ? "assets/icons_borg/ÍconePrancheta3.png"
-                                : activity == "Exercícios na água"
+                                : type == "Exercícios na água"
                                     ? "assets/icons_borg/ÍconePrancheta4.png"
-                                    : activity == "Ioga e thai chi chuan"
+                                    : type == "Ioga e Thai chi chuan"
                                         ? "assets/icons_borg/ÍconePrancheta5.png"
                                         : "assets/icons_borg/ÍconePrancheta6.png",
                   )),
@@ -470,7 +552,7 @@ class _CalendarPageState extends State<CalendarPage> {
               child: Column(
                 children: [
                   Text(
-                    activity,
+                    type,
                     style: TextStyle(
                       fontFamily: 'MontserratRegular',
                       fontSize: mediaSize.width * 0.045,
@@ -487,7 +569,9 @@ class _CalendarPageState extends State<CalendarPage> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.white,
+                      color: activity.status != "Pendente"
+                          ? Colors.grey
+                          : Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey,
@@ -503,8 +587,10 @@ class _CalendarPageState extends State<CalendarPage> {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        _showBorgDialog();
-                        _minutesDialog();
+                        if (activity.status == "Pendente") {
+                          _showBorgDialog(activity, controller.id);
+                          _minutesDialog(activity);
+                        }
                       },
                     ),
                   ),
@@ -514,7 +600,9 @@ class _CalendarPageState extends State<CalendarPage> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.white,
+                      color: activity.status == "Pendente"
+                          ? Colors.grey
+                          : Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey,
@@ -529,7 +617,27 @@ class _CalendarPageState extends State<CalendarPage> {
                         Icons.edit,
                         color: Colors.black,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (activity.status != "Pendente") {
+                          setState(() {
+                            activity.borg = null;
+                            activity.reason = null;
+                            activity.status = 'Pendente';
+                            activity.time = null;
+                          });
+                          await FirebaseFirestore.instance
+                              .collection('users_v2')
+                              .doc(controller.id)
+                              .collection('activities')
+                              .doc(activity.id)
+                              .update({
+                            'status': activity.status,
+                            'time': activity.time,
+                            'borg': activity.borg,
+                            'reason': activity.reason,
+                          });
+                        }
+                      },
                     ),
                   ),
                   SizedBox(
@@ -538,7 +646,9 @@ class _CalendarPageState extends State<CalendarPage> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.white,
+                      color: activity.status != "Pendente"
+                          ? Colors.grey
+                          : Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey,
@@ -554,7 +664,9 @@ class _CalendarPageState extends State<CalendarPage> {
                         color: Colors.red,
                       ),
                       onPressed: () async {
-                        _chooseAnswerDialog();
+                        if (activity.status == "Pendente") {
+                          _chooseAnswerDialog(activity, controller.id);
+                        }
                       },
                     ),
                   ),

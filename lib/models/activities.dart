@@ -18,6 +18,6 @@ class Activities {
 
   @override
   String toString() {
-    return '{${this.id}, {this.type}, ${this.date}, ${this.status}, ${this.reason}, ${this.time}, ${this.borg}}';
+    return '{${this.id}, {${this.type}}, ${this.date}, ${this.status}, ${this.reason}, ${this.time}, ${this.borg}}';
   }
 }
