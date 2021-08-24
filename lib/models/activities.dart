@@ -10,7 +10,7 @@ class Activities {
   );
   String id;
   String type;
-  String date;
+  DateTime date;
   String status;
   String reason;
   int time;
