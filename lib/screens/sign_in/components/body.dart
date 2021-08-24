@@ -16,6 +16,9 @@ class Body extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(
+                  height: 60,
+                ),
                 Text(
                   "Bem vindo de volta!",
                   style: TextStyle(
