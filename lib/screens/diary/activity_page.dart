@@ -105,32 +105,23 @@ class _ActivityPageState extends State<ActivityPage> {
                       });
                     }
 
-                    String data;
-                    String dataFirst;
-                    String dataSecond;
+                    int data;
 
-                    String day(int date) {
-                      date == 1
-                          ? data = 'Segunda'
-                          : date == 2
-                              ? data = 'Terça'
-                              : date == 3
-                                  ? data = 'Quarta'
-                                  : date == 4
-                                      ? data = 'Quinta'
-                                      : date == 5
-                                          ? data = 'Sexta'
-                                          : date == 6
-                                              ? data = 'Sábado'
-                                              : data = 'Domingo';
+                    int dayToInt(String date) {
+                      date == 'Segunda'
+                          ? data = 1
+                          : date == 'Terça'
+                              ? data = 2
+                              : date == 'Quarta'
+                                  ? data = 3
+                                  : date == 'Quinta'
+                                      ? data = 4
+                                      : date == 'Sexta'
+                                          ? data = 5
+                                          : date == 'Sábado'
+                                              ? data = 6
+                                              : data = 7;
                       return data;
-                    }
-
-                    dataFirst = day(DateTime.now().weekday);
-                    if (dataFirst == 'Domingo') {
-                      dataSecond = 'Segunda';
-                    } else {
-                      dataSecond = day((DateTime.now().weekday + 1));
                     }
 
                     activityController.activities.clear();
@@ -140,22 +131,20 @@ class _ActivityPageState extends State<ActivityPage> {
                       for (int j = 0;
                           j < diaryController.activitysDays[i].length;
                           j++) {
-                        int x = 4;
-                        if (diaryController.activitysDays[i]
-                                .contains(dataFirst) ||
-                            diaryController.activitysDays[i]
-                                .contains(dataSecond)) {
-                          x = x + 1;
-                        }
-                        for (int k = 0; k < x; k++) {
-                          activityController.activities.add(Activities(
-                              uuid.v4(),
-                              diaryController.activities[i],
-                              diaryController.activitysDays[i][j],
-                              'Pendente',
-                              null,
-                              null,
-                              null));
+                        int day = dayToInt(diaryController.activitysDays[i][j]);
+                        var now = new DateTime.now();
+                        for (int k = 0; k < 30; k++) {
+                          var newData = now.add(Duration(days: k));
+                          if (newData.weekday == day) {
+                            activityController.activities.add(Activities(
+                                uuid.v4(),
+                                diaryController.activities[i],
+                                newData,
+                                'Pendente',
+                                null,
+                                null,
+                                null));
+                          }
                         }
                       }
                     }

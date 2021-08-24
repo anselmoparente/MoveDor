@@ -26,7 +26,7 @@ class _CalendarPageState extends State<CalendarPage> {
   DiaryController diaryController = DiaryController();
   Size mediaSize;
   String data;
-  String dataSelect;
+  DateTime selectedDate;
   String aux;
 
   List<String> motivationalList = [
@@ -58,6 +58,12 @@ class _CalendarPageState extends State<CalendarPage> {
     "Estamos aqui dando suporte para você continuar!",
     "O exercício físico é importante para a sua saúde, não deixe de realiza-lo!"
   ];
+
+  @override
+  void initState() {
+    selectedDate = DateTime.now();
+    super.initState();
+  }
 
   void _showBorgDialog(Activities activity, String id) async {
     final selectedSliderValue = await showDialog<double>(
@@ -329,50 +335,20 @@ class _CalendarPageState extends State<CalendarPage> {
     final diaryController = Provider.of<DiaryController>(context);
     diaryController.actualDay = DateTime.now();
 
-    String day(int date) {
-      date == 1
-          ? data = 'Segunda'
-          : date == 2
-              ? data = 'Terça'
-              : date == 3
-                  ? data = 'Quarta'
-                  : date == 4
-                      ? data = 'Quinta'
-                      : date == 5
-                          ? data = 'Sexta'
-                          : date == 6
-                              ? data = 'Sábado'
-                              : data = 'Domingo';
-      return data;
-    }
+    activityController.activitiesCalendar.clear();
 
-    if (activityController.activitiesCalendar.isEmpty) {
-      for (int i = 0; i < diaryController.activities.length; i++) {
-        bool finish = false;
-        for (int j = 0; j < activityController.activities.length; j++) {
-          if (finish == false) {
-            if (activityController.activities[j].type ==
-                    diaryController.activities[i] &&
-                activityController.activities[j].status == 'Pendente') {
-              activityController.activitiesCalendar
-                  .add(activityController.activities[j]);
-              finish = true;
-            }
-          }
+    for (int i = 0; i < diaryController.activities.length; i++) {
+      for (int j = 0; j < activityController.activities.length; j++) {
+        if (activityController.activities[j].type ==
+                diaryController.activities[i] &&
+            activityController.activities[j].date.day == selectedDate.day &&
+            activityController.activities[j].date.month == selectedDate.month &&
+            activityController.activities[j].date.year == selectedDate.year) {
+          activityController.activitiesCalendar
+              .add(activityController.activities[j]);
         }
       }
-      print(activityController.activitiesCalendar);
     }
-
-    for (int i = activityController.activitiesCalendar.length - 1;
-        i >= 0;
-        i--) {
-      if (activityController.activitiesCalendar[i].date != dataSelect) {
-        activityController.activitiesCalendar.removeAt(i);
-      }
-    }
-
-    print(activityController.activitiesCalendar);
 
     return Scaffold(
       appBar: AppBar(
@@ -417,8 +393,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     setState(() {
                       diaryController.changeSelectedDay(selectedDay);
                       diaryController.changeActualDay(focusedDay);
+                      selectedDate = selectedDay;
                     });
-                    dataSelect = day(diaryController.selectedDay.weekday);
                   }
                 },
                 daysOfWeekHeight: 30,
