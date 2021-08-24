@@ -742,6 +742,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "19.2.57"
+  syncfusion_flutter_gauges:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_gauges
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "19.2.57"
   syncfusion_flutter_sliders:
     dependency: "direct main"
     description:
