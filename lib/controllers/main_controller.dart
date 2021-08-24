@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 
 // Include generated file
@@ -9,11 +10,36 @@ class MainController = _MainController with _$MainController;
 // The store-class
 abstract class _MainController with Store {
   @observable
-  bool medication = true;
+  String name = '';
 
   @observable
-  String nameMedications;
+  String token = '';
+
+  @observable
+  bool first = false;
+
+  @observable
+  bool searchComplete = false;
+
+  @observable
+  int lastChapter = 0;
+
+  @observable
+  String id;
+
+  @observable
+  bool finishedQuiz = false;
+
+  @observable
+  bool finishedQuestions = false;
 
   @action
-  void changedMedication(bool value) => medication = value;
+  Future<void> getMain() async {
+    FirebaseFirestore.instance.collection('users_v2').doc(id).get().then((value) {
+      name = value['name'];
+      searchComplete = value['search']['search_complete'];
+      lastChapter = value['book']['last_chapter'];
+      finishedQuestions = value['book']['questions'];
+    });
+  }
 }

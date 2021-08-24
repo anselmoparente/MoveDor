@@ -175,7 +175,7 @@ class _Chapter02State extends State<Chapter02> {
                       minLines: 2,
                       maxLines: 5,
                       onChanged: (value) {
-                        controller.nameMedications = value;
+                        // controller.nameMedications = value;
                       },
                     ))
                 : Container(),
@@ -309,9 +309,9 @@ class _Chapter02State extends State<Chapter02> {
             ),
             onTap: () {
               setState(() {
-                controller.changedMedication(value);
-                aux = controller.medication;
-                print(controller.medication);
+                // controller.changedMedication(value);
+                // aux = controller.medication;
+                // print(controller.medication);
               });
             },
           ),
