@@ -30,14 +30,15 @@ class RoundedIconBtn extends StatelessWidget {
             ),
         ],
       ),
-      child: 
-      FlatButton(
-        padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        color: Colors.white,
-        onPressed: press,
-        child: Center(child: iconData)
-      ) ,
+      child: TextButton(
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            primary: Colors.white,
+          ),
+          onPressed: press,
+          child: Center(child: iconData)),
     );
   }
 }
