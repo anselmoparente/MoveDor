@@ -21,6 +21,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int currentPage = 0;
+  bool loading = false;
   List<Map<String, String>> splashData = [
     {
       "text": "Entenda o que você está passando",
@@ -55,18 +56,18 @@ class _BodyState extends State<Body> {
 
     print(test.statusCode);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
-    
+
     var cron = new Cron();
     cron.schedule(new Schedule.parse('* 1 * * *'), () async {
       print('vai enviar?');
       sendNotification('Teste', 'Testado com sucesso', controller.token);
       print('enviouuuu');
     });
-    
+
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -112,12 +113,10 @@ class _BodyState extends State<Body> {
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Entrar",
+                      loading: loading,
                       press: () {
-                        if (controller.searchComplete == true) {
-                          Navigator.pushNamed(context, BookScreen.routeName);
-                        } else if (controller.searchComplete == false) {
-                          Navigator.pushNamed(context, SearchScreen.routeName);
-                        }
+                        print(controller.searchComplete);
+                        loginAction(controller);
                       },
                     ),
                     Spacer(),
@@ -142,5 +141,18 @@ class _BodyState extends State<Body> {
         borderRadius: BorderRadius.circular(3),
       ),
     );
+  }
+
+  Future loginAction(MainController controller) async {
+    setState(() {
+      loading = true;
+    });
+    //replace the below line of code with your login request
+    await new Future.delayed(const Duration(seconds: 2));
+    if (controller.searchComplete == true) {
+      Navigator.pushNamed(context, BookScreen.routeName);
+    } else if (controller.searchComplete == false) {
+      Navigator.pushNamed(context, SearchScreen.routeName);
+    }
   }
 }

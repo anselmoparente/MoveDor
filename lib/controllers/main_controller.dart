@@ -10,9 +10,6 @@ class MainController = _MainController with _$MainController;
 
 // The store-class
 abstract class _MainController with Store {
-  _MainController() {
-    identification();
-  }
   @observable
   String name = '';
 
