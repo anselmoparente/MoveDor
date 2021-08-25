@@ -38,8 +38,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<MainController>(create: (_) => MainController()),
-        Provider<DiaryController>(create: (_) => DiaryController()),
+        Provider<MainController>(create: (_) => MainController(), lazy: false,),
+        Provider<DiaryController>(create: (_) => DiaryController(),),
         Provider<SearchController>(create: (_) => SearchController()),
         Provider<ActivityController>(create: (_) => ActivityController()),
       ],
