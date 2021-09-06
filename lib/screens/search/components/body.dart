@@ -62,6 +62,7 @@ class _BodyState extends State<Body> {
   };
 
   Map<String, bool> searchsSintomsQuestions = {
+    'Nenhum sintoma': false,
     'Infecção': false,
     'Câncer': false,
     'Febre': false,
