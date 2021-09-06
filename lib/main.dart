@@ -11,11 +11,9 @@ import 'package:movedor/routes.dart';
 import 'package:movedor/screens/splash/initial_splash.dart';
 import 'package:movedor/theme.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
-  SharedPreferences.setMockInitialValues({});
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   initializeDateFormatting().then((_) => runApp(MyApp()));

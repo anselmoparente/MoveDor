@@ -9,7 +9,6 @@ import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:rich_alert/rich_alert.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -354,8 +353,6 @@ class _BodyState extends State<Body> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-
                       final endIndex = nomeController.text.indexOf(" ");
                       var name = nomeController.text;
 
@@ -364,8 +361,6 @@ class _BodyState extends State<Body> {
                       }
 
                       nomeController.text = name;
-
-                      prefs.setString("name", name);
 
                       controller.name = name;
 

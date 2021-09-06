@@ -3,7 +3,6 @@ import 'package:movedor/screens/book/book_screen.dart';
 import 'package:page_slider/page_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:rich_alert/rich_alert.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class Chapter05Quiz extends StatefulWidget {
@@ -13,8 +12,6 @@ class Chapter05Quiz extends StatefulWidget {
 }
 
 class Chapter05QuizState extends State<Chapter05Quiz> {
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
   @override
   void initState() {
     super.initState();
@@ -318,10 +315,6 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                                     color: Colors.white)),
                                             color: Colors.green[400],
                                             onPressed: () async {
-                                              final SharedPreferences prefs =
-                                                  await _prefs;
-                                              prefs.setBool("cap5", true);
-
                                               Navigator.pushNamedAndRemoveUntil(
                                                   context,
                                                   BookScreen.routeName,
