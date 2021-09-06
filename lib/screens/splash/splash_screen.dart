@@ -24,7 +24,8 @@ class SplashScreen extends StatelessWidget {
       "to": token,
     };
     var dataBody = json.encode(data);
-    final test = await http.post("https://fcm.googleapis.com/fcm/send",
+    final test = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
         body: dataBody,
         headers: {
           "Content-Type": "application/json",
