@@ -73,6 +73,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     diaryController.configuredDiary = true;
+                    FirebaseFirestore.instance.settings =
+                        Settings(persistenceEnabled: true);
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)
@@ -94,6 +96,8 @@ class _ActivityPageState extends State<ActivityPage> {
                     for (int i = 0;
                         i < diaryController.activities.length;
                         i++) {
+                      FirebaseFirestore.instance.settings =
+                          Settings(persistenceEnabled: true);
                       FirebaseFirestore.instance
                           .collection('users_v2')
                           .doc(controller.id)
@@ -156,6 +160,8 @@ class _ActivityPageState extends State<ActivityPage> {
                         l++) {
                       print(
                           'id da atividade: ${activityController.activities[l].id}');
+                      FirebaseFirestore.instance.settings =
+                          Settings(persistenceEnabled: true);
                       await FirebaseFirestore.instance
                           .collection('users_v2')
                           .doc(controller.id)

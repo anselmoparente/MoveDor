@@ -306,6 +306,8 @@ class _BodyState extends State<Body> {
                   });
                   controller.finishedQuestions = true;
 
+                  FirebaseFirestore.instance.settings =
+                      Settings(persistenceEnabled: true);
                   FirebaseFirestore.instance
                       .collection('users_v2')
                       .doc(controller.id)
@@ -401,6 +403,8 @@ class _BodyState extends State<Body> {
                         frasesRespostas.insert(index, false);
                       }
                     }
+                    FirebaseFirestore.instance.settings =
+                        Settings(persistenceEnabled: true);
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)

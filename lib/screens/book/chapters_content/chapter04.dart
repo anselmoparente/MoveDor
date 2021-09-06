@@ -94,6 +94,8 @@ class Chapter04 extends StatelessWidget {
                             press: () {
                               if (controller.lastChapter < 4) {
                                 controller.lastChapter = 4;
+                                FirebaseFirestore.instance.settings =
+                                    Settings(persistenceEnabled: true);
                                 FirebaseFirestore.instance
                                     .collection('users_v2')
                                     .doc(controller.id)

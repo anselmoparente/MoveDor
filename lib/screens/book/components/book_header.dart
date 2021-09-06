@@ -15,6 +15,7 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
 
+    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
     FirebaseFirestore.instance
         .collection('users_v2')
         .doc(controller.id)

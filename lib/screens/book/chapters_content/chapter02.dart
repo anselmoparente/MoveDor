@@ -118,6 +118,8 @@ class Chapter02 extends StatelessWidget {
                             press: () {
                               if (controller.lastChapter < 2) {
                                 controller.lastChapter = 2;
+                                FirebaseFirestore.instance.settings =
+                                    Settings(persistenceEnabled: true);
                                 FirebaseFirestore.instance
                                     .collection('users_v2')
                                     .doc(controller.id)

@@ -80,6 +80,7 @@ class _CalendarPageState extends State<CalendarPage> {
         activity.status = "Concluída";
         activity.borg = selectedSliderValue.toInt();
       });
+      FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
       await FirebaseFirestore.instance
           .collection('users_v2')
           .doc(id)
@@ -125,6 +126,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     activity.status = 'Não concluída';
                     activity.reason = 'Não tive tempo';
                   });
+                  FirebaseFirestore.instance.settings =
+                      Settings(persistenceEnabled: true);
                   await FirebaseFirestore.instance
                       .collection('users_v2')
                       .doc(id)
@@ -146,6 +149,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     activity.status = 'Não concluída';
                     activity.reason = 'Não me senti motivado';
                   });
+                  FirebaseFirestore.instance.settings =
+                      Settings(persistenceEnabled: true);
                   await FirebaseFirestore.instance
                       .collection('users_v2')
                       .doc(id)
@@ -168,6 +173,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     activity.reason =
                         'Minha dor aumentou após o último exercício';
                   });
+                  FirebaseFirestore.instance.settings =
+                      Settings(persistenceEnabled: true);
                   await FirebaseFirestore.instance
                       .collection('users_v2')
                       .doc(id)
@@ -189,6 +196,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     activity.status = 'Não concluída';
                     activity.reason = 'Estava com dor no momento da realização';
                   });
+                  FirebaseFirestore.instance.settings =
+                      Settings(persistenceEnabled: true);
                   await FirebaseFirestore.instance
                       .collection('users_v2')
                       .doc(id)
@@ -603,6 +612,8 @@ class _CalendarPageState extends State<CalendarPage> {
                             activity.status = 'Pendente';
                             activity.time = null;
                           });
+                          FirebaseFirestore.instance.settings =
+                              Settings(persistenceEnabled: true);
                           await FirebaseFirestore.instance
                               .collection('users_v2')
                               .doc(controller.id)

@@ -354,6 +354,9 @@ class _BodyState extends State<Body> {
                             nomeController.text = name;
 
                             controller.name = nomeController.text;
+
+                            FirebaseFirestore.instance.settings =
+                                Settings(persistenceEnabled: true);
                             FirebaseFirestore.instance
                                 .collection('users_v2')
                                 .doc(controller.id)
@@ -656,6 +659,8 @@ class _BodyState extends State<Body> {
                                     message: 'Digite a sua altura!'));
                           } else {
                             print(controller.id);
+                            FirebaseFirestore.instance.settings =
+                                Settings(persistenceEnabled: true);
                             FirebaseFirestore.instance
                                 .collection('users_v2')
                                 .doc(controller.id)
@@ -1674,6 +1679,8 @@ class _BodyState extends State<Body> {
                 child: ElevatedButton(
                   onPressed: () {
                     controller.searchComplete = true;
+                    FirebaseFirestore.instance.settings =
+                        Settings(persistenceEnabled: true);
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)

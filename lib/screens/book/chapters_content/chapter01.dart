@@ -57,6 +57,8 @@ class _Chapter01State extends State<Chapter01> {
     if (finalizouChapter01 == true) {
       if (controller.lastChapter < 1) {
         controller.lastChapter = 1;
+        FirebaseFirestore.instance.settings =
+            Settings(persistenceEnabled: true);
         FirebaseFirestore.instance
             .collection('users_v2')
             .doc(controller.id)
