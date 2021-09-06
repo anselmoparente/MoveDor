@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../constants.dart';
 import 'package:movedor/controllers/activity_controller.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/activities.dart';
 import 'package:movedor/models/activity_planed.dart';
-import 'package:movedor/screens/diary/calendar_page.dart';
-import 'package:uuid/uuid.dart';
-import 'package:provider/provider.dart';
-import '../../constants.dart';
+
+import 'calendar_page.dart';
 
 class ActivityPage extends StatefulWidget {
   ActivityPage({Key key}) : super(key: key);

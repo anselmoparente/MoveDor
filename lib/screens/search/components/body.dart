@@ -1,20 +1,15 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:rich_alert/rich_alert.dart';
+
+import '../../../constants.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:rich_alert/rich_alert.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:http/http.dart' as http;
-
-import '../../../constants.dart';
 
 class Body extends StatefulWidget {
   Body({Key key}) : super(key: key);

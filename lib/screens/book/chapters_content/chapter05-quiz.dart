@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/screens/book/book_screen.dart';
 import 'package:page_slider/page_slider.dart';
-import 'package:provider/provider.dart';
-import 'package:rich_alert/rich_alert.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+
+import '../book_screen.dart';
 
 class Chapter05Quiz extends StatefulWidget {
   static String routeName = "/chapter-05";

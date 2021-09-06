@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:movedor/constants.dart';
-import 'package:movedor/controllers/main_controller.dart';
-import 'package:movedor/models/Chapter.dart';
-import 'package:movedor/screens/book/chapters_content/components/play_pause.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
+import 'package:movedor/constants.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/Chapter.dart';
+
 import 'components/custom_app_bar.dart';
+import 'components/play_pause.dart';
 import 'components/top_rounded_container.dart';
 
 class Chapter03 extends StatefulWidget {

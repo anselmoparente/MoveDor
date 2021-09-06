@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/controllers/diary_controller.dart';
-import 'package:movedor/screens/diary/activity_page.dart';
 import 'package:provider/provider.dart';
+
+import 'package:movedor/controllers/diary_controller.dart';
+
+import 'activity_page.dart';
 
 class Diary extends StatefulWidget {
   Diary({Key key}) : super(key: key);
@@ -26,7 +28,7 @@ class _DiaryState extends State<Diary> {
   @override
   Widget build(BuildContext context) {
     final diaryController = Provider.of<DiaryController>(context);
-    
+
     mediaSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
@@ -192,10 +194,8 @@ class _DiaryState extends State<Diary> {
                 }
                 if (diaryController.activities.contains(exercises[index])) {
                   diaryController.activities.remove(exercises[index]);
-                      
                 } else {
                   diaryController.activities.add(exercises[index]);
-                      
                 }
               });
             },

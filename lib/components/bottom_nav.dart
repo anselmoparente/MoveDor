@@ -8,12 +8,12 @@ class BottomNav extends StatefulWidget {
   int index;
   final PageController _pageController;
   BottomNav(this.index, this._pageController);
-  
+
   _BottomNavState createState() => _BottomNavState();
 }
 
 class _BottomNavState extends State<BottomNav> {
-  Color _getTabBackgroundColor () {
+  Color _getTabBackgroundColor() {
     Color color;
     switch (widget.index) {
       case 0:
@@ -38,15 +38,14 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Container(
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
-        ]),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-            child: GNav(
+    return Container(
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
+      ]),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+          child: GNav(
               gap: 8,
               activeColor: Colors.white,
               iconSize: 24,
@@ -66,24 +65,23 @@ class _BottomNavState extends State<BottomNav> {
                   icon: LineIcons.calendar,
                   text: 'Diário',
                 ),
-                GButton( 
+                GButton(
                   icon: LineIcons.infoCircle,
                   text: 'Sobre',
                 ),
               ],
               selectedIndex: widget.index,
               onTabChange: (index) {
-                if(widget.index != index) {
+                if (widget.index != index) {
                   setState(() {
                     widget.index = index;
                   });
 
                   widget._pageController.jumpToPage(index);
                 }
-              }
-            ),
-          ),
+              }),
         ),
-      );
+      ),
+    );
   }
 }

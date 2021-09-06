@@ -23,7 +23,7 @@ class SplashContent extends StatelessWidget {
         ),
         SizedBox(height: getProportionateScreenHeight(20)),
         Text(
-          '$text', 
+          '$text',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(18),

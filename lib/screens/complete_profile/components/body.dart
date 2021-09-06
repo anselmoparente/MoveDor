@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:movedor/constants.dart';
 import 'package:movedor/size_config.dart';
 
@@ -17,7 +18,8 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.03),
-                Text("Complete com os seus dados", textAlign: TextAlign.center, style: headingStyle),
+                Text("Complete com os seus dados",
+                    textAlign: TextAlign.center, style: headingStyle),
                 SizedBox(height: SizeConfig.screenHeight * 0.06),
                 CompleteProfileForm(),
                 SizedBox(height: getProportionateScreenHeight(30)),

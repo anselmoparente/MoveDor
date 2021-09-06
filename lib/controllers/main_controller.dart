@@ -35,7 +35,11 @@ abstract class _MainController with Store {
 
   @action
   Future<void> getMain() async {
-    FirebaseFirestore.instance.collection('users_v2').doc(id).get().then((value) {
+    FirebaseFirestore.instance
+        .collection('users_v2')
+        .doc(id)
+        .get()
+        .then((value) {
       name = value['name'];
       searchComplete = value['search']['search_complete'];
       lastChapter = value['book']['last_chapter'];

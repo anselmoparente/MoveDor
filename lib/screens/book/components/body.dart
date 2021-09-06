@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
-// import 'categories.dart';
+
 import 'book_header.dart';
 import 'chapters.dart';
 

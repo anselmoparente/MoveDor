@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
+import '../../../size_config.dart';
 import 'package:movedor/components/no_account_text.dart';
 import 'package:movedor/components/social_card.dart';
-import '../../../size_config.dart';
+
 import 'sign_form.dart';
 
 class Body extends StatelessWidget {
@@ -12,7 +14,7 @@ class Body extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding:
-            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SingleChildScrollView(
             child: Column(
               children: [

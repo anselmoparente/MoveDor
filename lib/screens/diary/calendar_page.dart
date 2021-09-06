@@ -1,7 +1,10 @@
 import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
+
 import 'package:movedor/components/rounded_icon_btn.dart';
 import 'package:movedor/constants.dart';
 import 'package:movedor/controllers/activity_controller.dart';
@@ -9,12 +12,11 @@ import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/activities.dart';
 import 'package:movedor/screens/book/book_screen.dart';
-import 'package:movedor/screens/diary/components/custom_elevated_button.dart';
-import 'package:movedor/screens/diary/components/dialog_borg.dart';
-import 'package:movedor/screens/diary/diary_screen.dart';
-import 'package:movedor/screens/diary/goal_page.dart';
-import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
+
+import 'diary_screen.dart';
+import 'goal_page.dart';
+import 'components/custom_elevated_button.dart';
+import 'components/dialog_borg.dart';
 
 class CalendarPage extends StatefulWidget {
   @override

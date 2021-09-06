@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:movedor/models/Chapter.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:line_icons/line_icons.dart';
 
-import '../constants.dart';
+// import '../constants.dart';
 import '../size_config.dart';
+import '../models/Chapter.dart';
 
 class ChapterCard extends StatefulWidget {
   ChapterCard({
@@ -86,25 +86,22 @@ class _ChapterCardState extends State<ChapterCard> {
             ),
           )
 
-          // SizedBox (
+          //     SizedBox(
           //   width: getProportionateScreenWidth(widget.width),
-          //   child:
-          //   Column(
+          //   child: Column(
           //     crossAxisAlignment: CrossAxisAlignment.start,
           //     mainAxisAlignment: MainAxisAlignment.start,
           //     children: [
           //       AspectRatio(
           //         aspectRatio: 1,
           //         child: Container(
-          //           child:
-          //           ClipRRect(
-          //             borderRadius: BorderRadius.circular(10.0),
-          //             child: Image.asset(
-          //               widget.chapter.image,
-          //               fit: BoxFit.fill,
-          //             ),
-          //           )
-          //         ),
+          //             child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(10.0),
+          //           child: Image.asset(
+          //             widget.chapter.image,
+          //             fit: BoxFit.fill,
+          //           ),
+          //         )),
           //       ),
           //       const SizedBox(height: 10),
           //       Text(
@@ -119,37 +116,38 @@ class _ChapterCardState extends State<ChapterCard> {
           //           Row(
           //             children: [
           //               const SizedBox(width: 10),
-          //               // InkWell(
-          //               //   borderRadius: BorderRadius.circular(50),
-          //               //   onTap: () {
-          //               //     setState(() {
-          //               //       widget.chapter.isFavourite = !widget.chapter.isFavourite;
-          //               //     });
-          //               //   },
-          //               //   child: Container(
-          //               //     padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-          //               //     height: getProportionateScreenWidth(28),
-          //               //     width: getProportionateScreenWidth(28),
-          //               //     decoration: BoxDecoration(
-          //               //       color: widget.chapter.isFavourite
-          //               //           ? kPrimaryColor.withOpacity(0.15)
-          //               //           : kSecondaryColor.withOpacity(0.1),
-          //               //       shape: BoxShape.circle,
-          //               //     ),
-          //               //     child:
-          //               //     widget.chapter.isFavourite
-          //               //     ? SvgPicture.asset(
-          //               //       "assets/icons/Heart Icon_2.svg",
-          //               //       color: widget.chapter.isFavourite
-          //               //           ? Color(0xFFFF4848)
-          //               //           : Color(0xFFDBDEE4),
-          //               //     )
-          //               //     : Icon(
-          //               //       LineIcons.heart_o,
-          //               //       size: 12,
-          //               //     ),
-          //               //   ),
-          //               // ),
+          //               InkWell(
+          //                 borderRadius: BorderRadius.circular(50),
+          //                 onTap: () {
+          //                   setState(() {
+          //                     widget.chapter.isFavourite =
+          //                         !widget.chapter.isFavourite;
+          //                   });
+          //                 },
+          //                 child: Container(
+          //                   padding:
+          //                       EdgeInsets.all(getProportionateScreenWidth(8)),
+          //                   height: getProportionateScreenWidth(28),
+          //                   width: getProportionateScreenWidth(28),
+          //                   decoration: BoxDecoration(
+          //                     color: widget.chapter.isFavourite
+          //                         ? kPrimaryColor.withOpacity(0.15)
+          //                         : kSecondaryColor.withOpacity(0.1),
+          //                     shape: BoxShape.circle,
+          //                   ),
+          //                   child: widget.chapter.isFavourite
+          //                       ? SvgPicture.asset(
+          //                           "assets/icons/Heart Icon_2.svg",
+          //                           color: widget.chapter.isFavourite
+          //                               ? Color(0xFFFF4848)
+          //                               : Color(0xFFDBDEE4),
+          //                         )
+          //                       : Icon(
+          //                           LineIcons.heart_o,
+          //                           size: 12,
+          //                         ),
+          //                 ),
+          //               ),
           //             ],
           //           ),
           //         ],

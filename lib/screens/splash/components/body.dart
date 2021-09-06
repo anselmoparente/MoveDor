@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/constants.dart';
-import 'package:movedor/screens/sign_in/sign_in_screen.dart';
-import 'package:movedor/size_config.dart';
 
-// This is the best practice
-import '../components/splash_content.dart';
-import '../../../components/default_button.dart';
+import 'package:movedor/constants.dart';
+import 'package:movedor/size_config.dart';
+import 'package:movedor/components/default_button.dart';
+import 'package:movedor/screens/sign_in/sign_in_screen.dart';
+
+import 'splash_content.dart';
 
 class Body extends StatefulWidget {
   @override

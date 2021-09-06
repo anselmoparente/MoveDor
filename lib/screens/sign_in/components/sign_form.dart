@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:movedor/components/custom_surfix_icon.dart';
-import 'package:movedor/components/form_error.dart';
-import 'package:movedor/screens/search/search_screen.dart';
 
-import '../../../components/default_button.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'package:movedor/components/custom_surfix_icon.dart';
+import 'package:movedor/components/default_button.dart';
+import 'package:movedor/components/form_error.dart';
+import 'package:movedor/screens/search/search_screen.dart';
 
 class SignForm extends StatefulWidget {
   @override

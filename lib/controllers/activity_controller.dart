@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
+
 import 'package:movedor/models/activities.dart';
 import 'package:movedor/models/activity_planed.dart';
 
@@ -17,6 +17,4 @@ abstract class _ActivityController with Store {
   ObservableList<Activities> activities = ObservableList<Activities>();
 
   ObservableList<Activities> activitiesCalendar = ObservableList<Activities>();
-
-  
 }

@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:movedor/controllers/main_controller.dart';
 import 'package:provider/provider.dart';
+
+import 'package:movedor/controllers/main_controller.dart';
 
 import 'splash_screen.dart';
 
