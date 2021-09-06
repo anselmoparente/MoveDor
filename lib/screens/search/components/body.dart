@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rich_alert/rich_alert.dart';
 
-import '../../../constants.dart';
+import 'package:movedor/constants.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
@@ -20,30 +20,17 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   ScrollController _scrollController = new ScrollController();
-  // MainController controller = MainController();
-
-  SearchController searchController = SearchController();
 
   int currentFormIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => nomeController.clear());
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => cidadeController.clear());
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => anosEstudoController.clear());
-    WidgetsBinding.instance.addPostFrameCallback((_) => pesoController.clear());
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => alturaController.clear());
-  }
-
+  final _name = GlobalKey<FormState>();
   bool _autovalidadeName = false;
   bool isDarkMode = false;
   double fontSize = 18;
   Size mediaSize;
   String aux;
+  bool feelPain;
+  String dropdownValue;
   // Form 1 //
   final _form1 = GlobalKey<FormState>();
 
@@ -53,7 +40,6 @@ class _BodyState extends State<Body> {
   final pesoController = TextEditingController();
   final alturaController = TextEditingController();
   String nascimento = '';
-  var dataSend;
 
   bool _autovalidadeForm1 = false;
 
@@ -84,14 +70,12 @@ class _BodyState extends State<Body> {
     'Perda de sensibilidade progressiva​': false,
     'Eventos traumáticos graves': false,
     'Incontinência úrinaria ou fecal': false,
-    'Não possuo nenhum dos sintomas citados': false,
   };
 
   List<String> selectedSports = [];
   List<String> selectedSintoms = [];
-  double sliderValue = 0.0;
 
-  // //--------//
+  double sliderValue = 0.0;
 
   // Form 4 //
   final _form4 = GlobalKey<FormState>();
@@ -117,8 +101,7 @@ class _BodyState extends State<Body> {
   String startBackSliderLabel = 'Nada';
   double startBackSliderValue = 0.0;
   int startBackPoints = 0;
-  double value = 2;
-  //--------//
+  var dataSend;
 
   SnackBar customSnackBar({String message}) {
     return SnackBar(
@@ -142,18 +125,17 @@ class _BodyState extends State<Body> {
     final searchController = Provider.of<SearchController>(context);
     mediaSize = MediaQuery.of(context).size;
 
-    // controller.getMain();
-
     List<Widget> formsPesquisas = [
       Container(
-        height: MediaQuery.of(context).size.height * 0.8,
+        height: MediaQuery.of(context).size.height * 0.9,
         child: SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(bottom: 40),
+                  margin:
+                      EdgeInsets.only(top: mediaSize.height * 0.15, bottom: 40),
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: RichText(
                     textAlign: TextAlign.center,
@@ -187,7 +169,7 @@ class _BodyState extends State<Body> {
                         new TextSpan(
                             text:
                                 '''Esse app é voltado para pessoas com Dor Lombar Crônica!
-  Antes de iniciarmos, gostaríamos de fazer algumas perguntas para que possamos te conhecer melhor, pode ser? '''),
+          Antes de iniciarmos, gostaríamos de fazer algumas perguntas para que possamos te conhecer melhor, pode ser? '''),
                         new TextSpan(
                             text: '😁',
                             style: new TextStyle(
@@ -237,8 +219,8 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
+                  child: RaisedButton(
+                    onPressed: () {
                       _scrollController.animateTo(
                         0.0,
                         curve: Curves.easeOut,
@@ -248,11 +230,9 @@ class _BodyState extends State<Body> {
                         currentFormIndex = 1;
                       });
                     },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -282,128 +262,148 @@ class _BodyState extends State<Body> {
               ]),
         ),
       ),
-      Container(
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: 40),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: new TextSpan(
-                      style: TextStyle(
-                          fontFamily: 'MontserratRegular',
-                          color: Color(0xFF36a9b0),
-                          fontSize: 30),
-                      children: <TextSpan>[
-                        new TextSpan(text: 'Primeiro, nos diga seu nome'),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 25),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: TextFormField(
-                    controller: nomeController,
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: isDarkMode ? Colors.white70 : Colors.black45,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: isDarkMode ? Colors.white70 : Colors.black45,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: isDarkMode ? Colors.white70 : Colors.black45,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: isDarkMode ? Colors.white70 : Colors.black45,
-                          ),
-                        ),
-                        labelText: 'Seu nome',
-                        labelStyle: TextStyle(
-                          fontFamily: 'MontserratRegular',
-                          color: isDarkMode ? Colors.white70 : Colors.black45,
-                        )),
-                    style: TextStyle(
-                        color: isDarkMode ? Colors.white70 : Colors.black54),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Por favor, informe o seu nome.';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final endIndex = nomeController.text.indexOf(" ");
-                      var name = nomeController.text;
-
-                      if (endIndex > -1) {
-                        name = nomeController.text.substring(0, endIndex);
-                      }
-
-                      nomeController.text = name;
-
-                      controller.name = name;
-
-                      FirebaseFirestore.instance
-                          .collection('users_v2')
-                          .doc(controller.id)
-                          .set({'name': controller.name});
-
-                      _scrollController.animateTo(
-                        0.0,
-                        curve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 300),
-                      );
-                      setState(() {
-                        currentFormIndex = 2;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                    ),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: Container(
-                        constraints:
-                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Pronto!",
-                          textAlign: TextAlign.center,
+      SingleChildScrollView(
+        child: Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Form(
+              key: _name,
+              autovalidate: _autovalidadeName,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 40),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: new TextSpan(
                           style: TextStyle(
                               fontFamily: 'MontserratRegular',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.white),
+                              color: Color(0xFF36a9b0),
+                              fontSize: 30),
+                          children: <TextSpan>[
+                            new TextSpan(text: 'Primeiro, nos diga seu nome'),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ])),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 25),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: TextFormField(
+                        controller: nomeController,
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: isDarkMode
+                                    ? Colors.white70
+                                    : Colors.black45,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: isDarkMode
+                                    ? Colors.white70
+                                    : Colors.black45,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: isDarkMode
+                                    ? Colors.white70
+                                    : Colors.black45,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: isDarkMode
+                                    ? Colors.white70
+                                    : Colors.black45,
+                              ),
+                            ),
+                            labelText: 'Seu nome',
+                            labelStyle: TextStyle(
+                              fontFamily: 'MontserratRegular',
+                              color:
+                                  isDarkMode ? Colors.white70 : Colors.black45,
+                            )),
+                        style: TextStyle(
+                            color:
+                                isDarkMode ? Colors.white70 : Colors.black54),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Por favor, informe o seu nome.';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_name.currentState.validate()) {
+                            final endIndex = nomeController.text.indexOf(" ");
+                            var name = nomeController.text;
+
+                            if (endIndex > -1) {
+                              name = nomeController.text.substring(0, endIndex);
+                            }
+
+                            nomeController.text = name;
+
+                            controller.name = nomeController.text;
+                            FirebaseFirestore.instance
+                                .collection('users_v2')
+                                .doc(controller.id)
+                                .set({'name': controller.name});
+
+                            _scrollController.animateTo(
+                              0.0,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300),
+                            );
+                            setState(() {
+                              currentFormIndex = 2;
+                            });
+                          } else {
+                            setState(() {
+                              _autovalidadeName = true;
+                            });
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                        ),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: Container(
+                            constraints: BoxConstraints(
+                                maxWidth: 300.0, minHeight: 50.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Pronto!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'MontserratRegular',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+            )),
+      ),
       Container(
         margin: EdgeInsets.only(top: mediaSize.height * 0.1),
         height: MediaQuery.of(context).size.height * 0.8,
@@ -415,9 +415,8 @@ class _BodyState extends State<Body> {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      DatePicker.showDatePicker(context,
-                          showTitleActions: true,
-                          maxTime: DateTime.now(), onConfirm: (date) {
+                      DatePicker.showDatePicker(context, showTitleActions: true,
+                          onConfirm: (date) {
                         dataSend = date;
                         var data = "${date.toLocal()}".split(' ')[0];
                         var newData = data.split('-');
@@ -631,54 +630,53 @@ class _BodyState extends State<Body> {
                   Center(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 10),
-                      child: ElevatedButton(
+                      child: RaisedButton(
                         onPressed: () {
-                          // if (dataSend == null) {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //       customSnackBar(
-                          //           message: 'Digite uma data de nascimento!'));
-                          // } else if (cidadeController.text == '') {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //       customSnackBar(
-                          //           message:
-                          //               'Digite a cidade onde você mora!'));
-                          // } else if (anosEstudoController.text == '') {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //       customSnackBar(
-                          //           message: 'Digite o seu tempo de estudo!'));
-                          // } else if (pesoController.text == '') {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //       customSnackBar(message: 'Digite o seu peso!'));
-                          // } else if (alturaController.text == '') {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //       customSnackBar(
-                          //           message: 'Digite a sua altura!'));
-                          // } else {
-                          // FirebaseFirestore.instance
-                          //     .collection('users_v2')
-                          //     .doc(controller.id)
-                          //     .update({
-                          //   'birth_date': dataSend,
-                          //   'city': cidadeController.text,
-                          //   'height': int.parse(alturaController.text),
-                          //   'study': int.parse(anosEstudoController.text),
-                          //   'weight': int.parse(pesoController.text)
-                          // });
-                          _scrollController.animateTo(
-                            0.0,
-                            curve: Curves.easeOut,
-                            duration: const Duration(milliseconds: 300),
-                          );
-                          setState(() {
-                            currentFormIndex = 3;
-                          });
-                          // }
+                          if (dataSend == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message: 'Digite uma data de nascimento!'));
+                          } else if (cidadeController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message:
+                                        'Digite a cidade onde você mora!'));
+                          } else if (anosEstudoController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message: 'Digite o seu tempo de estudo!'));
+                          } else if (pesoController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(message: 'Digite o seu peso!'));
+                          } else if (alturaController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                    message: 'Digite a sua altura!'));
+                          } else {
+                            print(controller.id);
+                            FirebaseFirestore.instance
+                                .collection('users_v2')
+                                .doc(controller.id)
+                                .update({
+                              'birth_date': dataSend,
+                              'city': cidadeController.text,
+                              'height': int.parse(alturaController.text),
+                              'study': int.parse(anosEstudoController.text),
+                              'weight': int.parse(pesoController.text)
+                            });
+                            _scrollController.animateTo(
+                              0.0,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300),
+                            );
+                            setState(() {
+                              currentFormIndex = 3;
+                            });
+                          }
                         },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          padding: EdgeInsets.all(0.0),
-                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        padding: EdgeInsets.all(0.0),
                         child: Ink(
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -710,7 +708,7 @@ class _BodyState extends State<Body> {
         ),
       ),
       Container(
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
@@ -720,7 +718,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
+                    color: kPrimaryColor,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -735,7 +733,7 @@ class _BodyState extends State<Body> {
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                child: ElevatedButton(
+                child: RaisedButton(
                   onPressed: () {
                     _scrollController.animateTo(
                       0.0,
@@ -748,14 +746,12 @@ class _BodyState extends State<Body> {
                       }
                     });
                     if (searchController.feelPain == false) {
-                      _showDialog(context);
+                      _showMyDialog(context);
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
-                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  padding: EdgeInsets.all(0.0),
                   child: Ink(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -869,7 +865,7 @@ class _BodyState extends State<Body> {
                       }
                     });
                     if (searchController.painInf == false) {
-                      _showDialog(context);
+                      _showMyDialog(context);
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -1057,7 +1053,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
+                    color: kPrimaryColor,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -1117,7 +1113,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
+                    color: kPrimaryColor,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -1170,14 +1166,12 @@ class _BodyState extends State<Body> {
                                   // ),
                                   alertType: RichAlertType.WARNING,
                                   actions: <Widget>[
-                                    ElevatedButton(
+                                    RaisedButton(
                                       child: Text(
                                         "OK",
                                         style: TextStyle(color: Colors.white),
                                       ),
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.green[300],
-                                      ),
+                                      color: Colors.green[300],
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -1185,7 +1179,6 @@ class _BodyState extends State<Body> {
                                   ],
                                 );
                               });
-                          alertaDeRiscoMostrado = true;
                         }
 
                         if (value) {
@@ -1208,7 +1201,7 @@ class _BodyState extends State<Body> {
               Center(
                 child: Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: ElevatedButton(
+                  child: RaisedButton(
                     onPressed: () {
                       searchController.selectedSports.addAll(selectedSports);
                       searchController.selectedSintoms.addAll(selectedSintoms);
@@ -1231,11 +1224,9 @@ class _BodyState extends State<Body> {
                         });
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -1278,7 +1269,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : kPrimaryColor,
+                    color: isDarkMode ? Colors.white70 : Colors.black54,
                     fontSize: fontSize.toDouble() + 6,
                   ),
                 ),
@@ -1376,8 +1367,8 @@ class _BodyState extends State<Body> {
               ),
               Center(
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: ElevatedButton(
+                  margin: EdgeInsets.only(bottom: 80),
+                  child: RaisedButton(
                     onPressed: () {
                       _scrollController.animateTo(
                         0.0,
@@ -1396,11 +1387,9 @@ class _BodyState extends State<Body> {
                       // print(startBackPoints);
                       // print(startBackSliderLabel);
                     },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -1694,15 +1683,39 @@ class _BodyState extends State<Body> {
                           'Existe uma grande chance de que um episódio de dor nas costas não se resolverá':
                               searchController.question10,
                           'Focar em outras coisas que não sejam as suas costas ajuda você a recuperar-se da dor nas costas':
-                              searchController.question7,
+                              searchController.question7 == 2
+                                  ? -2
+                                  : searchController.question7 == 1
+                                      ? -1
+                                      : searchController.question7 == 0
+                                          ? 0
+                                          : searchController.question7 == -1
+                                              ? 1
+                                              : 2,
                           'Se você não for cuidadoso, você pode machucar suas costas':
                               searchController.question2,
                           'Se você tem dor nas costas, você deve evitar exercícios físicos':
                               searchController.question5,
                           'Se você tem dor nas costas, você deveria tentar se manter ativo':
-                              searchController.question6,
+                              searchController.question6 == 2
+                                  ? -2
+                                  : searchController.question6 == 1
+                                      ? -1
+                                      : searchController.question6 == 0
+                                          ? 0
+                                          : searchController.question6 == -1
+                                              ? 1
+                                              : 2,
                           'Ter a expectativa de que sua dor nas costas vai melhorar, ajuda você à recuperar-se de dor nas costas':
-                              searchController.question8,
+                              searchController.question8 == 2
+                                  ? -2
+                                  : searchController.question8 == 1
+                                      ? -1
+                                      : searchController.question8 == 0
+                                          ? 0
+                                          : searchController.question8 == -1
+                                              ? 1
+                                              : 2,
                           'Uma vez que você tenha tido dor nas costas, sempre existirá uma fraqueza':
                               searchController.question9,
                           'Uma “fisgadinha” nas costas pode ser o primeiro sinal de uma lesão séria':
@@ -1821,6 +1834,30 @@ class _BodyState extends State<Body> {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Erro'),
+          content: Text(
+            "Este aplicativo é destinado para educação e estímulo à atividade física para pessoas que sentem dor na parte mais baixa das costas.",
+            style: TextStyle(fontSize: 14),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -1956,30 +1993,6 @@ class _BodyState extends State<Body> {
           ),
         )
       ],
-    );
-  }
-
-  Future<void> _showDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Erro'),
-          content: Text(
-            "Este aplicativo é destinado para educação e estímulo à atividade física para pessoas que sentem dor na parte mais baixa das costas.",
-            style: TextStyle(fontSize: 14),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

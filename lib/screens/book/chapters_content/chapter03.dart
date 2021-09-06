@@ -7,6 +7,7 @@ import 'package:video_player/video_player.dart';
 import 'package:movedor/constants.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/Chapter.dart';
+import 'package:movedor/screens/book/chapters_content/components/play_pause.dart';
 
 import 'components/custom_app_bar.dart';
 import 'components/play_pause.dart';

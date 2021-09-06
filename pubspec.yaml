@@ -48,12 +48,12 @@ dependencies:
   cron: ^0.3.0
   http: ^0.13.3
   uuid: ^3.0.0
+  syncfusion_flutter_gauges: ^19.2.44
   webview_flutter:
     git:
       url: https://github.com/asjqkkkk/plugins.git
       path: packages/webview_flutter
       ref: webview
-  syncfusion_flutter_gauges: ^19.2.44
 
 dev_dependencies:
   build_runner: ^2.1.2

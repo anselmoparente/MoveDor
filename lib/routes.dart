@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:movedor/screens/book/chapters_content/chapter02.dart';
 import 'package:movedor/screens/search/search_screen.dart';
 
 import 'package:movedor/screens/splash/initial_splash.dart';
@@ -15,6 +14,7 @@ import 'package:movedor/screens/profile/profile_screen.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/book/chapters_content/chapter01.dart';
 import 'package:movedor/screens/book/chapters_content/questions_cap2.dart';
+import 'package:movedor/screens/book/chapters_content/chapter02.dart';
 import 'package:movedor/screens/book/chapters_content/chapter03.dart';
 import 'package:movedor/screens/book/chapters_content/chapter04.dart';
 import 'package:movedor/screens/book/chapters_content/chapter05-quiz.dart';

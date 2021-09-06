@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mobx/mobx.dart';
 
 // Include generated file
@@ -45,5 +46,10 @@ abstract class _MainController with Store {
       lastChapter = value['book']['last_chapter'];
       finishedQuestions = value['book']['questions'];
     });
+  }
+
+  void identification() async {
+    var androidInfo = await DeviceInfoPlugin().androidInfo;
+    id = androidInfo.androidId;
   }
 }

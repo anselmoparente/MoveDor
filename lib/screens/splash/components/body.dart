@@ -1,9 +1,16 @@
+import 'dart:convert';
+
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import 'package:movedor/constants.dart';
 import 'package:movedor/size_config.dart';
 import 'package:movedor/components/default_button.dart';
-import 'package:movedor/screens/sign_in/sign_in_screen.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/screens/book/book_screen.dart';
+import 'package:movedor/screens/search/search_screen.dart';
 
 import 'splash_content.dart';
 
@@ -14,10 +21,11 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int currentPage = 0;
+  bool loading = false;
   List<Map<String, String>> splashData = [
     {
       "text": "Entenda o que você está passando",
-      "image": "assets/caps_illustrations/init.png"
+      "image": "assets/caps_illustrations/cap2-01.png"
     },
     {
       "text": "Saiba como tratar!",
@@ -28,8 +36,39 @@ class _BodyState extends State<Body> {
       "image": "assets/caps_illustrations/cap6_illustration.png"
     },
   ];
+
+  void sendNotification(String body, String title, String token) async {
+    String keyServer =
+        "AAAAHpgTV48:APA91bGAfRl9WYJ65qCBgC6fIsTbLGMrhjVDtc6n8lIZl5boWLoAulNty2Twv5ydUzVm8RnUHbXmYjU-qiAJ6KP3EJ8bpO9E0lR3Yx_HD_5Nr3jfdA68uc13vVduk8OiFL_vaznwAqiS";
+    var data = {
+      "notification": {"body": body, "title": title},
+      "priority": "high",
+      "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK"},
+      "to": token,
+    };
+    var dataBody = json.encode(data);
+    final test = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        body: dataBody,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "key=$keyServer"
+        });
+
+    print(test.statusCode);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MainController>(context);
+
+    var cron = new Cron();
+    cron.schedule(new Schedule.parse('* 1 * * *'), () async {
+      print('vai enviar?');
+      sendNotification('Teste', 'Testado com sucesso', controller.token);
+      print('enviouuuu');
+    });
+
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -75,8 +114,10 @@ class _BodyState extends State<Body> {
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Entrar",
+                      loading: loading,
                       press: () {
-                        Navigator.pushNamed(context, SignInScreen.routeName);
+                        print(controller.searchComplete);
+                        loginAction(controller);
                       },
                     ),
                     Spacer(),
@@ -101,5 +142,18 @@ class _BodyState extends State<Body> {
         borderRadius: BorderRadius.circular(3),
       ),
     );
+  }
+
+  Future loginAction(MainController controller) async {
+    setState(() {
+      loading = true;
+    });
+    //replace the below line of code with your login request
+    await new Future.delayed(const Duration(seconds: 2));
+    if (controller.searchComplete == true) {
+      Navigator.pushNamed(context, BookScreen.routeName);
+    } else if (controller.searchComplete == false) {
+      Navigator.pushNamed(context, SearchScreen.routeName);
+    }
   }
 }
