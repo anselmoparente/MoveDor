@@ -268,11 +268,12 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                       Container(
                                           margin: EdgeInsets.symmetric(
                                               vertical: 5)),
-                                      RaisedButton(
+                                      ElevatedButton(
                                         child: new Text("Concluir capítulo",
                                             style:
                                                 TextStyle(color: Colors.white)),
-                                        color: Colors.green[400],
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.green[400]),
                                         onPressed: () {
                                           // Navigator.push(
                                           //   context, MaterialPageRoute(builder: (context) => TurmasAluno())
@@ -296,11 +297,12 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
-                                          new RaisedButton(
+                                          ElevatedButton(
                                             child: new Text("Não",
                                                 style: TextStyle(
                                                     color: Colors.white)),
-                                            color: Colors.red[400],
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.red[400]),
                                             onPressed: () {
                                               setState(() => complete = false);
                                               setState(() => currentStep = 0);
@@ -308,11 +310,12 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                               setState(() => lastPage = false);
                                             },
                                           ),
-                                          new RaisedButton(
+                                          ElevatedButton(
                                             child: new Text("Sim",
                                                 style: TextStyle(
                                                     color: Colors.white)),
-                                            color: Colors.green[400],
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.green[400]),
                                             onPressed: () async {
                                               Navigator.pushNamedAndRemoveUntil(
                                                   context,
@@ -381,14 +384,20 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                   },
                                 ),
                           lastPage
-                              ? RaisedButton(
+                              ? ElevatedButton(
                                   child: Text(
                                     'FINALIZAR',
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
                                   ),
-                                  color: Colors.green[400],
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.green[400],
+                                    padding: const EdgeInsets.all(20.0),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                  ),
                                   onPressed: () {
                                     // if(checkAnswersControllers()) {
                                     //   setState(() {
@@ -400,11 +409,6 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                     });
                                     // }
                                   },
-                                  padding: const EdgeInsets.all(20.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(8.0),
-                                  ),
                                 )
                               : FloatingActionButton(
                                   backgroundColor: Colors.green[400],

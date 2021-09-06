@@ -70,7 +70,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 body(i, diaryController, controller),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () async {
                     diaryController.configuredDiary = true;
                     FirebaseFirestore.instance
@@ -176,9 +176,11 @@ class _ActivityPageState extends State<ActivityPage> {
                         MaterialPageRoute(
                             builder: (BuildContext context) => CalendarPage()));
                   },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  padding: EdgeInsets.all(0.0),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    padding: EdgeInsets.all(0.0),
+                  ),
                   child: Ink(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
