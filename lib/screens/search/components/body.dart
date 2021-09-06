@@ -219,7 +219,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 Center(
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       _scrollController.animateTo(
                         0.0,
@@ -230,9 +230,11 @@ class _BodyState extends State<Body> {
                         currentFormIndex = 1;
                       });
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    padding: EdgeInsets.all(0.0),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                    ),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -630,7 +632,7 @@ class _BodyState extends State<Body> {
                   Center(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 10),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: () {
                           if (dataSend == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -674,9 +676,11 @@ class _BodyState extends State<Body> {
                             });
                           }
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        padding: EdgeInsets.all(0.0),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                        ),
                         child: Ink(
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -733,7 +737,7 @@ class _BodyState extends State<Body> {
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     _scrollController.animateTo(
                       0.0,
@@ -749,9 +753,11 @@ class _BodyState extends State<Body> {
                       _showMyDialog(context);
                     }
                   },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  padding: EdgeInsets.all(0.0),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    padding: EdgeInsets.all(0.0),
+                  ),
                   child: Ink(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -1166,12 +1172,14 @@ class _BodyState extends State<Body> {
                                   // ),
                                   alertType: RichAlertType.WARNING,
                                   actions: <Widget>[
-                                    RaisedButton(
+                                    ElevatedButton(
                                       child: Text(
                                         "OK",
                                         style: TextStyle(color: Colors.white),
                                       ),
-                                      color: Colors.green[300],
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.green[300],
+                                      ),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -1201,7 +1209,7 @@ class _BodyState extends State<Body> {
               Center(
                 child: Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       searchController.selectedSports.addAll(selectedSports);
                       searchController.selectedSintoms.addAll(selectedSintoms);
@@ -1224,9 +1232,11 @@ class _BodyState extends State<Body> {
                         });
                       }
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    padding: EdgeInsets.all(0.0),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                    ),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -1368,7 +1378,7 @@ class _BodyState extends State<Body> {
               Center(
                 child: Container(
                   margin: EdgeInsets.only(bottom: 80),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       _scrollController.animateTo(
                         0.0,
@@ -1387,9 +1397,11 @@ class _BodyState extends State<Body> {
                       // print(startBackPoints);
                       // print(startBackSliderLabel);
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    padding: EdgeInsets.all(0.0),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                    ),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
