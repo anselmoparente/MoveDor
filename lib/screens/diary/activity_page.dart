@@ -7,6 +7,7 @@ import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/activities.dart';
 import 'package:movedor/models/activity_planed.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
+import 'package:movedor/screens/diary/startback_page.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -172,7 +173,7 @@ class _ActivityPageState extends State<ActivityPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => CalendarPage()));
+                            builder: (BuildContext context) => StartBackPage()));
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)),
