@@ -19,10 +19,10 @@ List<Chapter> chapters = [
     description: "Entenda o que é ...",
   ),
   Chapter(
-    image: "assets/caps_illustrations/cap2_illustration.png",
-    title: "Movimento é saúde!",
-    description: "Saiba onde procurar tratamento ...",
-  ),
+      image: "assets/caps_illustrations/cap2_illustration.png",
+      title: "Movimento é saúde!",
+      description:
+          "Saiba onde procurar tratamento ..."),
   Chapter(
     image: "assets/caps_illustrations/cap3_illustration.png",
     title: "Exercício físico como tratamento",

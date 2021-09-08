@@ -41,7 +41,9 @@ class Chapters extends StatelessWidget {
                   (index) {
                     return ChapterCard(
                         chapter: chapters[index],
+                        index: (index + 1),
                         press: () {
+                          print('foi');
                           var chapter = index + 1;
 
                           var chaptersRoutes = {

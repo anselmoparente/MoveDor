@@ -78,30 +78,6 @@ class _BodyState extends State<Body> {
 
   double sliderValue = 0.0;
 
-  // Form 4 //
-  final _form4 = GlobalKey<FormState>();
-  Map<String, bool> startBackFrases = {
-    'A minha dor nas costas se espalhou pelas pernas nas duas últimas semanas.':
-        false,
-    'Eu tive dor no ombro e/ou pelo menos uma vez nas duas últimas semanas.':
-        false,
-    'Eu evito andar longas distâncias por causa da minha dor nas costas.':
-        false,
-    'Nas duas últimas semanas, tenho me vestido mais devagar por causa da minha dor nas costas.':
-        false,
-    'A atividade física não é realmente segura para uma pessoa com um problema como o meu.':
-        false,
-    'Tenho ficado preocupado por muito tempo por causa da minha da minha dor nas costas.':
-        false,
-    'Eu sinto que minha dor nas costas é terrível e que nunca vai melhorar':
-        false,
-    'Em geral, eu não tenho gostado de todas as coisas como eu costumava gostar.':
-        false,
-  };
-  List startBackSelectedFrases = [];
-  String startBackSliderLabel = 'Nada';
-  double startBackSliderValue = 0.0;
-  int startBackPoints = 0;
   var dataSend;
 
   SnackBar customSnackBar({String message}) {
@@ -1271,171 +1247,6 @@ class _BodyState extends State<Body> {
               ),
             ],
           )),
-      Form(
-          key: _form4,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05),
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Text(
-                  'Pensando nas duas últimas semanas, marque as frases que você se identifica ao ler.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : Colors.black54,
-                    fontSize: fontSize.toDouble() + 6,
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                margin: EdgeInsets.only(top: 25),
-              ),
-              Container(
-                child: Column(
-                  children: startBackFrases.keys.map((String key) {
-                    return new CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      activeColor: Color(0xFF36a9b0),
-                      title: new Text(
-                        key,
-                        style: TextStyle(
-                          fontFamily: 'MontserratRegular',
-                          color: isDarkMode ? Colors.white70 : Colors.black54,
-                          fontSize: fontSize.toDouble(),
-                        ),
-                      ),
-                      value: startBackFrases[key],
-                      onChanged: (bool value) {
-                        if (value) {
-                          setState(() {
-                            startBackSelectedFrases.add(key);
-                            startBackPoints += 1;
-                          });
-                        } else {
-                          setState(() {
-                            startBackSelectedFrases.remove(key);
-                            startBackPoints -= 1;
-                          });
-                        }
-                        setState(() {
-                          startBackFrases[key] = value;
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05),
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Text(
-                  'Em geral, quanto a sua dor nas costas o incomodou nas duas últimas semanas?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'MontserratRegular',
-                    color: isDarkMode ? Colors.white70 : Colors.black54,
-                    fontSize: fontSize.toDouble() + 6,
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                margin: EdgeInsets.only(top: 25),
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  child: Slider(
-                      value: startBackSliderValue,
-                      max: 4.0,
-                      min: 0.0,
-                      divisions: 4,
-                      label: startBackSliderLabel,
-                      inactiveColor: Colors.green[50],
-                      activeColor: startBackSliderValue.toInt() > 3
-                          ? Colors.red
-                          : startBackSliderValue.toInt() < 2
-                              ? Colors.green
-                              : Colors.red[300],
-                      onChanged: (double value) {
-                        setState(() {
-                          value == 0
-                              ? startBackSliderLabel = 'Nada'
-                              : value == 1
-                                  ? startBackSliderLabel = 'Pouco'
-                                  : value == 2
-                                      ? startBackSliderLabel = 'Moderado'
-                                      : value == 3
-                                          ? startBackSliderLabel = 'Muito'
-                                          : startBackSliderLabel =
-                                              'Extremamente';
-
-                          startBackSliderValue = value;
-                        });
-                      })),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                margin: EdgeInsets.only(top: 25),
-              ),
-              Center(
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 80),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _scrollController.animateTo(
-                        0.0,
-                        curve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 300),
-                      );
-                      setState(() {
-                        startBackSliderValue >= 3
-                            ? startBackPoints += 1
-                            : print('');
-
-                        currentFormIndex = 8;
-                      });
-
-                      // print(startBackSelectedFrases);
-                      // print(startBackPoints);
-                      // print(startBackSliderLabel);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                    ),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xff36a9b0), Color(0xffa9d6c2)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: Container(
-                        constraints:
-                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Continuar",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'MontserratRegular',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          )),
       Container(
         child: Column(
           children: [
@@ -1602,7 +1413,7 @@ class _BodyState extends State<Body> {
                     duration: const Duration(milliseconds: 300),
                   );
                   setState(() {
-                    currentFormIndex = 9;
+                    currentFormIndex = 8;
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -1800,9 +1611,7 @@ class _BodyState extends State<Body> {
                                   ? formsPesquisas[6]
                                   : currentFormIndex == 7
                                       ? formsPesquisas[7]
-                                      : currentFormIndex == 8
-                                          ? formsPesquisas[8]
-                                          : formsPesquisas[9]
+                                      : formsPesquisas[8]
     ]);
   }
 

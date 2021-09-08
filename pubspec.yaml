@@ -76,6 +76,8 @@ flutter:
   assets:
     - assets/
     - assets/infografico/index.html
+    - assets/diary/
+    - assets/icons_borg/
     - assets/logo/
     - assets/caps_illustrations/
     - assets/diary/

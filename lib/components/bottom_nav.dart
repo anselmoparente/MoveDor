@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 
@@ -38,6 +40,8 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MainController>(context);
+
     return Container(
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
@@ -73,11 +77,38 @@ class _BottomNavState extends State<BottomNav> {
               selectedIndex: widget.index,
               onTabChange: (index) {
                 if (widget.index != index) {
-                  setState(() {
-                    widget.index = index;
-                  });
+                  if (index == 2) {
+                    if (controller.lastChapter > 2) {
+                      setState(() {
+                        widget.index = index;
+                      });
+                      print(widget.index);
 
-                  widget._pageController.jumpToPage(index);
+                      widget._pageController.jumpToPage(index);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('O diário ainda não foi desbloqueado!'),
+                        duration: const Duration(seconds: 2),
+                        margin: EdgeInsets.only(
+                            bottom: 80.0, left: 10.0, right: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ));
+                      setState(() {
+                        index = 0;
+                      });
+                    }
+                  } else {
+                    setState(() {
+                      widget.index = index;
+                    });
+                    print(widget.index);
+
+                    widget._pageController.jumpToPage(index);
+                  }
                 }
               }),
         ),

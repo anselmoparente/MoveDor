@@ -60,9 +60,6 @@ class _MyAppState extends State<MyApp> {
           }
 
           id();
-
-          Future.delayed(Duration(seconds: 1));
-
           down();
 
           return child;
