@@ -24,7 +24,6 @@ class _HomePageState extends State<BookScreen> {
   @override
   Widget build(BuildContext context) {
     final diaryController = Provider.of<DiaryController>(context);
-    final controller = Provider.of<MainController>(context);
 
     Widget diario() {
       if (diaryController.configuredDiary) {
