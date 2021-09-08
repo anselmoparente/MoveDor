@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
+import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +41,7 @@ class _StartBackPageState extends State<StartBackPage> {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
+    final diaryController = Provider.of<DiaryController>(context);
 
     return Scaffold(
       body: Center(
@@ -176,6 +179,23 @@ class _StartBackPageState extends State<StartBackPage> {
                               'Em geral, quanto a sua dor nas costas o incomodou nas duas últimas semanas?':
                                   startBackSliderLabel
                             }
+                          });
+
+                          var date = DateTime.now();
+
+                          String day = date.day.toString();
+
+                          var cron = new Cron();
+                          cron.schedule(new Schedule.parse('0 10 $day * *'),
+                              () async {
+                            diaryController.configuredDiary = false;
+                            await FirebaseFirestore.instance
+                                .collection('users_v2')
+                                .doc(controller.id)
+                                .update({
+                              'configured_diary':
+                                  diaryController.configuredDiary
+                            });
                           });
 
                           Navigator.push(

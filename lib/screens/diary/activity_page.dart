@@ -72,7 +72,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: RaisedButton(
                   onPressed: () async {
                     diaryController.configuredDiary = true;
-                    FirebaseFirestore.instance
+                    await FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)
                         .update({
