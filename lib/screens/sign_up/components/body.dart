@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/components/social_card.dart';
+
 import 'package:movedor/constants.dart';
 import 'package:movedor/size_config.dart';
+import 'package:movedor/components/social_card.dart';
 
 import 'sign_up_form.dart';
 

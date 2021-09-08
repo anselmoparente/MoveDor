@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/screens/diary/calendar_page.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:movedor/components/rounded_icon_btn.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+import 'package:movedor/components/rounded_icon_btn.dart';
+
+import 'calendar_page.dart';
 
 class GoalPage extends StatelessWidget {
   final List<int> showIndexes = const [0, 1, 2, 3];
@@ -37,8 +39,8 @@ class GoalPage extends StatelessWidget {
               Container(
                 alignment: Alignment.topLeft,
                 child: RoundedIconBtn(
-                  iconData:
-                      Icon(Icons.arrow_back_ios, size: 18, color: Colors.black87),
+                  iconData: Icon(Icons.arrow_back_ios,
+                      size: 18, color: Colors.black87),
                   press: () {
                     Navigator.push(
                         context,

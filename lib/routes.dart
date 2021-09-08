@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:movedor/screens/book/chapters_content/chapter02.dart';
+
 import 'package:movedor/screens/search/search_screen.dart';
 
 import 'package:movedor/screens/splash/initial_splash.dart';
 import 'package:movedor/screens/splash/splash_screen.dart';
 
 import 'package:movedor/screens/sign_in/sign_in_screen.dart';
-import 'package:movedor/screens/sign_in/sign_up/sign_up_screen.dart';
+import 'package:movedor/screens/sign_up/sign_up_screen.dart';
 
 import 'package:movedor/screens/complete_profile/complete_profile_screen.dart';
 import 'package:movedor/screens/profile/profile_screen.dart';
@@ -14,9 +14,11 @@ import 'package:movedor/screens/profile/profile_screen.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/book/chapters_content/chapter01.dart';
 import 'package:movedor/screens/book/chapters_content/questions_cap2.dart';
+import 'package:movedor/screens/book/chapters_content/chapter02.dart';
 import 'package:movedor/screens/book/chapters_content/chapter03.dart';
 import 'package:movedor/screens/book/chapters_content/chapter04.dart';
 import 'package:movedor/screens/book/chapters_content/chapter05-quiz.dart';
+
 import 'package:movedor/screens/infographic/infographic_screen.dart';
 
 // We use name route

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mobx/mobx.dart';
 
 // Include generated file
@@ -35,11 +36,21 @@ abstract class _MainController with Store {
 
   @action
   Future<void> getMain() async {
-    FirebaseFirestore.instance.collection('users_v2').doc(id).get().then((value) {
+    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
+    FirebaseFirestore.instance
+        .collection('users_v2')
+        .doc(id)
+        .get()
+        .then((value) {
       name = value['name'];
       searchComplete = value['search']['search_complete'];
       lastChapter = value['book']['last_chapter'];
       finishedQuestions = value['book']['questions'];
     });
+  }
+
+  void identification() async {
+    var androidInfo = await DeviceInfoPlugin().androidInfo;
+    id = androidInfo.androidId;
   }
 }

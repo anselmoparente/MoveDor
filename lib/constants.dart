@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/size_config.dart';
+
+import 'size_config.dart';
 
 const kPrimaryColor = Color(0xff36a9b0);
 const kPrimaryLightColor = Color(0xffa9d6c2);

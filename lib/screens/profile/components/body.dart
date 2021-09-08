@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/components/default_button.dart';
-import 'package:movedor/size_config.dart';
-
-import '../../../constants.dart';
-import 'profile_items.dart';
 
 class Body extends StatelessWidget {
   const Body({Key key}) : super(key: key);

@@ -25,7 +25,8 @@ class _DialogBorgState extends State<DialogBorg> {
     mediaSize = MediaQuery.of(context).size;
 
     return AlertDialog(
-      title: Text('Qual foi o grau de esforço para realizar a atividade?(deslize o slider)'),
+      title: Text(
+          'Qual foi o grau de esforço para realizar a atividade?(deslize o slider)'),
       content: Container(
         height: mediaSize.height * 0.6,
         child: Row(
@@ -112,9 +113,7 @@ class _DialogBorgState extends State<DialogBorg> {
                                                       ? 'Muito Intenso'
                                                       : 'Exaustivo',
                   style: TextStyle(
-                    fontSize: mediaSize.width * 0.05,
-                    color: Colors.black
-                  ),
+                      fontSize: mediaSize.width * 0.05, color: Colors.black),
                 )
               ],
             ),

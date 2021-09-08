@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/screens/book/book_screen.dart';
 import 'package:page_slider/page_slider.dart';
-import 'package:provider/provider.dart';
-import 'package:rich_alert/rich_alert.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+
+import '../book_screen.dart';
 
 class Chapter05Quiz extends StatefulWidget {
   static String routeName = "/chapter-05";
@@ -13,8 +11,6 @@ class Chapter05Quiz extends StatefulWidget {
 }
 
 class Chapter05QuizState extends State<Chapter05Quiz> {
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
   @override
   void initState() {
     super.initState();
@@ -272,11 +268,12 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                       Container(
                                           margin: EdgeInsets.symmetric(
                                               vertical: 5)),
-                                      RaisedButton(
+                                      ElevatedButton(
                                         child: new Text("Concluir capítulo",
                                             style:
                                                 TextStyle(color: Colors.white)),
-                                        color: Colors.green[400],
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.green[400]),
                                         onPressed: () {
                                           // Navigator.push(
                                           //   context, MaterialPageRoute(builder: (context) => TurmasAluno())
@@ -300,11 +297,12 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
-                                          new RaisedButton(
+                                          ElevatedButton(
                                             child: new Text("Não",
                                                 style: TextStyle(
                                                     color: Colors.white)),
-                                            color: Colors.red[400],
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.red[400]),
                                             onPressed: () {
                                               setState(() => complete = false);
                                               setState(() => currentStep = 0);
@@ -312,16 +310,13 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                               setState(() => lastPage = false);
                                             },
                                           ),
-                                          new RaisedButton(
+                                          ElevatedButton(
                                             child: new Text("Sim",
                                                 style: TextStyle(
                                                     color: Colors.white)),
-                                            color: Colors.green[400],
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.green[400]),
                                             onPressed: () async {
-                                              final SharedPreferences prefs =
-                                                  await _prefs;
-                                              prefs.setBool("cap5", true);
-
                                               Navigator.pushNamedAndRemoveUntil(
                                                   context,
                                                   BookScreen.routeName,
@@ -389,14 +384,20 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                   },
                                 ),
                           lastPage
-                              ? RaisedButton(
+                              ? ElevatedButton(
                                   child: Text(
                                     'FINALIZAR',
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
                                   ),
-                                  color: Colors.green[400],
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.green[400],
+                                    padding: const EdgeInsets.all(20.0),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                  ),
                                   onPressed: () {
                                     // if(checkAnswersControllers()) {
                                     //   setState(() {
@@ -408,11 +409,6 @@ class Chapter05QuizState extends State<Chapter05Quiz> {
                                     });
                                     // }
                                   },
-                                  padding: const EdgeInsets.all(20.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(8.0),
-                                  ),
                                 )
                               : FloatingActionButton(
                                   backgroundColor: Colors.green[400],

@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../constants.dart';
 import 'package:movedor/controllers/activity_controller.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/activities.dart';
 import 'package:movedor/models/activity_planed.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
+import 'package:movedor/screens/diary/startback_page.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -68,9 +73,11 @@ class _ActivityPageState extends State<ActivityPage> {
                 body(i, diaryController, controller),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () async {
                     diaryController.configuredDiary = true;
+                    FirebaseFirestore.instance.settings =
+                        Settings(persistenceEnabled: true);
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)
@@ -92,6 +99,8 @@ class _ActivityPageState extends State<ActivityPage> {
                     for (int i = 0;
                         i < diaryController.activities.length;
                         i++) {
+                      FirebaseFirestore.instance.settings =
+                          Settings(persistenceEnabled: true);
                       FirebaseFirestore.instance
                           .collection('users_v2')
                           .doc(controller.id)
@@ -154,6 +163,8 @@ class _ActivityPageState extends State<ActivityPage> {
                         l++) {
                       print(
                           'id da atividade: ${activityController.activities[l].id}');
+                      FirebaseFirestore.instance.settings =
+                          Settings(persistenceEnabled: true);
                       await FirebaseFirestore.instance
                           .collection('users_v2')
                           .doc(controller.id)
@@ -172,11 +183,13 @@ class _ActivityPageState extends State<ActivityPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => CalendarPage()));
+                            builder: (BuildContext context) => StartBackPage()));
                   },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  padding: EdgeInsets.all(0.0),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    padding: EdgeInsets.all(0.0),
+                  ),
                   child: Ink(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(

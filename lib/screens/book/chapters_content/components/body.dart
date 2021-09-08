@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+
+import '../chapter02.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
-import 'package:movedor/screens/book/chapters_content/chapter02.dart';
-import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -305,6 +306,8 @@ class _BodyState extends State<Body> {
                   });
                   controller.finishedQuestions = true;
 
+                  FirebaseFirestore.instance.settings =
+                      Settings(persistenceEnabled: true);
                   FirebaseFirestore.instance
                       .collection('users_v2')
                       .doc(controller.id)
@@ -400,6 +403,8 @@ class _BodyState extends State<Body> {
                         frasesRespostas.insert(index, false);
                       }
                     }
+                    FirebaseFirestore.instance.settings =
+                        Settings(persistenceEnabled: true);
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)

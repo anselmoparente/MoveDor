@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/components/chapter_card.dart';
-import 'package:movedor/controllers/main_controller.dart';
-import 'package:movedor/models/Chapter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../size_config.dart';
+import 'package:movedor/components/chapter_card.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/Chapter.dart';
+
 import 'section_title.dart';
 
 class Chapters extends StatelessWidget {
@@ -15,7 +16,7 @@ class Chapters extends StatelessWidget {
     if (!controller.finishedQuestions) {
       route = '/questionsChapter-02';
     } else if (controller.finishedQuestions) {
-      route = '/chapter-02'; 
+      route = '/chapter-02';
     }
 
     return Column(
@@ -40,7 +41,9 @@ class Chapters extends StatelessWidget {
                   (index) {
                     return ChapterCard(
                         chapter: chapters[index],
+                        index: (index + 1),
                         press: () {
+                          print('foi');
                           var chapter = index + 1;
 
                           var chaptersRoutes = {

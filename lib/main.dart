@@ -1,21 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+
 import 'package:movedor/controllers/activity_controller.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
-import 'package:movedor/routes.dart';
 import 'package:movedor/screens/splash/initial_splash.dart';
-import 'package:movedor/theme.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/date_symbol_data_local.dart';
+
+import 'routes.dart';
+import 'theme.dart';
 
 void main() async {
-  SharedPreferences.setMockInitialValues({});
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -61,9 +60,6 @@ class _MyAppState extends State<MyApp> {
           }
 
           id();
-
-          Future.delayed(Duration(seconds: 1));
-
           down();
 
           return child;
