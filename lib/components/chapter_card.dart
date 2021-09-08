@@ -5,9 +5,9 @@ import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/models/Chapter.dart';
 import 'package:provider/provider.dart';
 
-import '../constants.dart';
+// import '../constants.dart';
 import '../size_config.dart';
-import '../localStorage.dart';
+import '../models/Chapter.dart';
 
 class ChapterCard extends StatefulWidget {
   ChapterCard({

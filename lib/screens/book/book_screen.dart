@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:movedor/components/bottom_nav.dart';
 import 'package:movedor/controllers/diary_controller.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/diary/calendar_page.dart';
 // import 'package:movedor/screens/diary/calendar_page.dart';
-import 'package:movedor/screens/infographic/infographic_screen.dart';
 import 'package:movedor/screens/diary/diary_screen.dart';
+import 'package:movedor/screens/infographic/infographic_screen.dart';
 import 'package:movedor/screens/profile/profile_screen.dart';
-import 'package:provider/provider.dart';
 
 import 'components/body.dart';
 

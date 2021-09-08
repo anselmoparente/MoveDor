@@ -1,27 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:movedor/components/default_button.dart';
-import 'package:movedor/controllers/main_controller.dart';
-import 'package:movedor/models/Chapter.dart';
-import 'package:movedor/screens/book/book_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'package:movedor/components/default_button.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/Chapter.dart';
+
+import '../book_screen.dart';
 import 'components/custom_app_bar.dart';
 import 'components/top_rounded_container.dart';
 
-class Chapter02 extends StatefulWidget {
+class Chapter02 extends StatelessWidget {
   static String routeName = "/chapter-02";
-  @override
-  _Chapter02State createState() => _Chapter02State();
-}
 
-class _Chapter02State extends State<Chapter02> {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
-    
+
     return Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
         appBar: CustomAppBar(chapters[1]),
@@ -121,6 +118,8 @@ class _Chapter02State extends State<Chapter02> {
                             press: () {
                               if (controller.lastChapter < 2) {
                                 controller.lastChapter = 2;
+                                FirebaseFirestore.instance.settings =
+                                    Settings(persistenceEnabled: true);
                                 FirebaseFirestore.instance
                                     .collection('users_v2')
                                     .doc(controller.id)

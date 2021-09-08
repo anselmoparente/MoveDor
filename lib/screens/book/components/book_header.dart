@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:movedor/controllers/main_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../../../size_config.dart';
 import 'package:movedor/constants.dart';
+import 'package:movedor/controllers/main_controller.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -15,6 +15,7 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
 
+    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
     FirebaseFirestore.instance
         .collection('users_v2')
         .doc(controller.id)

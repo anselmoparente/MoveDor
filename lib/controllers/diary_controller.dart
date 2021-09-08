@@ -53,6 +53,7 @@ abstract class _DiaryController with Store {
 
   @action
   Future<void> getDiary(String id) async {
+    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
     FirebaseFirestore.instance
         .collection('users_v2')
         .doc(id)

@@ -36,6 +36,7 @@ abstract class _MainController with Store {
 
   @action
   Future<void> getMain() async {
+    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
     FirebaseFirestore.instance
         .collection('users_v2')
         .doc(id)

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/components/chapter_card.dart';
-import 'package:movedor/controllers/main_controller.dart';
-import 'package:movedor/models/Chapter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../size_config.dart';
+import 'package:movedor/components/chapter_card.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/Chapter.dart';
+
 import 'section_title.dart';
 
 class Chapters extends StatelessWidget {

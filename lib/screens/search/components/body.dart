@@ -3,13 +3,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:rich_alert/rich_alert.dart';
+
 import 'package:movedor/constants.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/controllers/search_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:rich_alert/rich_alert.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   Body({Key key}) : super(key: key);
@@ -196,7 +196,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 Center(
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       _scrollController.animateTo(
                         0.0,
@@ -207,9 +207,11 @@ class _BodyState extends State<Body> {
                         currentFormIndex = 1;
                       });
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    padding: EdgeInsets.all(0.0),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                    ),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -316,11 +318,9 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                     Center(
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: () async {
                           if (_name.currentState.validate()) {
-                            final prefs = await SharedPreferences.getInstance();
-
                             final endIndex = nomeController.text.indexOf(" ");
                             var name = nomeController.text;
 
@@ -330,9 +330,10 @@ class _BodyState extends State<Body> {
 
                             nomeController.text = name;
 
-                            prefs.setString("name", name);
-
                             controller.name = nomeController.text;
+
+                            FirebaseFirestore.instance.settings =
+                                Settings(persistenceEnabled: true);
                             FirebaseFirestore.instance
                                 .collection('users_v2')
                                 .doc(controller.id)
@@ -352,9 +353,11 @@ class _BodyState extends State<Body> {
                             });
                           }
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        padding: EdgeInsets.all(0.0),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                        ),
                         child: Ink(
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -609,7 +612,7 @@ class _BodyState extends State<Body> {
                   Center(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 10),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: () {
                           if (dataSend == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -633,6 +636,8 @@ class _BodyState extends State<Body> {
                                     message: 'Digite a sua altura!'));
                           } else {
                             print(controller.id);
+                            FirebaseFirestore.instance.settings =
+                                Settings(persistenceEnabled: true);
                             FirebaseFirestore.instance
                                 .collection('users_v2')
                                 .doc(controller.id)
@@ -653,9 +658,11 @@ class _BodyState extends State<Body> {
                             });
                           }
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        padding: EdgeInsets.all(0.0),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                        ),
                         child: Ink(
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -712,7 +719,7 @@ class _BodyState extends State<Body> {
               ),
               Container(
                 margin: EdgeInsets.only(top: mediaSize.height * 0.05),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     _scrollController.animateTo(
                       0.0,
@@ -728,9 +735,11 @@ class _BodyState extends State<Body> {
                       _showMyDialog(context);
                     }
                   },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  padding: EdgeInsets.all(0.0),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    padding: EdgeInsets.all(0.0),
+                  ),
                   child: Ink(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -1145,12 +1154,14 @@ class _BodyState extends State<Body> {
                                   // ),
                                   alertType: RichAlertType.WARNING,
                                   actions: <Widget>[
-                                    RaisedButton(
+                                    ElevatedButton(
                                       child: Text(
                                         "OK",
                                         style: TextStyle(color: Colors.white),
                                       ),
-                                      color: Colors.green[300],
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.green[300],
+                                      ),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -1180,7 +1191,7 @@ class _BodyState extends State<Body> {
               Center(
                 child: Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       searchController.selectedSports.addAll(selectedSports);
                       searchController.selectedSintoms.addAll(selectedSintoms);
@@ -1203,9 +1214,11 @@ class _BodyState extends State<Body> {
                         });
                       }
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    padding: EdgeInsets.all(0.0),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                    ),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -1478,6 +1491,8 @@ class _BodyState extends State<Body> {
                 child: ElevatedButton(
                   onPressed: () {
                     controller.searchComplete = true;
+                    FirebaseFirestore.instance.settings =
+                        Settings(persistenceEnabled: true);
                     FirebaseFirestore.instance
                         .collection('users_v2')
                         .doc(controller.id)

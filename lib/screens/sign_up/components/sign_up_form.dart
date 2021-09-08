@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+
+import '../../../../constants.dart';
+import '../../../../size_config.dart';
 import 'package:movedor/components/custom_surfix_icon.dart';
 import 'package:movedor/components/default_button.dart';
 import 'package:movedor/components/form_error.dart';
 import 'package:movedor/screens/complete_profile/complete_profile_screen.dart';
-
-import '../../../../constants.dart';
-import '../../../../size_config.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -61,8 +61,7 @@ class _SignUpFormState extends State<SignUpForm> {
               //   // if all are valid then go to success screen
               //   Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               // }
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
-
+              Navigator.pushNamed(context, CompleteProfileScreen.routeName);
             },
           ),
         ],
@@ -101,15 +100,16 @@ class _SignUpFormState extends State<SignUpForm> {
         suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
-            icon: hide_confirm_password 
-              ? Icon(LineIcons.eyeSlash, size: 30, color: Colors.black.withOpacity(.4))
-              : Icon(LineIcons.eye,       size: 30, color: Colors.black.withOpacity(.4)),
-            onPressed: () {
-              setState(() {
-                hide_confirm_password = !hide_confirm_password;
-              });
-            }
-          ),
+              icon: hide_confirm_password
+                  ? Icon(LineIcons.eyeSlash,
+                      size: 30, color: Colors.black.withOpacity(.4))
+                  : Icon(LineIcons.eye,
+                      size: 30, color: Colors.black.withOpacity(.4)),
+              onPressed: () {
+                setState(() {
+                  hide_confirm_password = !hide_confirm_password;
+                });
+              }),
         ),
       ),
     );
@@ -146,15 +146,16 @@ class _SignUpFormState extends State<SignUpForm> {
         suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
-            icon: hide_password 
-              ? Icon(LineIcons.eyeSlash, size: 30, color: Colors.black.withOpacity(.4))
-              : Icon(LineIcons.eye,       size: 30, color: Colors.black.withOpacity(.4)),
-            onPressed: () {
-              setState(() {
-                hide_password = !hide_password;
-              });
-            }
-          ),
+              icon: hide_password
+                  ? Icon(LineIcons.eyeSlash,
+                      size: 30, color: Colors.black.withOpacity(.4))
+                  : Icon(LineIcons.eye,
+                      size: 30, color: Colors.black.withOpacity(.4)),
+              onPressed: () {
+                setState(() {
+                  hide_password = !hide_password;
+                });
+              }),
         ),
       ),
     );

@@ -15,8 +15,7 @@ class CustomSurffixIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    GestureDetector(
+    return GestureDetector(
       onTap: press,
       child: Padding(
         padding: EdgeInsets.fromLTRB(

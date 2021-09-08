@@ -1,22 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:movedor/components/default_button.dart';
-import 'package:movedor/controllers/main_controller.dart';
-import 'package:movedor/models/Chapter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'package:movedor/components/default_button.dart';
+import 'package:movedor/controllers/main_controller.dart';
+import 'package:movedor/models/Chapter.dart';
+
 import 'components/custom_app_bar.dart';
 import 'components/top_rounded_container.dart';
 
-class Chapter04 extends StatefulWidget {
+class Chapter04 extends StatelessWidget {
   static String routeName = "/chapter-04";
-  @override
-  _Chapter04State createState() => _Chapter04State();
-}
 
-class _Chapter04State extends State<Chapter04> {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
@@ -97,6 +94,8 @@ class _Chapter04State extends State<Chapter04> {
                             press: () {
                               if (controller.lastChapter < 4) {
                                 controller.lastChapter = 4;
+                                FirebaseFirestore.instance.settings =
+                                    Settings(persistenceEnabled: true);
                                 FirebaseFirestore.instance
                                     .collection('users_v2')
                                     .doc(controller.id)

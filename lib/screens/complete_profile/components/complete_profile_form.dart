@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movedor/components/custom_surfix_icon.dart';
-import 'package:movedor/components/form_error.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'package:movedor/components/custom_surfix_icon.dart';
+import 'package:movedor/components/form_error.dart';
 
 class CompleteProfileForm extends StatefulWidget {
   @override

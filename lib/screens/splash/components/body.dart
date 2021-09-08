@@ -3,17 +3,17 @@ import 'dart:math';
 
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
 import 'package:movedor/constants.dart';
+import 'package:movedor/size_config.dart';
+import 'package:movedor/components/default_button.dart';
 import 'package:movedor/controllers/main_controller.dart';
 import 'package:movedor/screens/book/book_screen.dart';
 import 'package:movedor/screens/search/search_screen.dart';
-import 'package:movedor/size_config.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
-// This is the best practice
-import '../components/splash_content.dart';
-import '../../../components/default_button.dart';
+import 'splash_content.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -112,7 +112,8 @@ class _BodyState extends State<Body> {
       "to": token,
     };
     var dataBody = json.encode(data);
-    final test = await http.post("https://fcm.googleapis.com/fcm/send",
+    final test = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
         body: dataBody,
         headers: {
           "Content-Type": "application/json",
